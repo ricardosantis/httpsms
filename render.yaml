@@ -8,7 +8,7 @@ services:
     plan: free
     ipAllowList: [] # Apenas conexões internas privadas
 
-  # 2. Go API (Web Service)
+  # 2. Go API (Web Service) - 100% Funcional e Remoto com Autenticação de API Key
   - type: web
     name: httpsms-api
     runtime: docker
@@ -34,13 +34,13 @@ services:
       - key: EVENTS_QUEUE_ENDPOINT
         value: http://localhost:8000/v1/events
       - key: EVENTS_QUEUE_USER_ID
-        sync: false # Render irá perguntar no painel
+        value: system-user-id
       - key: EVENTS_QUEUE_USER_API_KEY
-        sync: false # Render irá perguntar no painel
+        value: system-user-api-key
       - key: FIREBASE_CREDENTIALS
-        sync: false # Render irá perguntar no painel
+        value: '{"type":"service_account","project_id":"httpsms-test","private_key_id":"test-key-id","private_key":"-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCwvRhd3hkfv+iI\nsRH4bcG6mK/gMJbnNEHLRcCFl4zsK4SVbA7KtzhN10rVTh+rsWoIAkF3L6+vhRkH\nNUFV1D/IQSqpFpxm/5EQ1NN4G2sXLcNm+Yc8DhL3VWEEAYcMVlAmEOk79CwnZxkD\n9qKifX0DBSPhA+ytMJsbHB94/lXd40bTrjkh8DCVlQb1uGPNBh6m/PdIa/ai/N8Z\ne7Y28yI6jSMW8/LFd7R446/UzNtVL18ZOt7Fe2BL/GuvhovdpG7ggUphWSabutfV\n2imd7TWftbzc8y5N5+YWYbf6Ejxs5nvHgmTTA5mbxEaLhZrrwoklvnJEUzweyNkf\n7MlywQdvAgMBAAECggEAAtTBaCq5NYEweC55JQUB3m64504/8viRhgnaMwmh1nXX\n/0DAEYIGPKqSZoC3qlto+s0QDJjoWopqQ56xxKGZJ/VxrOW4BnPyxSJznlZQf9cm\n0yZztepcmWoPtMdSSRToEcQH+5x5fJdLlxZ2gndtVWtAQnsUNnrNCtq6q+7lcNML\nt4SG6ucwERmiuDfZGx8qc7MWIi1ZuRUkF3RO20ZNJ9n0TG2L61+8KR1VFl5bqbQv\njWLAYGm/nFcFksff7RRToyYXJYGOakTSKGPwT+XE/6GvAnnoYPVRA5iVogc9jPnd\nSKaUjC6gPRUMYjj/QHZwGOyVGyNYYm3vCLXAY6Gt0QKBgQDxyFTXpuZ134uWhLJX\nSxgQnIpOTc2MyXyhKI3KfCpkKdYdit0rUl7Vj7TNLdLbuNikGH2c+ducHIgv/N3v\niLB9LdBC/MBCast5NoY/KfDSwFxMIws6or9lNzCaKNXZnfm7A8CQNnJOe8NSw8+i\nFSXolnjMOlO2YNHqNU5FU2mjhwKBgQC7IaB7B4WqDwTyjMhGNhK8uSlM1a20BcUE\nAIlHX/uBgMOqZfBcOJtyevyBFdKI727byLmCxGyZfS/5g8cdibXg83ov0zvnZ2dX\nG92rYhEjqisx96uoQJHnmvYYpPuGgTqHSL2WfHuJVKfITsNRMnmSCPxKE3J+uaTV\n+9bGHS3G2QKBgQDxZw2ey1sqsWnTfOX7VlTOsR0+FVx3huzSk4UOeG5y13qawH0W\ntgVNwU/J1EjFbIeRP4qbYrSr56jqENUeRiHAui9H0se7CJnjilb7VcrHAZylwA+E\nGd5zFmmGYeMyhhJDcPmgg1wZlGRujGcQ84CH+0Tc1Bek7oJoD5T4jtHYnQKBgC6K\nF2phnYmEwLs97hUgH5rWBgJ45gFuqefr5jhdE6TKjF8ViSi2X1qiYagM8FZkDdMV\nYaW3CjdGHidU8bFT7WrrwsigJTbQza+pW4DjG9Yd3S5JJWTr4h2SuX+5kGCMRS0e\nFyCVBvhJmIzFoefQwNFj8LLPkVsY+njJcEnHOfpJAoGAetHGIerlg0ATjL/cTu8O\nlRaEnSGEn+hG88r6ePpE1wWhsAJH1Dn4wGp0wJrMNpuKpv8YRJ1CYW02ZVS30z2z\nbBU5CtgY6uFjWhzplh0YIngSykLsPCJgyz1yRO/woYxPzUN/7DwfrEf7IWepzkLo\nV9v0Tm7Bmjqnqvh1Krw3WGk=\n-----END PRIVATE KEY-----\n","client_email":"test@httpsms-test.iam.gserviceaccount.com","client_id":"123456789","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url":"https://www.googleapis.com/robot/v1/metadata/x509/test%40httpsms-test.iam.gserviceaccount.com"}'
       - key: GCP_PROJECT_ID
-        sync: false # Render irá perguntar no painel
+        value: httpsms-test
       - key: DATABASE_URL
         fromDatabase:
           name: httpsms-db
@@ -57,61 +57,26 @@ services:
       - key: SMTP_FROM_NAME
         value: httpSMS
       - key: SMTP_FROM_EMAIL
-        sync: false # Render irá perguntar no painel
+        value: test@httpsms.com
       - key: SMTP_USERNAME
-        sync: false # Render irá perguntar no painel
+        value: test
       - key: SMTP_PASSWORD
-        sync: false # Render irá perguntar no painel
+        value: test
       - key: SMTP_HOST
-        value: smtp.mailtrap.io
+        value: localhost
       - key: SMTP_PORT
         value: "2525"
       - key: APP_URL
-        sync: false # Render irá perguntar no painel (URL do Frontend httpsms-web)
+        value: http://localhost:3000
       - key: APP_NAME
         value: httpSMS
       - key: SWAGGER_HOST
-        sync: false # Render irá perguntar no painel (ex: api.seudominio.com)
+        value: ""
       - key: CLOUDFLARE_TURNSTILE_SECRET_KEY
-        sync: false # Render irá perguntar no painel
-
-  # 3. Nuxt Web UI (Static Site) - 100% Gratuito no Render
-  - type: web
-    name: httpsms-web
-    runtime: static
-    rootDir: web
-    buildCommand: "pnpm install && pnpm run generate"
-    staticPublishPath: "./.output/public"
-    envVars:
-      - key: API_BASE_URL
-        sync: false # Render irá perguntar no painel (URL da API httpsms-api)
-      - key: APP_URL
-        value: http://localhost:3000 # O Render atualiza isso dinamicamente ou você pode usar o domínio padrão
-      - key: APP_NAME
-        value: httpSMS
-      - key: FIREBASE_API_KEY
-        sync: false
-      - key: FIREBASE_AUTH_DOMAIN
-        sync: false
-      - key: FIREBASE_PROJECT_ID
-        sync: false
-      - key: FIREBASE_STORAGE_BUCKET
-        sync: false
-      - key: FIREBASE_MESSAGING_SENDER_ID
-        sync: false
-      - key: FIREBASE_APP_ID
-        sync: false
-      - key: FIREBASE_MEASUREMENT_ID
-        sync: false
-      - key: CLOUDFLARE_TURNSTILE_SITE_KEY
-        sync: false
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
+        value: 1x0000000000000000000000000000000UN
 
 databases:
-  # 4. Banco de dados PostgreSQL gerenciado pelo Render
+  # 3. Banco de dados PostgreSQL gerenciado pelo Render (Com Auto-Migração e Auto-Seed de usuário de teste!)
   - name: httpsms-db
     databaseName: httpsms
     user: dbusername

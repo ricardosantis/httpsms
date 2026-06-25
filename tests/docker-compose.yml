@@ -1,6 +1,6 @@
 services:
   cockroachdb:
-    image: cockroachdb/cockroach:latest
+    image: cockroachdb/cockroach:v22.2.19
     command: start-single-node --insecure --store=type=mem,size=640MiB
     ports:
       - "26257:26257"
@@ -21,7 +21,7 @@ services:
       start_period: 10s
 
   cockroachdb-init:
-    image: cockroachdb/cockroach:latest
+    image: cockroachdb/cockroach:v22.2.19
     depends_on:
       cockroachdb:
         condition: service_healthy
@@ -102,7 +102,7 @@ services:
       start_period: 30s
 
   seed:
-    image: cockroachdb/cockroach:latest
+    image: cockroachdb/cockroach:v22.2.19
     depends_on:
       api:
         condition: service_healthy

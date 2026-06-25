@@ -414,6 +414,14 @@ ALTER TABLE discords ADD CONSTRAINT IF NOT EXISTS uni_discords_server_id CHECK (
 		container.logger.Fatal(stacktrace.Propagate(err, fmt.Sprintf("cannot migrate %T", &entities.PhoneAPIKey{})))
 	}
 
+	// Seed test users if they don't exist (useful for mock/test environments)
+	db.Exec(`INSERT INTO users (id, email, api_key, timezone, subscription_name, created_at, updated_at)
+		VALUES ('test-user-id', 'test@httpsms.com', 'test-user-api-key', 'UTC', 'pro-monthly', NOW(), NOW())
+		ON CONFLICT (id) DO NOTHING;`)
+	db.Exec(`INSERT INTO users (id, email, api_key, timezone, subscription_name, created_at, updated_at)
+		VALUES ('system-user-id', 'system@httpsms.com', 'system-user-api-key', 'UTC', 'pro-monthly', NOW(), NOW())
+		ON CONFLICT (id) DO NOTHING;`)
+
 	return container.db
 }
 
