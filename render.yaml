@@ -18,7 +18,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: ENV
-        value: production
+        value: local
       - key: APP_PORT
         value: "8000"
       - key: APP_HOST
