@@ -110,18 +110,18 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v3
 
-      - name: Trigger Cloud Build Deploy
+      - name: Build and Deploy to Cloud Run
         run: |
-          BUILD_ID=$(gcloud builds triggers run api-httpsms-com \
-            --region=global \
-            --project=httpsms-86c51 \
-            --sha=${{ github.sha }} \
-            --format="value(metadata.build.id)")
-          echo -e "Cloud Build: \033[34mhttps://console.cloud.google.com/cloud-build/builds/$BUILD_ID?project=httpsms-86c51\033[0m"
+          BUILD_ID=$(gcloud builds submit . \
+            --config=api/cloudbuild.yaml \
+            --project=httpsms-prod \
+            --substitutions=_SERVICE_NAME=http-sms-api,_REGION=us-east1 \
+            --format="value(id)")
+          echo -e "Cloud Build: \033[34mhttps://console.cloud.google.com/cloud-build/builds/$BUILD_ID?project=httpsms-prod\033[0m"
           echo ""
           echo "Polling Cloud Build Status..."
           while true; do
-            STATUS=$(gcloud builds describe "$BUILD_ID" --region=global --project=httpsms-86c51 --format="value(status)")
+            STATUS=$(gcloud builds describe "$BUILD_ID" --project=httpsms-prod --format="value(status)")
             LOCAL_TIME=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
             echo -e "  \033[90m${LOCAL_TIME}\033[0m status=\033[36m${STATUS}\033[0m"
             case "$STATUS" in

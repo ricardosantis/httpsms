@@ -49,6 +49,10 @@ func (v *TurnstileTokenValidator) ValidateToken(ctx context.Context, ipAddress, 
 	ctx, span, ctxLogger := v.tracer.StartWithLogger(ctx, v.logger)
 	defer span.End()
 
+	if v.secretKey == "" {
+		return true
+	}
+
 	payload, err := json.Marshal(map[string]string{
 		"secret":   v.secretKey,
 		"response": token,

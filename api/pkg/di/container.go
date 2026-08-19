@@ -1793,6 +1793,9 @@ func (container *Container) UserRistrettoCache() *ristretto.Cache[string, entiti
 
 // InitializeTraceProvider initializes the open telemetry trace provider
 func (container *Container) InitializeTraceProvider() func() {
+	if os.Getenv("AXIOM_TOKEN") == "" {
+		return container.initializeGoogleTraceProvider(container.version, container.projectID)
+	}
 	return container.initializeAxiomTraceProvider(container.version, container.projectID)
 }
 
@@ -1925,7 +1928,7 @@ func logger(skipFrameCount int) telemetry.Logger {
 }
 
 func logDriver(skipFrameCount int) *zerodriver.Logger {
-	if isLocal() {
+	if isLocal() || os.Getenv("AXIOM_TOKEN") == "" {
 		return consoleLogger(skipFrameCount)
 	}
 	return axiomLogger(skipFrameCount)

@@ -16,3 +16,5 @@ SECURITY_AUDIT_REPORT.md
 .output
 .agents/
 skills-lock.json
+
+.wrangler/
