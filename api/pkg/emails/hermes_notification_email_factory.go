@@ -49,13 +49,13 @@ func (factory *hermesNotificationEmailFactory) DiscordSendFailed(user *entities.
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
 						Text:      "DISCORD SETTINGS",
-						Link:      "https://httpsms.com/settings/#discord-settings",
+						Link:      fmt.Sprintf("%s/settings/#discord-settings", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
 			Signature: "Cheers",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on https://httpsms.com/settings/#email-notifications"),
+				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
@@ -107,13 +107,13 @@ func (factory *hermesNotificationEmailFactory) WebhookSendFailed(user *entities.
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
 						Text:      "WEBHOOK SETTINGS",
-						Link:      "https://httpsms.com/settings/#webhook-settings",
+						Link:      fmt.Sprintf("%s/settings/#webhook-settings", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
 			Signature: "Cheers",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on https://httpsms.com/settings/#email-notifications"),
+				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
@@ -185,13 +185,13 @@ func (factory *hermesNotificationEmailFactory) MessageExpired(user *entities.Use
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
 						Text:      "VIEW MESSAGES",
-						Link:      "https://httpsms.com/threads",
+						Link:      fmt.Sprintf("%s/threads", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
 			Signature: "Cheers",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on https://httpsms.com/settings/#email-notifications"),
+				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
@@ -236,13 +236,13 @@ func (factory *hermesNotificationEmailFactory) MessageFailed(user *entities.User
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
 						Text:      "VIEW MESSAGES",
-						Link:      "https://httpsms.com/threads",
+						Link:      fmt.Sprintf("%s/threads", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
 			Signature: "Cheers",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on https://httpsms.com/settings/#email-notifications"),
+				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}

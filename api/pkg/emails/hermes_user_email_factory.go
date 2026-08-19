@@ -2,6 +2,7 @@ package emails
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/NdoleStudio/httpsms/pkg/entities"
@@ -38,7 +39,7 @@ func (factory *hermesUserEmailFactory) APIKeyRotated(emailAddress string, timest
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
 						Text:      "httpSMS Settings",
-						Link:      "https://httpsms.com/settings/",
+						Link:      fmt.Sprintf("%s/settings/", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
@@ -83,7 +84,7 @@ func (factory *hermesUserEmailFactory) UsageLimitExceeded(user *entities.User, u
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
 						Text:      "UPGRADE YOUR PLAN",
-						Link:      "https://httpsms.com/billing",
+						Link:      fmt.Sprintf("%s/billing", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
@@ -129,7 +130,7 @@ func (factory *hermesUserEmailFactory) UsageLimitAlert(user *entities.User, usag
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
 						Text:      "UPGRADE YOUR PLAN",
-						Link:      "https://httpsms.com/billing",
+						Link:      fmt.Sprintf("%s/billing", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
@@ -187,14 +188,14 @@ func (factory *hermesUserEmailFactory) PhoneDead(user *entities.User, lastHeartb
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
 						Text:      "HEARTBEATS",
-						Link:      fmt.Sprintf("https://httpsms.com/heartbeats/%s", owner),
+						Link:      fmt.Sprintf("%s/heartbeats/%s", strings.TrimSuffix(factory.config.AppURL, "/"), owner),
 					},
 				},
 			},
 			Title:     "Hey,",
 			Signature: "Cheers",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on https://httpsms.com/settings/#email-notifications"),
+				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
