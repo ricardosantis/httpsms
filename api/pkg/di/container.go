@@ -1793,44 +1793,59 @@ func (container *Container) UserRistrettoCache() *ristretto.Cache[string, entiti
 
 // InitializeTraceProvider initializes the open telemetry trace provider
 func (container *Container) InitializeTraceProvider() func() {
-	if os.Getenv("AXIOM_TOKEN") == "" {
+	if container.isLocal() {
+		return func() {}
+	}
+	if os.Getenv("AXIOM_TOKEN") != "" {
+		return container.initializeAxiomTraceProvider(container.version, container.projectID)
+	}
+	if os.Getenv("GCP_PROJECT_ID") != "" {
 		return container.initializeGoogleTraceProvider(container.version, container.projectID)
 	}
-	return container.initializeAxiomTraceProvider(container.version, container.projectID)
+	return func() {}
 }
 
 func (container *Container) initializeGoogleTraceProvider(version string, namespace string) func() {
 	container.logger.Debug("initializing google trace meterProvider")
 
+	var shutdownFuncs []func()
+
 	traceExporter, err := cloudtrace.New(cloudtrace.WithProjectID(os.Getenv("GCP_PROJECT_ID")))
 	if err != nil {
-		container.logger.Fatal(stacktrace.Propagatef(err, "cannot create cloud trace traceExporter"))
+		container.logger.Error(stacktrace.Propagatef(err, "cannot create cloud trace traceExporter"))
+	} else {
+		tp := trace.NewTracerProvider(
+			trace.WithBatcher(traceExporter),
+			trace.WithSampler(trace.AlwaysSample()),
+			trace.WithResource(container.OtelResources(version, namespace)),
+		)
+		otel.SetTracerProvider(tp)
+		shutdownFuncs = append(shutdownFuncs, func() {
+			if err := traceExporter.Shutdown(context.Background()); err != nil {
+				container.logger.Error(stacktrace.Propagatef(err, "cannot shutdown cloud trace trace exporter"))
+			}
+		})
 	}
-
-	tp := trace.NewTracerProvider(
-		trace.WithBatcher(traceExporter),
-		trace.WithSampler(trace.AlwaysSample()),
-		trace.WithResource(container.OtelResources(version, namespace)),
-	)
-	otel.SetTracerProvider(tp)
 
 	metricExporter, err := mexporter.New(mexporter.WithProjectID(os.Getenv("GCP_PROJECT_ID")))
 	if err != nil {
-		container.logger.Fatal(stacktrace.Propagatef(err, "cannot create cloud metric traceExporter"))
+		container.logger.Error(stacktrace.Propagatef(err, "cannot create cloud metric traceExporter"))
+	} else {
+		meterProvider := metric.NewMeterProvider(
+			metric.WithReader(metric.NewPeriodicReader(metricExporter)),
+			metric.WithResource(container.OtelResources(version, namespace)),
+		)
+		otel.SetMeterProvider(meterProvider)
+		shutdownFuncs = append(shutdownFuncs, func() {
+			if err := metricExporter.Shutdown(context.Background()); err != nil {
+				container.logger.Error(stacktrace.Propagatef(err, "cannot shutdown cloud metric metric exporter"))
+			}
+		})
 	}
 
-	meterProvider := metric.NewMeterProvider(
-		metric.WithReader(metric.NewPeriodicReader(metricExporter)),
-		metric.WithResource(container.OtelResources(version, namespace)),
-	)
-	otel.SetMeterProvider(meterProvider)
-
 	return func() {
-		if err = metricExporter.Shutdown(context.Background()); err != nil {
-			container.logger.Error(stacktrace.Propagatef(err, "cannot shutdown cloud metric metric exporter"))
-		}
-		if err = traceExporter.Shutdown(context.Background()); err != nil {
-			container.logger.Error(stacktrace.Propagatef(err, "cannot shutdown cloud trace trace exporter"))
+		for _, shutdown := range shutdownFuncs {
+			shutdown()
 		}
 	}
 }
