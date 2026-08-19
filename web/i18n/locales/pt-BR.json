@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "getStarted": "Começar",
+    "forFree": "Gratuitamente",
+    "login": "Entrar",
+    "logout": "Sair",
+    "settings": "Configurações",
+    "phoneApiKeys": "Chaves de API do Telefone",
+    "bulkMessages": "Mensagens em Lote",
+    "searchMessages": "Buscar Mensagens",
+    "billing": "Faturamento",
+    "archivedThreads": "Conversas Arquivadas",
+    "activeThreads": "Conversas Ativas",
+    "downloadAndroidApp": "Baixar App Android",
+    "phoneNumbers": "Números de Telefone"
+  },
+  "auth": {
+    "loginTitle": "Entrar na sua Conta",
+    "loginSubtitle": "Escolha um método para continuar",
+    "logoutSuccess": "Você saiu com sucesso"
+  },
+  "common": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "loading": "Carregando...",
+    "search": "Buscar",
+    "copied": "Copiado para a área de transferência",
+    "copy": "Copiar",
+    "status": "Status",
+    "actions": "Ações"
+  },
+  "threads": {
+    "newMessage": "Nova Mensagem",
+    "recipient": "Destinatário",
+    "message": "Mensagem",
+    "send": "Enviar",
+    "noThreads": "Nenhuma conversa encontrada",
+    "typeMessage": "Digite sua mensagem..."
+  },
+  "settings": {
+    "title": "Configurações",
+    "webhooks": "Webhooks",
+    "apiKey": "Chave de API",
+    "notifications": "Notificações"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "getStarted": "Get Started",
+    "forFree": "For Free",
+    "login": "Login",
+    "logout": "Logout",
+    "settings": "Settings",
+    "phoneApiKeys": "Phone API Keys",
+    "bulkMessages": "Bulk Messages",
+    "searchMessages": "Search Messages",
+    "billing": "Billing",
+    "archivedThreads": "Archived Threads",
+    "activeThreads": "Active Threads",
+    "downloadAndroidApp": "Download Android App",
+    "phoneNumbers": "Phone Numbers"
+  },
+  "auth": {
+    "loginTitle": "Login to your account",
+    "loginSubtitle": "Choose a method to continue",
+    "logoutSuccess": "You have successfully logged out"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "search": "Search",
+    "copied": "Copied to clipboard",
+    "copy": "Copy",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "threads": {
+    "newMessage": "New Message",
+    "recipient": "Recipient",
+    "message": "Message",
+    "send": "Send",
+    "noThreads": "No threads found",
+    "typeMessage": "Type a message..."
+  },
+  "settings": {
+    "title": "Settings",
+    "webhooks": "Webhooks",
+    "apiKey": "API Key",
+    "notifications": "Notifications"
+  }
+}

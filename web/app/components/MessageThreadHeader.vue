@@ -143,69 +143,85 @@ async function logout() {
       </div>
     </div>
     <v-spacer />
-    <v-menu>
-      <template #activator="{ props: menuProps }">
-        <v-btn v-bind="menuProps" icon variant="text" class="mt-2 mr-n3">
-          <v-icon :icon="mdiDotsVertical" />
-        </v-btn>
-      </template>
-      <v-list
-        class="pa-0"
-        :density="mdAndDown ? 'compact' : 'default'"
-        prepend-gap="20"
-      >
-        <v-list-item @click.prevent="toggleArchive">
-          <template #prepend>
-            <v-icon
-              v-if="!threadsStore.archivedThreads"
-              :icon="mdiPackageDown"
-            />
-            <v-icon v-else :icon="mdiPackageUp" />
-          </template>
-          <v-list-item-title>
-            {{ threadsStore.archivedThreads ? 'Unarchived' : 'Archived' }}
-          </v-list-item-title>
-        </v-list-item>
-        <v-list-item v-if="phonesStore.owner" :to="{ name: 'messages' }">
-          <template #prepend><v-icon :icon="mdiPlus" /></template>
-          <v-list-item-title>New Message</v-list-item-title>
-        </v-list-item>
-        <v-list-item v-if="phonesStore.owner" :to="{ name: 'bulk-messages' }">
-          <template #prepend
-            ><v-icon :icon="mdiCommentTextMultipleOutline"
-          /></template>
-          <v-list-item-title>Bulk Messages</v-list-item-title>
-        </v-list-item>
-        <v-list-item v-if="phonesStore.owner" :to="{ name: 'search-messages' }">
-          <template #prepend><v-icon :icon="mdiMagnify" /></template>
-          <v-list-item-title>Search Messages</v-list-item-title>
-        </v-list-item>
-        <v-list-item :to="{ name: 'settings' }">
-          <template #prepend><v-icon :icon="mdiAccountCog" /></template>
-          <v-list-item-title>Settings</v-list-item-title>
-        </v-list-item>
-        <v-list-item :to="{ name: 'phone-api-keys' }">
-          <template #prepend><v-icon :icon="mdiCellphoneKey" /></template>
-          <v-list-item-title :class="{ 'pr-16': lgAndUp }"
-            >Phone API Keys</v-list-item-title
-          >
-        </v-list-item>
-        <v-list-item
-          v-if="phonesStore.owner"
-          :href="appStore.appData.appDownloadUrl"
+    <div class="d-flex align-center mt-2 mr-1">
+      <LanguageSwitcher class="mr-1" />
+      <v-menu>
+        <template #activator="{ props: menuProps }">
+          <v-btn v-bind="menuProps" icon variant="text" class="mr-n3">
+            <v-icon :icon="mdiDotsVertical" />
+          </v-btn>
+        </template>
+        <v-list
+          class="pa-0"
+          :density="mdAndDown ? 'compact' : 'default'"
+          prepend-gap="20"
         >
-          <template #prepend><v-icon :icon="mdiDownload" /></template>
-          <v-list-item-title>Download App</v-list-item-title>
-        </v-list-item>
-        <v-list-item :to="{ name: 'billing' }">
-          <template #prepend><v-icon :icon="mdiFinance" /></template>
-          <v-list-item-title>Usage & Billing</v-list-item-title>
-        </v-list-item>
-        <v-list-item @click.prevent="logout">
-          <template #prepend><v-icon :icon="mdiLogout" /></template>
-          <v-list-item-title>Logout</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+          <v-list-item @click.prevent="toggleArchive">
+            <template #prepend>
+              <v-icon
+                v-if="!threadsStore.archivedThreads"
+                :icon="mdiPackageDown"
+              />
+              <v-icon v-else :icon="mdiPackageUp" />
+            </template>
+            <v-list-item-title>
+              {{
+                threadsStore.archivedThreads
+                  ? $t('nav.activeThreads')
+                  : $t('nav.archivedThreads')
+              }}
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item v-if="phonesStore.owner" :to="{ name: 'messages' }">
+            <template #prepend><v-icon :icon="mdiPlus" /></template>
+            <v-list-item-title>{{
+              $t('threads.newMessage')
+            }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-if="phonesStore.owner" :to="{ name: 'bulk-messages' }">
+            <template #prepend
+              ><v-icon :icon="mdiCommentTextMultipleOutline"
+            /></template>
+            <v-list-item-title>{{ $t('nav.bulkMessages') }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            v-if="phonesStore.owner"
+            :to="{ name: 'search-messages' }"
+          >
+            <template #prepend><v-icon :icon="mdiMagnify" /></template>
+            <v-list-item-title>{{
+              $t('nav.searchMessages')
+            }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item :to="{ name: 'settings' }">
+            <template #prepend><v-icon :icon="mdiAccountCog" /></template>
+            <v-list-item-title>{{ $t('nav.settings') }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item :to="{ name: 'phone-api-keys' }">
+            <template #prepend><v-icon :icon="mdiCellphoneKey" /></template>
+            <v-list-item-title :class="{ 'pr-16': lgAndUp }">{{
+              $t('nav.phoneApiKeys')
+            }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            v-if="phonesStore.owner"
+            :href="appStore.appData.appDownloadUrl"
+          >
+            <template #prepend><v-icon :icon="mdiDownload" /></template>
+            <v-list-item-title>{{
+              $t('nav.downloadAndroidApp')
+            }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item :to="{ name: 'billing' }">
+            <template #prepend><v-icon :icon="mdiFinance" /></template>
+            <v-list-item-title>{{ $t('nav.billing') }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click.prevent="logout">
+            <template #prepend><v-icon :icon="mdiLogout" /></template>
+            <v-list-item-title>{{ $t('nav.logout') }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
   </v-sheet>
 </template>

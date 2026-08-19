@@ -10,7 +10,19 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/google-fonts',
     '@nuxtjs/seo',
+    '@nuxtjs/i18n',
   ],
+
+  i18n: {
+    langDir: 'i18n/locales/',
+    locales: [
+      { code: 'pt', language: 'pt-BR', file: 'pt-BR.json', name: 'Português' },
+      { code: 'en', language: 'en-US', file: 'en.json', name: 'English' },
+    ],
+    defaultLocale: 'pt',
+    strategy: 'no_prefix',
+    lazy: true,
+  },
 
   googleFonts: {
     families: {

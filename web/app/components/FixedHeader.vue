@@ -18,15 +18,17 @@ const { lgAndUp, mdAndDown } = useDisplay()
             HTTP SMS
           </NuxtLink>
           <v-spacer />
-          <v-btn
-            color="primary"
-            class="mt-5 mb-5"
-            :size="lgAndUp ? 'large' : 'default'"
-            :to="{ name: 'login' }"
-          >
-            Get Started
-            <span v-if="lgAndUp">&nbsp;For Free</span>
-          </v-btn>
+          <div class="d-flex align-center mt-3 mb-3">
+            <LanguageSwitcher class="mr-2" />
+            <v-btn
+              color="primary"
+              :size="lgAndUp ? 'large' : 'default'"
+              :to="{ name: 'login' }"
+            >
+              {{ $t('nav.getStarted') }}
+              <span v-if="lgAndUp">&nbsp;{{ $t('nav.forFree') }}</span>
+            </v-btn>
+          </div>
         </v-col>
       </v-row>
     </v-container>
