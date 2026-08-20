@@ -448,5 +448,135 @@
     "deleteDesc": "Você pode excluir uma chave de API a qualquer momento clicando no botão EXCLUIR. Após a exclusão, será necessário deslogar do app no celular Android e autenticar com uma nova chave para que o envio e recebimento continuem funcionando perfeitamente.",
     "goToApiKeys": "Ir para Chaves de API do Telefone",
     "backToDashboard": "Voltar para o Painel"
+  },
+  "landing": {
+    "seo": {
+      "title": "Transforme seu celular Android em um Gateway de SMS - httpSMS",
+      "description": "Transforme seu telefone Android em um gateway de SMS e envie ou receba mensagens de texto com uma API HTTP simples. Comece gratuitamente — sem necessidade de provedor de SMS caro ou código curto.",
+      "ogTitle": "Transforme seu celular Android em um Gateway de SMS",
+      "ogDescription": "Envie e receba mensagens SMS mundialmente através do seu próprio celular Android usando uma API HTTP simples. Sem provedor de SMS, short code ou consumo mínimo mensal."
+    },
+    "hero": {
+      "title": "Transforme seu celular Android em um gateway de SMS.",
+      "subtitle": "usando seu telefone para enviar e receber mensagens SMS através de uma API programável simples com criptografia de ponta a ponta.",
+      "saveMoney": "Economize dinheiro",
+      "getStarted": "Começar Gratuitamente",
+      "liveDemo": "Demonstração ao Vivo",
+      "trustedBy": "⚡ Confiado por mais de {users} usuários que enviam/recebem mais de {messages} mensagens por mês.",
+      "freeToUse": "Gratuito para usar",
+      "openSource": "100% Código Aberto"
+    },
+    "features": {
+      "noCode": "Sem código",
+      "integrationGuide": "Guia de Integração",
+      "documentation": "Documentação",
+      "bulkSms": {
+        "title": "SMS em Lote",
+        "description": "Preencha nosso modelo de SMS em lote em",
+        "csvTemplate": "modelo CSV",
+        "orOur": "ou nosso",
+        "excelTemplate": "modelo Excel",
+        "andUpload": "e faça o upload no httpSMS para enviar mensagens SMS para até 1.000 destinatários de uma só vez, sem precisar escrever nenhuma linha de código."
+      },
+      "integrations": {
+        "title": "Integrações",
+        "description": "Conecte seu fluxo de trabalho a milhares de outros aplicativos com o poder do Zapier. Por exemplo, você pode configurar uma automação para enviar SMS personalizados sempre que alguém fizer um pedido na sua loja ou a cada nova linha adicionada a uma planilha do Google Sheets.",
+        "btn": "Guia de Integração Zapier"
+      },
+      "webhooks": {
+        "title": "Webhooks",
+        "description": "Se você precisa construir integrações avançadas, oferecemos suporte a URLs de callback. A plataforma httpSMS encaminha as mensagens SMS recebidas no seu celular Android para o seu servidor instantaneamente usando uma URL de retorno configurada."
+      },
+      "controlSending": {
+        "title": "Controle de Taxa de Envio",
+        "description": "Envie mensagens SMS respeitando os limites da sua operadora de telefonia. Se você definir uma taxa (ex: 3 mensagens por minuto), enfileiramos suas mensagens e as enviamos a uma taxa constante de 1 mensagem a cada 20 segundos."
+      },
+      "monitoring": {
+        "title": "Monitoramento",
+        "description": "Se o seu celular Android ficar offline por qualquer motivo e não puder enviar SMS, enviaremos uma notificação imediatamente para você."
+      },
+      "openSource": {
+        "title": "Código Aberto",
+        "description": "O httpSMS é transparente e totalmente de código aberto. O código-fonte está disponível no GitHub para que você possa auditá-lo, criar forks ou contribuir com melhorias."
+      },
+      "encryption": {
+        "title": "Criptografia 🔐",
+        "description": "Tenha controle absoluto da sua privacidade com nosso recurso de SMS com criptografia de ponta a ponta. Proteja suas mensagens contra interceptações, garantindo confidencialidade absoluta com o algoritmo de nível militar",
+        "algorithm": "criptografia AES-256",
+        "btn": "Configurar Criptografia Ponta a Ponta"
+      },
+      "multiplePhones": {
+        "title": "Múltiplos Celulares",
+        "description": "Configure o aplicativo gateway httpSMS em múltiplos telefones de forma independente e segura, sem compartilhar dados na mesma conta, criando chaves de API de telefone exclusivas."
+      },
+      "schedule": {
+        "title": "Agendamento de SMS",
+        "description": "Controle quando o SMS chegará aos seus destinatários, permitindo sincronizar campanhas promocionais, alertas críticos e avisos agendando suas mensagens com antecedência."
+      }
+    },
+    "getStarted": {
+      "title": "Como Começar",
+      "step1Title": "Passo 1",
+      "step1Create": "Crie uma conta",
+      "step1Text": "no httpSMS e obtenha sua chave de API na página de configurações.",
+      "step2Title": "Passo 2",
+      "step2Download": "Baixe",
+      "step2Text": "e instale o aplicativo Android complementar no seu celular e faça login usando sua chave de API.",
+      "step3Title": "Passo 3",
+      "step3Text": "Comece a enviar e receber mensagens SMS através da nossa API HTTP completa. Você encontra a documentação em"
+    },
+    "pricing": {
+      "title": "Planos e Preços",
+      "subtitle": "A maioria dos recursos do httpSMS é completamente gratuita, mas se você precisa de maior volume, pode assinar o Pro.",
+      "monthly": "Mensal",
+      "yearly": "Anual",
+      "monthsFree": "2 meses grátis",
+      "perMonth": "/mês",
+      "perYear": "/ano",
+      "orPerYear": "ou {price} por ano",
+      "orPerMonth": "ou {price} por mês",
+      "noCreditCard": "Sem necessidade de cartão de crédito",
+      "tryFree": "Testar Gratuitamente",
+      "getStarted": "Começar Agora",
+      "features": {
+        "sendReceiveLimit": "Envie ou receba até {limit} SMS/mês",
+        "offlineNotifications": "Notificações de celular offline",
+        "forwardWebhooks": "Encaminhamento de SMS recebido via webhook",
+        "basicSupport": "Suporte básico por e-mail",
+        "prioritySupport": "Suporte prioritário"
+      },
+      "free": {
+        "title": "Grátis",
+        "desc": "Ideal para testar envio e recebimento de SMS em sites pessoais e experimentos."
+      },
+      "pro": {
+        "title": "Pro",
+        "desc": "Envie e receba mais mensagens SMS como um profissional com recursos avançados."
+      },
+      "custom": {
+        "title": "Plano {tier}",
+        "desc": "Envie e receba até {limit} mensagens SMS para operações de alta escala."
+      },
+      "customContact": "Sinta-se à vontade para {contactLink} se precisar de um plano maior, ou se quiser instalar a API do httpSMS em um servidor dedicado. Se quiser nos apoiar, considere doar via {sponsorLink} 💖",
+      "contactUs": "falar conosco",
+      "githubSponsors": "GitHub Sponsors"
+    },
+    "testimonials": {
+      "t1Text": "O httpSMS é uma plataforma incrível que transforma seu telefone em um servidor de SMS! Não tem limites abusivos. É uma ideia inovadora que facilitou muito nossas operações.",
+      "t2Text": "Produto excepcional. Utilizamos no dia a dia porque outros gateways de SMS chegam a custar mais de 50 centavos por SMS no Brasil. Excelente suporte e estabilidade!"
+    },
+    "faq": {
+      "title": "Perguntas Frequentes",
+      "subtitle": "Se ainda não encontrou a resposta para sua dúvida, {emailLink} ou fale conosco.",
+      "sendEmail": "envie um e-mail",
+      "q1": "Posso instalar o app no meu iPhone?",
+      "a1": "O aplicativo httpSMS funciona apenas em celulares Android no momento, pois a Apple não permite a instalação de apps customizados de envio de SMS.",
+      "q2": "Qual é a versão mínima do Android suportada?",
+      "a2": "O aplicativo httpSMS para Android funciona a partir do Android 9 (Pie) em diante. Você pode instalá-lo em qualquer celular Android antigo que não use mais.",
+      "q3": "Posso enviar uma quantidade ilimitada de mensagens por mês?",
+      "a3": "Temos planos que suportam até 200.000 mensagens SMS por mês, mas você pode entrar em contato conosco por e-mail caso precise de um volume maior para criarmos um plano personalizado.",
+      "q4": "Posso alterar o remetente (Sender ID) da mensagem SMS?",
+      "a4": "Não. Quando você envia uma mensagem SMS usando o aplicativo httpSMS, ele utiliza o chip (SIM card) do seu celular para disparar o SMS. Portanto, o destinatário verá o número de telefone do seu chip como remetente."
+    }
   }
 }

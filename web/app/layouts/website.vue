@@ -144,7 +144,8 @@ function goToPricing() {
             </NuxtLink>
             <div class="text-title-medium mb-4 text-medium-emphasis">
               {{ $t('website.madeWith') }}
-              <v-icon color="#cf1112" :icon="mdiHeart" /> in Tallinn
+              <v-icon color="#cf1112" :icon="mdiHeart" />
+              {{ $t('website.inTallinn') }}
               <v-img
                 class="d-inline-block"
                 width="20"

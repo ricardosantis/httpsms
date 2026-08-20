@@ -448,5 +448,135 @@
     "deleteDesc": "You can also delete a phone API key by clicking the DELETE button. After deleting a phone API key, you will need to log out of the httpSMS Android app and log in again with a new API key for the app to function properly.",
     "goToApiKeys": "Go to Phone API Keys",
     "backToDashboard": "Back to Dashboard"
+  },
+  "landing": {
+    "seo": {
+      "title": "Convert your Android phone into an SMS gateway - httpSMS",
+      "description": "Turn your Android phone into an SMS gateway and send or receive text messages with a simple HTTP API. Get started free — no SMS provider or short code needed.",
+      "ogTitle": "Convert your Android phone into an SMS gateway",
+      "ogDescription": "Send and receive SMS messages worldwide through your own Android phone using a simple HTTP API. No SMS provider, short code, or monthly minimum required."
+    },
+    "hero": {
+      "title": "Convert your Android phone into an SMS gateway.",
+      "subtitle": "by using your phone to send and receive SMS messages via a simple programmable API with end-to-end encryption.",
+      "saveMoney": "Save money",
+      "getStarted": "Get Started",
+      "liveDemo": "Live Demo",
+      "trustedBy": "⚡ Trusted by {users} users who send/receive more than {messages} messages per month.",
+      "freeToUse": "Free to use",
+      "openSource": "100% Open Source"
+    },
+    "features": {
+      "noCode": "No code",
+      "integrationGuide": "Integration Guide",
+      "documentation": "Documentation",
+      "bulkSms": {
+        "title": "Bulk SMS",
+        "description": "Fill in our bulk SMS",
+        "csvTemplate": "CSV template",
+        "orOur": "or our",
+        "excelTemplate": "excel template",
+        "andUpload": "and upload it on httpSMS to send SMS messages to up to 1,000 recipients at once without writing any code."
+      },
+      "integrations": {
+        "title": "Integrations",
+        "description": "Connect your workflow with thousands of other apps with the power of Zapier. For example you can setup an automation to send personalized SMS messages each time someone makes an order from your shopify store or each time a new row is added to a Google spreadsheet.",
+        "btn": "Zapier Integration Guide"
+      },
+      "webhooks": {
+        "title": "Webhooks",
+        "description": "If you want to build advanced integrations, we support callback URLs. The httpSMS platform can forward SMS messages received on your Android phone to your server using a callback URL which you provide."
+      },
+      "controlSending": {
+        "title": "Control Sending",
+        "description": "Send SMS messages without going over your mobile carrier limitations. If you set a rate e.g 3 messages per minute, we will queue up your messages and send them at a rate of 1 message per 20 seconds."
+      },
+      "monitoring": {
+        "title": "Monitoring",
+        "description": "If your android phone goes offline for some reason and it can't send SMS messages, we will send you a notification immediately."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "httpSMS is transparent and fully open source. The source code is available on GitHub. Feel free to fork it, verify it or submit a pull request."
+      },
+      "encryption": {
+        "title": "Encryption 🔐",
+        "description": "Take control of your privacy with our end-to-end encrypted SMS feature. Safeguard your messages from prying eyes, ensuring absolute confidentiality using the military grade",
+        "algorithm": "AES-256 encryption",
+        "btn": "Setup end-to-end encryption"
+      },
+      "multiplePhones": {
+        "title": "Multiple Phones",
+        "description": "Setup the httpSMS gateway Android app on multiple phones independently and securely without sharing data under one account by creating unique phone API keys."
+      },
+      "schedule": {
+        "title": "Schedule Text Messages",
+        "description": "Control when your SMS will reach your recipients, allowing you to perfectly time promotions, critical alerts etc by scheduling your messages in advance."
+      }
+    },
+    "getStarted": {
+      "title": "Get Started",
+      "step1Title": "Step 1",
+      "step1Create": "Create an account",
+      "step1Text": "on httpSMS and obtain your API key on the settings page.",
+      "step2Title": "Step 2",
+      "step2Download": "Download",
+      "step2Text": "and install the companion android application on your phone and sign in using your API Key.",
+      "step3Title": "Step 3",
+      "step3Text": "Start sending and receiving SMS messages using our rich HTTP API. You can find the documentation on"
+    },
+    "pricing": {
+      "title": "Pricing",
+      "subtitle": "Most of the httpSMS features are completely free but if you want a little extra, you can go pro",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "monthsFree": "2 months free",
+      "perMonth": "/month",
+      "perYear": "/year",
+      "orPerYear": "or {price} per year",
+      "orPerMonth": "or {price} per month",
+      "noCreditCard": "No credit card required",
+      "tryFree": "Try For Free",
+      "getStarted": "Get Started",
+      "features": {
+        "sendReceiveLimit": "Send or receive up to {limit} SMS/month",
+        "offlineNotifications": "Offline notifications for your phone",
+        "forwardWebhooks": "Forward received messages via webhook",
+        "basicSupport": "Basic email support",
+        "prioritySupport": "Priority support"
+      },
+      "free": {
+        "title": "Free",
+        "desc": "Try sending and receiving SMS on your hobby websites and experiments."
+      },
+      "pro": {
+        "title": "Pro",
+        "desc": "Send and receive more SMS messages like a pro with advanced features."
+      },
+      "custom": {
+        "title": "{tier} Plan",
+        "desc": "Send and receive up to {limit} SMS messages like a power user."
+      },
+      "customContact": "Feel free to {contactLink} if you need a bigger plan, or if you want us to install the httpSMS API on your dedicated server. If you would still like to support us, please donate via {sponsorLink} 💖",
+      "contactUs": "contact us",
+      "githubSponsors": "GitHub Sponsors"
+    },
+    "testimonials": {
+      "t1Text": "httpSMS is free platform which transforms your phone into an sms server! It has no hard limit also. It is an innovative idea, I have not seen such tech before. If you have an sms active pack in your phone then good to go with httpSMS.",
+      "t2Text": "\"Outstanding product. Literally have been using this for years since we don't have an sms gateways that can handle http requests costing less than 50 cent per sms in my Country. Love the product and the support! Great work Arnold!\""
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "If you still cannot find the answer to your question, {emailLink} or contact our team.",
+      "sendEmail": "send us an email",
+      "q1": "Can I install the app on my iPhone?",
+      "a1": "The httpSMS application works only on Android phones at the moment since Apple doesn't allow you to install a custom SMS messaging app.",
+      "q2": "What's the minimum supported Android version?",
+      "a2": "The httpSMS Android app works from Android 9 (Pie) and above. So you can install the application on your old Android phone which you don't use anymore.",
+      "q3": "Can I send unlimited number of messages per month?",
+      "a3": "We do have packages that allow up to 200,000 SMS messages per month but you can send us an email if you will like to send more messages so we create a custom plan just for you.",
+      "q4": "Can I change the sender of the SMS message?",
+      "a4": "No you cannot. When you send an SMS message using the httpSMS app it uses your SIM card to send the message so the recipient will see your phone number as the sender of the SMS. You cannot use your brand name as the sender ID."
+    }
   }
 }
