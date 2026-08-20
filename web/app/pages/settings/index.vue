@@ -11,7 +11,7 @@ import {
   mdiSquareEditOutline,
   mdiDelete,
   mdiContentSave,
-  mdiConnection,
+  // mdiConnection, // Temporarily unused: Discord integration hidden for future use
   mdiCalendarClock,
   mdiPlus,
 } from '@mdi/js'
@@ -27,7 +27,7 @@ import { toApiError } from '~/utils/api-error'
 import type {
   EntitiesPhone,
   EntitiesWebhook,
-  EntitiesDiscord,
+  // EntitiesDiscord, // Temporarily unused: Discord integration hidden for future use
   EntitiesMessageSendSchedule,
 } from '~~/shared/types/api'
 
@@ -397,8 +397,12 @@ async function deleteWebhook(id: string) {
 }
 
 // ---------------------------------------------------------------------------
-// Discord
 // ---------------------------------------------------------------------------
+// [OCULTAÇÃO TEMPORÁRIA / FUTURE USE]
+// Funções e variáveis de integração com Discord temporariamente comentadas.
+// Descomente esta seção ao reativar a funcionalidade.
+// ---------------------------------------------------------------------------
+/*
 const loadingDiscordIntegrations = ref(true)
 const discords = ref<EntitiesDiscord[]>([])
 const updatingDiscord = ref(false)
@@ -505,6 +509,7 @@ async function deleteDiscord(id: string) {
     updatingDiscord.value = false
   }
 }
+*/
 
 // ---------------------------------------------------------------------------
 // Phones
@@ -879,17 +884,21 @@ watch(showQrCodeDialog, (open) => {
   }
 })
 
-onMounted(async () => {
+onMounted(() => {
   try {
     firebaseUser.value = getAuth().currentUser
     if (firebaseUser.value?.email) {
-      gravatarUrl.value = await computeGravatarUrl(firebaseUser.value.email)
+      computeGravatarUrl(firebaseUser.value.email).then((url) => {
+        gravatarUrl.value = url
+      })
     }
-    await Promise.allSettled([authStore.loadUser(), phonesStore.loadPhones()])
-    syncEmailNotifications()
-    loadWebhooks()
-    loadDiscordIntegrations()
-    loadSendSchedules()
+    void Promise.allSettled([
+      authStore.loadUser().then(() => syncEmailNotifications()),
+      phonesStore.loadPhones(),
+      loadWebhooks(),
+      // loadDiscordIntegrations(), // Temporarily hidden: Discord integration is hidden for future use
+      loadSendSchedules(),
+    ])
     if (route.hash) {
       nextTick(() => {
         try {
@@ -1167,7 +1176,12 @@ onMounted(async () => {
               >
             </div>
 
-            <!-- Discord Integration -->
+            <!--
+              [OCULTAÇÃO TEMPORÁRIA / FUTURE USE]
+              O bloco de integração com o Discord foi temporariamente ocultado da interface.
+              Toda a lógica e componentes foram preservados para reativação em uso futuro.
+            -->
+            <!--
             <h5 id="discord-settings" class="text-headline-large mb-3 mt-12">
               {{ $t('settings.discordTitle') }}
             </h5>
@@ -1222,6 +1236,7 @@ onMounted(async () => {
               <VIcon start :icon="mdiConnection" />
               {{ $t('settings.addDiscord') }}
             </VBtn>
+            -->
 
             <!-- Phones -->
             <h5 id="phones" class="text-headline-large mb-3 mt-12">
@@ -1611,7 +1626,11 @@ onMounted(async () => {
       </VCard>
     </VDialog>
 
-    <!-- Discord Edit Dialog -->
+    <!--
+      [OCULTAÇÃO TEMPORÁRIA / FUTURE USE]
+      Diálogo de edição do Discord temporariamente ocultado.
+    -->
+    <!--
     <VDialog v-model="showDiscordEdit" max-width="700px">
       <VCard>
         <VCardTitle>
@@ -1718,6 +1737,7 @@ onMounted(async () => {
         </VCardActions>
       </VCard>
     </VDialog>
+    -->
 
     <!-- Phone Edit Dialog -->
     <VDialog v-model="showPhoneEdit" max-width="700px" opacity="0.9">
