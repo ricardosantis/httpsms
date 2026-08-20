@@ -227,7 +227,11 @@ async function sendMessage(event: KeyboardEvent | Event) {
 }
 
 onMounted(async () => {
-  await loadData()
+  try {
+    await loadData()
+  } catch (err) {
+    console.error('Failed to load thread data:', err)
+  }
 
   const pusherKey = config.public.pusherKey as string
   const pusherCluster = config.public.pusherCluster as string
@@ -438,7 +442,7 @@ onBeforeUnmount(() => {
                 >
                   <VCardText class="pb-2">
                     <a
-                      v-for="(attachment, index) in message.attachments"
+                      v-for="(attachment, index) in message.attachments ?? []"
                       :key="index"
                       target="_blank"
                       rel="noopener noreferrer"

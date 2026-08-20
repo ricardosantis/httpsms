@@ -379,7 +379,15 @@
     "months": "{count} Meses",
     "year": "1 Ano",
     "retentionSaved": "Retenção de dados de mensagens salva com sucesso",
-    "retentionFailed": "Falha ao salvar retenção de dados de mensagens"
+    "retentionFailed": "Falha ao salvar retenção de dados de mensagens",
+    "messageExpirationSeconds": "Expiração da Mensagem (segundos)",
+    "retriesPlaceholder": "Quantas tentativas ao enviar um SMS",
+    "retriesRule": "Tentativas de envio devem estar entre 1 e 5",
+    "missedCallAutoReply": "Resposta Automática para Chamada Perdida",
+    "missedCallAutoReplyPlaceholder": "Estamos fechados no momento, por favor envie uma mensagem das 09:00 às 17:00",
+    "unarchiveThreads": "Desarquivar Conversas Automaticamente",
+    "scheduleStart": "Início",
+    "scheduleEnd": "Fim"
   },
   "heartbeats": {
     "title": "Sinais de Vida",

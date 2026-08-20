@@ -379,7 +379,15 @@
     "months": "{count} Months",
     "year": "1 Year",
     "retentionSaved": "Message data retention saved successfully",
-    "retentionFailed": "Failed to save message data retention"
+    "retentionFailed": "Failed to save message data retention",
+    "messageExpirationSeconds": "Message Expiration (seconds)",
+    "retriesPlaceholder": "How many retries when sending an SMS",
+    "retriesRule": "Max send attempts must be between 1 and 5",
+    "missedCallAutoReply": "Missed Call AutoReply",
+    "missedCallAutoReplyPlaceholder": "We are currently closed at the moment, please send us a text message from 09:00 to 17:00",
+    "unarchiveThreads": "Unarchive Threads Automatically",
+    "scheduleStart": "Start",
+    "scheduleEnd": "End"
   },
   "heartbeats": {
     "title": "Heartbeats",

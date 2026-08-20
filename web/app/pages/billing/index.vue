@@ -212,8 +212,19 @@ async function handleUpgrade(planType: 'pro' | 'enterprise' = 'pro') {
   }
 }
 
+function formatDateSafe(val: string | null | undefined): string {
+  if (!val) return ''
+  try {
+    const d = new Date(val)
+    if (isNaN(d.getTime())) return ''
+    return d.toLocaleDateString()
+  } catch {
+    return ''
+  }
+}
+
 async function loadData() {
-  await Promise.all([
+  await Promise.allSettled([
     authStore.loadUser(),
     billingStore.loadBillingUsage(),
     billingStore.loadBillingUsageHistory(),
@@ -347,9 +358,9 @@ onMounted(async () => {
                       v-html="
                         $t('billing.nextBillOn', {
                           price: plan.price,
-                          date: new Date(
-                            authStore.user.subscription_renews_at!,
-                          ).toLocaleDateString(),
+                          date: formatDateSafe(
+                            authStore.user.subscription_renews_at,
+                          ),
                         })
                       "
                     ></p>
@@ -365,9 +376,9 @@ onMounted(async () => {
                       class="text-medium-emphasis"
                       v-html="
                         $t('billing.downgradedToFreeOn', {
-                          date: new Date(
-                            authStore.user.subscription_ends_at!,
-                          ).toLocaleDateString(),
+                          date: formatDateSafe(
+                            authStore.user.subscription_ends_at,
+                          ),
                         })
                       "
                     ></p>
@@ -604,7 +615,7 @@ onMounted(async () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="payment in payments.data" :key="payment.id">
+                  <tr v-for="payment in payments?.data ?? []" :key="payment.id">
                     <td v-if="lgAndUp">{{ payment.id }}</td>
                     <td>
                       {{ formatTimestamp(payment.attributes.created_at) }}

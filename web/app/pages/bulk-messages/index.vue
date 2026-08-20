@@ -37,6 +37,7 @@ function parseErrors(error: unknown): ErrorMessages {
 }
 
 function cleanName(requestId: string): string {
+  if (!requestId || typeof requestId !== 'string') return ''
   if (requestId.startsWith('bulk-csv-'))
     return requestId.replace(/^bulk-csv-/, '') + '.csv'
   if (requestId.startsWith('bulk-xls-'))

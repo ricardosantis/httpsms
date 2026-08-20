@@ -202,24 +202,30 @@ async function removePhoneFromPhoneKey() {
 }
 
 onMounted(async () => {
-  await authStore.loadUser()
-  await phonesStore.loadPhones()
-  await loadPhoneApiKeys()
+  try {
+    await Promise.allSettled([
+      authStore.loadUser(),
+      phonesStore.loadPhones(),
+      loadPhoneApiKeys(),
+    ])
 
-  const pusherKey = config.public.pusherKey as string
-  const pusherCluster = config.public.pusherCluster as string
-  if (pusherKey && pusherCluster && authStore.user?.id) {
-    try {
-      const pusher = new Pusher(pusherKey, { cluster: pusherCluster })
-      webhookChannel = pusher.subscribe(authStore.user.id)
-      webhookChannel.bind('phone.updated', () => {
-        if (!loading.value) {
-          loadPhoneApiKeys()
-        }
-      })
-    } catch {
-      // Pusher failed to initialize
+    const pusherKey = config.public.pusherKey as string
+    const pusherCluster = config.public.pusherCluster as string
+    if (pusherKey && pusherCluster && authStore.user?.id) {
+      try {
+        const pusher = new Pusher(pusherKey, { cluster: pusherCluster })
+        webhookChannel = pusher.subscribe(authStore.user.id)
+        webhookChannel.bind('phone.updated', () => {
+          if (!loading.value) {
+            loadPhoneApiKeys()
+          }
+        })
+      } catch {
+        // Pusher failed to initialize
+      }
     }
+  } catch (err) {
+    console.error('Error mounting phone-api-keys:', err)
   }
 })
 
@@ -303,9 +309,9 @@ onBeforeUnmount(() => {
                   <td class="text-left">{{ phoneApiKey.name }}</td>
                   <td>{{ formatTimestamp(phoneApiKey.created_at) }}</td>
                   <td>
-                    <ul v-if="phoneApiKey.phone_numbers.length" class="ml-n3">
+                    <ul v-if="phoneApiKey.phone_numbers?.length" class="ml-n3">
                       <li
-                        v-for="phoneNumber in phoneApiKey.phone_numbers"
+                        v-for="phoneNumber in phoneApiKey.phone_numbers ?? []"
                         :key="phoneNumber"
                         class="my-3"
                       >

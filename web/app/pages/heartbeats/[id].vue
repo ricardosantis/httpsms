@@ -43,25 +43,37 @@ const dataTableHeaders = computed(() => [
 ])
 
 function getDiff(a: string, b: string): number {
-  return new Date(a).getTime() - new Date(b).getTime()
+  try {
+    const da = new Date(a).getTime()
+    const db = new Date(b).getTime()
+    if (isNaN(da) || isNaN(db)) return 0
+    return da - db
+  } catch {
+    return 0
+  }
 }
 
 function formatInterval(duration: number): string {
-  if (duration === 0) {
+  if (!duration || duration <= 0) {
     return '-'
   }
-  const start = new Date()
-  start.setMilliseconds(start.getMilliseconds() + duration)
-  return (
-    formatDurationFns(intervalToDuration({ start: new Date(), end: start })) ||
-    '0 seconds'
-  )
+  try {
+    const start = new Date()
+    start.setMilliseconds(start.getMilliseconds() + duration)
+    return (
+      formatDurationFns(
+        intervalToDuration({ start: new Date(), end: start }),
+      ) || '0 seconds'
+    )
+  } catch {
+    return '-'
+  }
 }
 
 const dataTableItems = computed<HeartbeatTableItem[]>(() => {
   return heartbeats.value.map((heartbeat, index) => {
     let interval = 0
-    if (index < heartbeats.value.length - 1) {
+    if (index < heartbeats.value.length - 1 && heartbeats.value[index + 1]) {
       interval = getDiff(
         heartbeat.timestamp,
         heartbeats.value[index + 1]!.timestamp,
@@ -77,10 +89,17 @@ const dataTableItems = computed<HeartbeatTableItem[]>(() => {
 })
 
 const chartData = computed<ChartData<'bar'>>(() => {
-  const data = heartbeats.value.map((heartbeat) => ({
-    x: new Date(heartbeat.timestamp).toISOString(),
-    y: 1,
-  }))
+  const data: Array<{ x: string; y: number }> = []
+  for (const heartbeat of heartbeats.value) {
+    try {
+      const d = new Date(heartbeat.timestamp)
+      if (!isNaN(d.getTime())) {
+        data.push({ x: d.toISOString(), y: 1 })
+      }
+    } catch {
+      // ignore
+    }
+  }
 
   if (!data.length) {
     return {
@@ -117,14 +136,18 @@ const chartOptions = computed<ChartOptions<'bar'>>(() => {
             const dataset = context.dataset.data as unknown as Array<{
               x: string
             }>
-            if (context.dataIndex === dataset.length - 1) {
+            if (!dataset || context.dataIndex >= dataset.length - 1) {
               return '-'
             }
-            const duration = intervalToDuration({
-              start: new Date(dataset[context.dataIndex + 1]!.x),
-              end: new Date(dataset[context.dataIndex]!.x),
-            })
-            return formatDurationFns(duration)
+            try {
+              const start = new Date(dataset[context.dataIndex + 1]!.x)
+              const end = new Date(dataset[context.dataIndex]!.x)
+              if (isNaN(start.getTime()) || isNaN(end.getTime())) return '-'
+              const duration = intervalToDuration({ start, end })
+              return formatDurationFns(duration)
+            } catch {
+              return '-'
+            }
           },
         },
       },
@@ -140,18 +163,23 @@ async function loadHeartbeats() {
   loading.value = true
   try {
     heartbeats.value = await phonesStore.getHeartbeat(100)
+  } catch {
+    heartbeats.value = []
   } finally {
     loading.value = false
   }
 }
 
 onMounted(async () => {
-  await authStore.loadUser()
-  await phonesStore.loadPhones()
-  if (!phonesStore.owner) {
-    phonesStore.setOwner(phoneId.value)
+  try {
+    await Promise.allSettled([authStore.loadUser(), phonesStore.loadPhones()])
+    if (!phonesStore.owner) {
+      phonesStore.setOwner(phoneId.value)
+    }
+    await loadHeartbeats()
+  } catch (err) {
+    console.error('Error mounting heartbeats:', err)
   }
-  await loadHeartbeats()
 })
 </script>
 

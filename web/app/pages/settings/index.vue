@@ -78,13 +78,20 @@ async function sendVerificationEmail() {
 }
 
 const computeGravatarUrl = async (email: string): Promise<string> => {
-  const normalized = email.trim().toLowerCase()
-  const data = new TextEncoder().encode(normalized)
-  const digest = await crypto.subtle.digest('SHA-256', data)
-  const hash = Array.from(new Uint8Array(digest))
-    .map((byte) => byte.toString(16).padStart(2, '0'))
-    .join('')
-  return `https://www.gravatar.com/avatar/${hash}?d=identicon&s=200`
+  try {
+    const normalized = email.trim().toLowerCase()
+    if (typeof crypto !== 'undefined' && crypto?.subtle) {
+      const data = new TextEncoder().encode(normalized)
+      const digest = await crypto.subtle.digest('SHA-256', data)
+      const hash = Array.from(new Uint8Array(digest))
+        .map((byte) => byte.toString(16).padStart(2, '0'))
+        .join('')
+      return `https://www.gravatar.com/avatar/${hash}?d=identicon&s=200`
+    }
+  } catch {
+    // fallback
+  }
+  return 'https://www.gravatar.com/avatar/?d=identicon&s=200'
 }
 
 const avatarUrl = computed(
@@ -100,16 +107,71 @@ const qrCodeCanvas = ref<HTMLCanvasElement | null>(null)
 const errorMessages = ref(new ErrorMessages())
 
 // Timezones
+const standardTimezones = [
+  'Africa/Abidjan',
+  'Africa/Accra',
+  'Africa/Cairo',
+  'Africa/Johannesburg',
+  'Africa/Lagos',
+  'Africa/Nairobi',
+  'America/Anchorage',
+  'America/Argentina/Buenos_Aires',
+  'America/Bogota',
+  'America/Caracas',
+  'America/Chicago',
+  'America/Denver',
+  'America/Halifax',
+  'America/Lima',
+  'America/Los_Angeles',
+  'America/Manaus',
+  'America/Mexico_City',
+  'America/New_York',
+  'America/Phoenix',
+  'America/Santiago',
+  'America/Sao_Paulo',
+  'America/Toronto',
+  'America/Vancouver',
+  'Asia/Bangkok',
+  'Asia/Dubai',
+  'Asia/Hong_Kong',
+  'Asia/Jakarta',
+  'Asia/Jerusalem',
+  'Asia/Kolkata',
+  'Asia/Manila',
+  'Asia/Seoul',
+  'Asia/Shanghai',
+  'Asia/Singapore',
+  'Asia/Tokyo',
+  'Atlantic/Azores',
+  'Australia/Brisbane',
+  'Australia/Melbourne',
+  'Australia/Perth',
+  'Australia/Sydney',
+  'Europe/Amsterdam',
+  'Europe/Berlin',
+  'Europe/Dublin',
+  'Europe/Lisbon',
+  'Europe/London',
+  'Europe/Madrid',
+  'Europe/Paris',
+  'Europe/Rome',
+  'Pacific/Auckland',
+  'Pacific/Honolulu',
+  'UTC',
+]
+
 const timezones = (() => {
   try {
     const intlWithTimeZones = Intl as typeof Intl & {
-      supportedValuesOf(key: string): string[]
+      supportedValuesOf?: (key: string) => string[]
     }
-    const list = intlWithTimeZones.supportedValuesOf('timeZone')
-    if (list && list.length > 0) return list
-    return ['UTC']
+    if (typeof intlWithTimeZones.supportedValuesOf === 'function') {
+      const list = intlWithTimeZones.supportedValuesOf('timeZone')
+      if (list && list.length > 0) return list
+    }
+    return standardTimezones
   } catch {
-    return ['UTC']
+    return standardTimezones
   }
 })()
 
@@ -546,10 +608,11 @@ function clockToMinute(value: string): number {
 }
 
 function scheduleSummary(schedule: EntitiesMessageSendSchedule): string[][] {
+  if (!schedule) return []
   return weekDays.value
     .map((day) => {
       const windows = (schedule.windows || []).filter(
-        (x) => x.day_of_week === day.value,
+        (x) => x && x.day_of_week === day.value,
       )
       if (windows.length === 0) return []
       return [
@@ -557,7 +620,7 @@ function scheduleSummary(schedule: EntitiesMessageSendSchedule): string[][] {
         windows
           .map(
             (w) =>
-              `${minuteToClock(w.start_minute)} - ${minuteToClock(w.end_minute)}`,
+              `${minuteToClock(w.start_minute ?? 0)} - ${minuteToClock(w.end_minute ?? 0)}`,
           )
           .join(', '),
       ]
@@ -566,9 +629,15 @@ function scheduleSummary(schedule: EntitiesMessageSendSchedule): string[][] {
 }
 
 function defaultTimezone(): string {
-  return (
-    authStore.user?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
-  )
+  try {
+    return (
+      authStore.user?.timezone ||
+      Intl.DateTimeFormat().resolvedOptions().timeZone ||
+      'America/Sao_Paulo'
+    )
+  } catch {
+    return 'America/Sao_Paulo'
+  }
 }
 
 function openCreateSchedule() {
@@ -810,20 +879,28 @@ watch(showQrCodeDialog, (open) => {
 })
 
 onMounted(async () => {
-  firebaseUser.value = getAuth().currentUser
-  if (firebaseUser.value?.email) {
-    gravatarUrl.value = await computeGravatarUrl(firebaseUser.value.email)
-  }
-  await Promise.all([authStore.loadUser(), phonesStore.loadPhones()])
-  syncEmailNotifications()
-  loadWebhooks()
-  loadDiscordIntegrations()
-  loadSendSchedules()
-  if (route.hash) {
-    nextTick(() => {
-      const el = document.querySelector(route.hash)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    })
+  try {
+    firebaseUser.value = getAuth().currentUser
+    if (firebaseUser.value?.email) {
+      gravatarUrl.value = await computeGravatarUrl(firebaseUser.value.email)
+    }
+    await Promise.allSettled([authStore.loadUser(), phonesStore.loadPhones()])
+    syncEmailNotifications()
+    loadWebhooks()
+    loadDiscordIntegrations()
+    loadSendSchedules()
+    if (route.hash) {
+      nextTick(() => {
+        try {
+          const el = document.querySelector(route.hash)
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        } catch {
+          // ignore invalid query selector
+        }
+      })
+    }
+  } catch (err) {
+    console.error('Error mounting settings:', err)
   }
 })
 </script>
@@ -1052,7 +1129,7 @@ onMounted(async () => {
                   <td class="text-break">{{ webhook.url }}</td>
                   <td v-if="lgAndUp" class="text-center">
                     <VChip
-                      v-for="event in webhook.events"
+                      v-for="event in webhook.events ?? []"
                       :key="event"
                       class="ma-1"
                       size="small"
@@ -1682,7 +1759,7 @@ onMounted(async () => {
                   variant="outlined"
                   type="number"
                   density="compact"
-                  label="Message Expiration (seconds)"
+                  :label="$t('settings.messageExpirationSeconds')"
                 />
                 <VTextField
                   v-model="activePhone.messages_per_minute"
@@ -1696,14 +1773,13 @@ onMounted(async () => {
                   variant="outlined"
                   type="number"
                   density="compact"
-                  placeholder="How many retries when sending an SMS"
+                  :placeholder="$t('settings.retriesPlaceholder')"
                   :label="$t('settings.phoneMaxSendAttempts')"
                   min="1"
                   max="5"
                   :rules="[
                     (v: number) =>
-                      (v >= 1 && v <= 5) ||
-                      'Max send attempts must be between 1 and 5',
+                      (v >= 1 && v <= 5) || $t('settings.retriesRule'),
                   ]"
                 />
                 <VAutocomplete
@@ -1723,10 +1799,10 @@ onMounted(async () => {
                   variant="outlined"
                   density="compact"
                   class="mt-6"
-                  label="Missed Call AutoReply"
+                  :label="$t('settings.missedCallAutoReply')"
                   persistent-placeholder
                   persistent-hint
-                  placeholder="We are currently closed at the moment, please send us a text message from 09:00 to 17:00"
+                  :placeholder="$t('settings.missedCallAutoReplyPlaceholder')"
                   hint=""
                 />
                 <VSwitch
@@ -1734,7 +1810,7 @@ onMounted(async () => {
                   class="mt-4"
                   color="primary"
                   density="compact"
-                  label="Unarchive Threads Automatically"
+                  :label="$t('settings.unarchiveThreads')"
                   hint=""
                 />
               </VCol>
@@ -1833,7 +1909,7 @@ onMounted(async () => {
                         variant="outlined"
                         :error="!!scheduleWindowError(day.value)"
                         type="time"
-                        label="Start"
+                        :label="$t('settings.scheduleStart')"
                         hide-details="auto"
                       />
                     </div>
@@ -1848,7 +1924,7 @@ onMounted(async () => {
                         variant="outlined"
                         :error="!!scheduleWindowError(day.value)"
                         type="time"
-                        label="End"
+                        :label="$t('settings.scheduleEnd')"
                         hide-details="auto"
                       />
                     </div>

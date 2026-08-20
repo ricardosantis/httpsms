@@ -98,12 +98,16 @@ async function sendMessage() {
 }
 
 onMounted(async () => {
-  await phonesStore.loadPhones()
-  if (phonesStore.owner) {
-    const country = parsePhoneNumber(phonesStore.owner)?.country
-    if (country) {
-      phoneCountry.value = country
+  try {
+    await phonesStore.loadPhones()
+    if (phonesStore.owner) {
+      const country = parsePhoneNumber(phonesStore.owner)?.country
+      if (country) {
+        phoneCountry.value = country
+      }
     }
+  } catch {
+    // ignore
   }
 })
 </script>

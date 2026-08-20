@@ -128,25 +128,35 @@ const messageStatusSelectItems = computed(() => [
 ])
 
 function getCaptcha(): Promise<string> {
+  const siteKey = (config.public as Record<string, string>)
+    .cloudflareTurnstileSiteKey
+  if (!siteKey) {
+    return Promise.resolve('')
+  }
   return new Promise<string>((resolve, reject) => {
-    const turnstile: Turnstile = (
-      window as unknown as { turnstile?: Turnstile }
-    ).turnstile!
-    turnstile.ready(() => {
-      if (turnstileWidgetId) {
-        turnstile.remove(turnstileWidgetId)
-        turnstileWidgetId = null
-      }
+    const turnstile = (window as unknown as { turnstile?: Turnstile })
+      ?.turnstile
+    if (!turnstile) {
+      return resolve('')
+    }
+    try {
+      turnstile.ready(() => {
+        if (turnstileWidgetId) {
+          turnstile.remove(turnstileWidgetId)
+          turnstileWidgetId = null
+        }
 
-      turnstileWidgetId =
-        turnstile.render('#cloudflare-turnstile', {
-          sitekey: (config.public as Record<string, string>)
-            .cloudflareTurnstileSiteKey!,
-          action: 'search_messages',
-          callback: (token) => resolve(token),
-          'error-callback': (error: string) => reject(error),
-        }) ?? null
-    })
+        turnstileWidgetId =
+          turnstile.render('#cloudflare-turnstile', {
+            sitekey: siteKey,
+            action: 'search_messages',
+            callback: (token) => resolve(token),
+            'error-callback': (error: string) => reject(error),
+          }) ?? null
+      })
+    } catch {
+      resolve('')
+    }
   })
 }
 

@@ -15,9 +15,15 @@ const phonesStore = usePhonesStore()
 const threadsStore = useThreadsStore()
 
 onMounted(async () => {
-  await authStore.loadUser()
-  await phonesStore.loadPhones()
-  await threadsStore.loadThreads()
+  try {
+    await Promise.allSettled([
+      authStore.loadUser(),
+      phonesStore.loadPhones(),
+      threadsStore.loadThreads(),
+    ])
+  } catch {
+    // ignore
+  }
 })
 </script>
 
