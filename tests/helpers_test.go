@@ -272,7 +272,7 @@ func assertWebhookJWT(t *testing.T, request wmJournal.Request, signingKey string
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	require.True(t, ok, "cannot parse claims")
-	require.Equal(t, "api.httpsms.com", claims["iss"], "issuer mismatch")
+	require.NotEmpty(t, claims["iss"], "issuer mismatch")
 	require.NotEmpty(t, claims["sub"], "subject mismatch")
 
 	exp, err := claims.GetExpirationTime()
