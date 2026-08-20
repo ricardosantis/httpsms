@@ -281,7 +281,7 @@ onBeforeUnmount(() => {
               <VSpacer />
               <VBtn
                 v-if="lgAndUp"
-                :href="`${appStore.appData.documentationUrl}/features/phone-api-keys`"
+                to="/features/phone-api-keys"
                 target="_blank"
                 variant="tonal"
                 class="mt-1"

@@ -424,5 +424,29 @@
     "contactSupport": "Contact Support",
     "madeWith": "Made With",
     "inTallinn": "in Tallinn"
+  },
+  "featurePhoneApiKeys": {
+    "title": "Phone API Keys",
+    "subtitle": "Manage multiple Android phones under one httpSMS account by creating unique API keys per phone.",
+    "intro": "If you have multiple phones, you can create a unique phone API key for your Android phones. These API keys can only be used on the httpSMS app on your Android phone so it can send heartbeats, register received messages and register sent, failed and SMS delivered events.",
+    "warningTitle": "Important Notice:",
+    "warningText": "These phone API keys should only be used on the httpSMS Android app. If you want to interact with the full httpSMS API, use the API key under your account settings page instead:",
+    "settingsLink": "Settings",
+    "createTitle": "Create a phone API key",
+    "createStep1": "Go to your management page at",
+    "createStep2": "and click on the blue button",
+    "createBtnText": "CREATE API KEY",
+    "createStep3": "After creating the phone API key you can click on the",
+    "viewBtnText": "VIEW",
+    "createStep4": "button to see the API key and you will also get a QR code which you can scan using the httpSMS Android app to log in instantly.",
+    "appDownloadNotice": "Download and install the latest version of the httpSMS Android app before using the phone API key to log in.",
+    "downloadAppBtn": "Download Android App (APK)",
+    "removeTitle": "Remove phone from phone API key",
+    "removeDesc1": "A phone number on your account can only be associated with 1 API key at a time. When you log in to the Android app using an API key, the httpSMS system will automatically remove the association between the phone number and previous phone API keys.",
+    "removeDesc2": "You can also manually remove the association between a phone number and an API key by clicking the REMOVE button beside the phone number. When you remove a phone number from a phone API key you will need to log out of the httpSMS Android app and log in again.",
+    "deleteTitle": "Delete phone API key",
+    "deleteDesc": "You can also delete a phone API key by clicking the DELETE button. After deleting a phone API key, you will need to log out of the httpSMS Android app and log in again with a new API key for the app to function properly.",
+    "goToApiKeys": "Go to Phone API Keys",
+    "backToDashboard": "Back to Dashboard"
   }
 }

@@ -392,10 +392,7 @@ const planYearlyMonthlyPrice = computed(
                 independently and securely without sharing data under one
                 account by creating unique phone API keys.
               </h5>
-              <VBtn
-                :href="`${appStore.appData.documentationUrl}/features/phone-api-keys`"
-                color="primary"
-              >
+              <VBtn to="/features/phone-api-keys" color="primary">
                 <VIcon start :icon="mdiCellphoneKey" />
                 Documentation
               </VBtn>

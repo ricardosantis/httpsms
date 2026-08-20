@@ -424,5 +424,29 @@
     "contactSupport": "Falar com o Suporte",
     "madeWith": "Feito com",
     "inTallinn": "em Tallinn"
+  },
+  "featurePhoneApiKeys": {
+    "title": "Chaves de API do Telefone",
+    "subtitle": "Gerencie múltiplos celulares Android em uma única conta httpSMS criando chaves de API exclusivas por aparelho.",
+    "intro": "Se você possui vários celulares, pode criar uma chave de API exclusiva para cada um dos seus aparelhos Android. Essas chaves de API só podem ser utilizadas no aplicativo httpSMS no seu celular Android para enviar sinais de vida (heartbeats), registrar mensagens SMS recebidas e notificar eventos de envio, falha e entrega de SMS.",
+    "warningTitle": "Atenção:",
+    "warningText": "Estas chaves de API de telefone devem ser utilizadas apenas no aplicativo httpSMS para Android. Se você deseja integrar seu sistema ou enviar SMS via HTTP API, utilize a Chave de API da sua conta disponível na página de",
+    "settingsLink": "Configurações",
+    "createTitle": "Como criar uma chave de API para o celular",
+    "createStep1": "Acesse a página de gerenciamento em",
+    "createStep2": "e clique no botão azul",
+    "createBtnText": "CRIAR CHAVE DE API",
+    "createStep3": "Após criar a chave, clique no botão",
+    "viewBtnText": "VISUALIZAR",
+    "createStep4": "para ver a chave de API e o QR Code gerado, que pode ser escaneado diretamente pelo aplicativo Android do httpSMS para realizar o login instantâneo.",
+    "appDownloadNotice": "Baixe e instale a versão mais recente do aplicativo httpSMS para Android antes de realizar o login com a chave de API.",
+    "downloadAppBtn": "Baixar Aplicativo Android (APK)",
+    "removeTitle": "Desvincular celular de uma Chave de API",
+    "removeDesc1": "Um número de telefone na sua conta só pode estar associado a 1 chave de API por vez. Quando você faz login no app Android usando uma chave de API, o sistema httpSMS remove automaticamente a associação anterior desse número.",
+    "removeDesc2": "Você também pode desvincular manualmente um número de telefone de uma chave de API clicando no botão REMOVER ao lado do número. Ao remover um número, será necessário sair do app no celular e fazer login novamente.",
+    "deleteTitle": "Excluir uma Chave de API de Telefone",
+    "deleteDesc": "Você pode excluir uma chave de API a qualquer momento clicando no botão EXCLUIR. Após a exclusão, será necessário deslogar do app no celular Android e autenticar com uma nova chave para que o envio e recebimento continuem funcionando perfeitamente.",
+    "goToApiKeys": "Ir para Chaves de API do Telefone",
+    "backToDashboard": "Voltar para o Painel"
   }
 }
