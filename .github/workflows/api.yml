@@ -125,6 +125,7 @@ jobs:
             --config=api/cloudbuild.yaml \
             --project=httpsms-prod \
             --substitutions=_SERVICE_NAME=http-sms-api,_REGION=us-east1 \
+            --async \
             --format="value(id)")
           echo -e "Cloud Build: \033[34mhttps://console.cloud.google.com/cloud-build/builds/$BUILD_ID?project=httpsms-prod\033[0m"
           echo ""
