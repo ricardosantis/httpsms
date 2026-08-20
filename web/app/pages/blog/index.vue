@@ -1,108 +1,81 @@
 <script setup lang="ts">
 const { mdAndUp, smAndDown } = useDisplay()
+const { t, locale } = useI18n()
 
 definePageMeta({
   layout: 'website',
 })
 
 useSeoMeta({
-  title: 'httpSMS Blog - SMS automation guides & tutorials',
-  description:
-    'Guides and tutorials for sending and receiving SMS with your Android phone — bulk messaging, webhooks, end-to-end encryption, Zapier, Excel, and Python.',
-  ogTitle: 'httpSMS Blog - SMS automation guides & tutorials',
-  ogDescription:
-    'Learn how to send and receive SMS from your Android phone: bulk messaging, webhooks, encryption, Zapier, Excel, and Python tutorials.',
+  title: computed(() => t('blog.index.seo.title')),
+  description: computed(() => t('blog.index.seo.description')),
+  ogTitle: computed(() => t('blog.index.seo.ogTitle')),
+  ogDescription: computed(() => t('blog.index.seo.ogDescription')),
   ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
 
-type Article = {
-  slug: string
-  title: string
-  description: string
-  date: string
-  readTime: string
-  author: string
-  sortDate: string
-}
-
-const articles: Article[] = [
+const articleDefs = [
   {
     slug: 'grant-send-and-read-sms-permissions-on-android',
-    title: 'How to grant SMS permissions on Android 15+',
-    description:
-      'In Android 15 (Vanilla Ice Cream), the SEND_SMS and RECEIVE_SMS permissions are now hard restricted. Learn how to grant these permissions step by step.',
-    date: 'February 18, 2025',
-    readTime: '5 min read',
-    author: 'Acho Arnold',
+    key: 'grantPermissions',
+    datePt: '18 de Fevereiro de 2025',
+    dateEn: 'February 18, 2025',
+    readTimeMin: '5',
     sortDate: '2025-02-18',
   },
   {
     slug: 'end-to-end-encryption-to-sms-messages',
-    title:
-      'Secure your conversations with end-to-end encryption for SMS messages',
-    description:
-      'Take control of your privacy by encrypting your SMS messages end-to-end. Safeguard your messages from prying eyes, ensuring absolute confidentiality.',
-    date: 'January 21, 2024',
-    readTime: '10 min read',
-    author: 'Acho Arnold',
+    key: 'e2eEncryption',
+    datePt: '21 de Janeiro de 2024',
+    dateEn: 'January 21, 2024',
+    readTimeMin: '10',
     sortDate: '2024-01-21',
   },
   {
     slug: 'send-sms-when-new-row-is-added-to-google-sheets-using-zapier',
-    title: 'Send an SMS when a new row is added to Google Sheets using Zapier',
-    description:
-      'Automate sending personalized SMS messages each time a new row is added to your Google Sheets document using Zapier without writing code.',
-    date: 'November 29, 2023',
-    readTime: '7 min read',
-    author: 'Acho Arnold',
+    key: 'zapierSheets',
+    datePt: '29 de Novembro de 2023',
+    dateEn: 'November 29, 2023',
+    readTimeMin: '7',
     sortDate: '2023-11-29',
   },
   {
     slug: 'how-to-send-sms-messages-from-excel',
-    title: 'How to send SMS messages to multiple phone numbers from Excel',
-    description:
-      'Send multiple SMS messages to your customers from a an Excel file using your Android phone as the SMS gateway.',
-    date: 'October 29, 2023',
-    readTime: '5 min read',
-    author: 'Acho Arnold',
+    key: 'excel',
+    datePt: '29 de Outubro de 2023',
+    dateEn: 'October 29, 2023',
+    readTimeMin: '5',
     sortDate: '2023-10-29',
   },
   {
     slug: 'send-bulk-sms-from-csv-file-with-no-code',
-    title: 'Send bulk SMS messages from a CSV file with no code',
-    description:
-      'Send SMS messages to multiple recipients in your CSV file without writing a single piece of code.',
-    date: 'October 29, 2023',
-    readTime: '7 min read',
-    author: 'Acho Arnold',
+    key: 'bulkCsv',
+    datePt: '29 de Outubro de 2023',
+    dateEn: 'October 29, 2023',
+    readTimeMin: '7',
     sortDate: '2023-10-29',
   },
   {
     slug: 'send-sms-from-android-phone-with-python',
-    title: 'Send an SMS from your Android phone with Python',
-    description:
-      'This article will show you how to configure your Android phone as an SMS gateway to automate sending text messages with the Python programing language.',
-    date: 'June 03, 2023',
-    readTime: '6 min read',
-    author: 'Acho Arnold',
+    key: 'python',
+    datePt: '03 de Junho de 2023',
+    dateEn: 'June 03, 2023',
+    readTimeMin: '6',
     sortDate: '2023-06-03',
   },
   {
     slug: 'forward-incoming-sms-from-phone-to-webhook',
-    title:
-      'Forward a text message (SMS) from an Android phone into your webhook',
-    description:
-      'Program your android phone to forward messages received on your phone to your server and trigger powerful automations with tools like Zapier and IFTTT.',
-    date: 'April 08, 2023',
-    readTime: '5 min read',
-    author: 'Acho Arnold',
+    key: 'forwardWebhook',
+    datePt: '08 de Abril de 2023',
+    dateEn: 'April 08, 2023',
+    readTimeMin: '5',
     sortDate: '2023-04-08',
   },
 ]
 
 const sortedArticles = computed(() =>
-  [...articles].sort((a, b) => b.sortDate.localeCompare(a.sortDate)),
+  [...articleDefs].sort((a, b) => b.sortDate.localeCompare(a.sortDate)),
 )
 </script>
 
@@ -113,12 +86,12 @@ const sortedArticles = computed(() =>
         <VRow>
           <VCol cols="12">
             <h1 class="text-display-large mb-2" :class="{ 'mt-0': smAndDown }">
-              Blog
+              {{ $t('blog.index.title') }}
             </h1>
             <h2
               class="text-medium-emphasis mt-2 mb-n4 text-title-large font-weight-light"
             >
-              Learn more about httpSMS through our blog!
+              {{ $t('blog.index.subtitle') }}
             </h2>
           </VCol>
         </VRow>
@@ -140,20 +113,25 @@ const sortedArticles = computed(() =>
                   :color="isHovering ? 'blue-darken-4' : undefined"
                   class="blog-card"
                 >
-                  <VCardTitle
-                    class="text-headline-large text-wrap title-clamp"
-                    >{{ article.title }}</VCardTitle
-                  >
+                  <VCardTitle class="text-headline-large text-wrap title-clamp">
+                    {{ $t(`blog.articles.${article.key}.title`) }}
+                  </VCardTitle>
                   <VCardSubtitle>
-                    <span class="text-uppercase text-blue">{{
-                      article.date
-                    }}</span>
+                    <span class="text-uppercase text-blue">
+                      {{ locale === 'pt-BR' ? article.datePt : article.dateEn }}
+                    </span>
                     •
-                    <span class="text-uppercase">{{ article.readTime }}</span>
+                    <span class="text-uppercase">
+                      {{
+                        $t('blog.index.readTime', {
+                          time: `${article.readTimeMin} min`,
+                        })
+                      }}
+                    </span>
                   </VCardSubtitle>
                   <VCardText class="mt-n2">
                     <p class="text-title-medium description-clamp">
-                      {{ article.description }}
+                      {{ $t(`blog.articles.${article.key}.description`) }}
                     </p>
                   </VCardText>
                 </VCard>

@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify'
-
 import { mdiCommentTextMultipleOutline } from '@mdi/js'
 
 const { mdAndUp } = useDisplay()
+const appStore = useAppStore()
+const { t, locale } = useI18n()
 
 definePageMeta({ layout: 'website' })
 
 useSeoMeta({
-  title: 'Send bulk SMS messages from a CSV file with no code - httpSMS',
-  description:
-    'Upload a CSV file and send personalized bulk SMS messages in minutes using your Android phone as the SMS gateway — no code required.',
-  ogTitle: 'Send bulk SMS messages from a CSV file with no code',
-  ogDescription:
-    'Send personalized SMS messages from your CSV file instantly using your Android phone as the SMS gateway.',
+  title: computed(() => t('blog.articles.bulkCsv.seoTitle')),
+  description: computed(() => t('blog.articles.bulkCsv.seoDescription')),
+  ogTitle: computed(() => t('blog.articles.bulkCsv.title')),
+  ogDescription: computed(() => t('blog.articles.bulkCsv.description')),
   ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
@@ -28,64 +27,64 @@ useSeoMeta({
             mdAndUp ? 'text-display-medium mt-1' : 'text-display-small mt-n2'
           "
         >
-          Send multiple SMS messages from a CSV file with no code
+          {{ $t('blog.articles.bulkCsv.title') }}
         </h1>
-        <BlogInfo date="October 29, 2023" read-time="7 min read" />
+        <BlogInfo
+          :date="
+            locale === 'pt-BR' ? '29 de Outubro de 2023' : 'October 29, 2023'
+          "
+          :read-time="$t('blog.index.readTime', { time: '7 min' })"
+        />
 
         <p class="text-body-large mt-2">
-          Send personalized SMS messages to your users in bulk using your
-          Android phone. The good news is, you don't have to write a single
-          piece of code, just upload your CSV file and we will take care of the
-          rest.
+          {{ $t('blog.articles.bulkCsv.intro') }}
         </p>
 
-        <h3 class="text-headline-large mt-8 mb-2">What is a CSV file</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.articles.bulkCsv.whatIsCsvTitle') }}
+        </h3>
         <p>
-          CSV is an abbreviation for comma-separated values. A CSV file allows
-          data to be saved in a table structured format using a comma
-          <code>,</code> to separate the various cells of a table and a new line
-          to separate the various rows in the table. CSV files can be used with
-          any spreadsheet program, such as Microsoft Excel, Open Office Calc, or
-          Google Sheets.
+          {{ $t('blog.articles.bulkCsv.whatIsCsvDesc') }}
         </p>
 
-        <h3 class="text-headline-large mt-8 mb-2">Prerequisites</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.common.prerequisites') }}
+        </h3>
         <ul>
-          <li>Basic understanding of CSV files.</li>
-          <li>An Android phone.</li>
+          <li>{{ $t('blog.articles.bulkCsv.prereqCsv') }}</li>
+          <li>{{ $t('blog.articles.excel.prereqAndroid') }}</li>
         </ul>
 
-        <h3 class="text-headline-large mt-8 mb-2">Step 1: Get your API Key</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.common.step1ApiKeyTitle') }}
+        </h3>
         <p>
-          Create an account on
-          <NuxtLink class="text-decoration-none" to="/">httpsms.com</NuxtLink>
-          and copy your API key from the settings page
-          <NuxtLink class="text-decoration-none" to="/settings"
-            >{{ useAppStore().appData.url }}/settings</NuxtLink
-          >
+          {{ $t('blog.common.step1ApiKeyDesc') }}
+          <NuxtLink class="text-decoration-none" to="/settings">
+            {{ appStore.appData.url }}/settings
+          </NuxtLink>
         </p>
         <VImg
           style="border-radius: 4px"
-          alt="httpsms.com settings page"
+          alt="settings page"
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/settings.png"
         />
 
         <h3 class="text-headline-large mb-4 mt-16">
-          Step 2: Install the httpSMS android app
+          {{ $t('blog.common.step2AppTitle') }}
         </h3>
         <p>
           <a
             class="text-decoration-none"
-            href="https://github.com/NdoleStudio/httpsms/releases/latest/download/HttpSms.apk"
-            >⬇️ Download and install</a
+            :href="appStore.appData.appDownloadUrl"
+            download
           >
-          the httpSMS android app on your phone and sign in using your API KEY
-          which you copied above. This app listens for SMS messages received on
-          your android phone.
+            {{ $t('blog.common.downloadAndInstall') }}
+          </a>
+          {{ $t('blog.common.step2AppDesc') }}
         </p>
         <VAlert type="info" variant="tonal">
-          Make sure to enter your phone number in the international format e.g
-          +18005550199 when authenticating with the httpSMS Android app.
+          {{ $t('blog.common.step2PhoneFormatAlert') }}
         </VAlert>
         <VImg
           style="border-radius: 4px"
@@ -94,26 +93,21 @@ useSeoMeta({
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/android-app.png"
         />
 
-        <h3 class="text-headline-large mt-12">Step 3: Edit your CSV file</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.articles.bulkCsv.step3Title') }}
+        </h3>
         <p>
-          Download the
           <a
             class="text-decoration-none"
             href="/templates/httpsms-bulk.csv"
             download
-            >httpSMS CSV file template</a
           >
-          and edit it with your favorite spreadsheet software e.g Excel, Google
-          Sheets or even a text editor like notepad. Fill in the phone number
-          which you registered in httpSMS in the
-          <code>FromPhoneNumber</code> column and fill in the number of the
-          recipient of the SMS in the <code>ToPhoneNumber</code> column. Also
-          add the SMS which you want to send in the message in the
-          <code>Content</code> column.
+            {{ $t('blog.articles.bulkCsv.csvTemplateLink') }}
+          </a>
+          {{ $t('blog.articles.bulkCsv.step3Desc') }}
         </p>
         <VAlert type="info" variant="tonal" class="mt-2 mb-4">
-          Make sure to use the correct <code>FromPhoneNumber</code> from step 2
-          above in your CSV file
+          {{ $t('blog.articles.bulkCsv.step3Alert') }}
         </VAlert>
         <VImg
           style="border-radius: 4px"
@@ -122,9 +116,11 @@ useSeoMeta({
           src="/img/blog/send-bulk-sms-from-csv-file-with-no-code/httpms-spreedsheet.png"
         />
 
-        <h3 class="text-headline-large mt-12">Step 4: Send the SMS Messages</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.articles.bulkCsv.step4Title') }}
+        </h3>
         <p>
-          Visit the
+          {{ $t('blog.articles.bulkCsv.step4Desc') }}
           <NuxtLink class="text-decoration-none" to="/bulk-messages">
             <VIcon
               color="primary"
@@ -132,10 +128,8 @@ useSeoMeta({
               class="mr-1"
               :icon="mdiCommentTextMultipleOutline"
             />
-            Bulk Messages
-          </NuxtLink>
-          page on httpSMS and upload your CSV file and send the your SMS
-          messages.
+            {{ $t('blog.articles.excel.bulkMessagesLink') }} </NuxtLink
+          >.
         </p>
         <VImg
           style="border-radius: 4px"
@@ -144,17 +138,13 @@ useSeoMeta({
           src="/img/blog/send-bulk-sms-from-csv-file-with-no-code/bulk-csv-upload.png"
         />
 
-        <p class="mt-12">
-          Don't hesitate to
-          <a
-            class="text-decoration-none"
-            href="mailto:suporte@mesaquevende.com.br"
-            >contact us</a
-          >
-          if you face any issues sending bulk SMS messages from your CSV files
-          by following this tutorial.
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.common.conclusion') }}
+        </h3>
+        <p class="mt-4">
+          {{ $t('blog.common.contactPrompt') }}
         </p>
-        <p>Until the next time✌️</p>
+        <p>{{ $t('blog.common.untilNextTime') }}</p>
 
         <BlogAuthorBio />
         <VDivider class="mx-16" />

@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify'
-
 import { mdiCommentTextMultipleOutline } from '@mdi/js'
 
 const { mdAndUp } = useDisplay()
+const appStore = useAppStore()
+const { t, locale } = useI18n()
 
 definePageMeta({ layout: 'website' })
 
 useSeoMeta({
-  title:
-    'How to send SMS messages to multiple phone numbers from Excel - httpSMS',
-  description:
-    'Send personalized SMS messages to multiple phone numbers straight from Excel for less than $0.002 per message using your Android phone as the SMS gateway.',
-  ogTitle: 'How to send SMS messages to multiple phone numbers from Excel',
-  ogDescription:
-    'Send personalized SMS messages to multiple phone numbers for less than $0.002 per SMS message using your Android phone as the SMS gateway.',
+  title: computed(() => t('blog.articles.excel.seoTitle')),
+  description: computed(() => t('blog.articles.excel.seoDescription')),
+  ogTitle: computed(() => t('blog.articles.excel.title')),
+  ogDescription: computed(() => t('blog.articles.excel.description')),
   ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
@@ -29,54 +27,57 @@ useSeoMeta({
             mdAndUp ? 'text-display-medium mt-1' : 'text-display-small mt-n2'
           "
         >
-          How to send SMS messages to multiple phone numbers from Excel
+          {{ $t('blog.articles.excel.title') }}
         </h1>
-        <BlogInfo date="October 29, 2023" read-time="5 min read" />
+        <BlogInfo
+          :date="
+            locale === 'pt-BR' ? '29 de Outubro de 2023' : 'October 29, 2023'
+          "
+          :read-time="$t('blog.index.readTime', { time: '5 min' })"
+        />
 
         <p class="text-body-large mt-2">
-          Send personalized SMS messages to multiple phone numbers for less than
-          <b>$0.002 </b> per SMS message. You can also configure every SMS
-          message in your Excel spreadsheet so they are unique for each
-          recipient phone number.
+          {{ $t('blog.articles.excel.intro') }}
         </p>
 
-        <h3 class="text-headline-large mt-8 mb-2">Prerequisites</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.common.prerequisites') }}
+        </h3>
         <ul>
-          <li>Basic understanding of Microsoft Excel or Google Sheets.</li>
-          <li>An Android phone.</li>
+          <li>{{ $t('blog.articles.excel.prereqExcel') }}</li>
+          <li>{{ $t('blog.articles.excel.prereqAndroid') }}</li>
         </ul>
 
-        <h3 class="text-headline-large mt-8 mb-2">Step 1: Get your API Key</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.common.step1ApiKeyTitle') }}
+        </h3>
         <p>
-          Create an account on
-          <NuxtLink class="text-decoration-none" to="/">httpsms.com</NuxtLink>
-          and copy your API key from the settings page
-          <NuxtLink class="text-decoration-none" to="/settings"
-            >{{ useAppStore().appData.url }}/settings</NuxtLink
-          >
+          {{ $t('blog.common.step1ApiKeyDesc') }}
+          <NuxtLink class="text-decoration-none" to="/settings">
+            {{ appStore.appData.url }}/settings
+          </NuxtLink>
         </p>
         <VImg
           style="border-radius: 4px"
-          alt="httpsms.com settings page"
+          alt="settings page"
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/settings.png"
         />
 
         <h3 class="text-headline-large mb-4 mt-16">
-          Step 2: Install the httpSMS android app
+          {{ $t('blog.common.step2AppTitle') }}
         </h3>
         <p>
           <a
             class="text-decoration-none"
-            href="https://github.com/NdoleStudio/httpsms/releases/latest/download/HttpSms.apk"
-            >⬇️ Download and install</a
+            :href="appStore.appData.appDownloadUrl"
+            download
           >
-          the httpSMS android app on your phone and sign in using your API KEY
-          which you copied above. This app listens for SMS messages received on
-          your android phone.
+            {{ $t('blog.common.downloadAndInstall') }}
+          </a>
+          {{ $t('blog.common.step2AppDesc') }}
         </p>
         <VAlert type="info" variant="tonal">
-          Make sure to enter your phone number in the international format e.g
-          +18005550199 when authenticating with the httpSMS Android app.
+          {{ $t('blog.common.step2PhoneFormatAlert') }}
         </VAlert>
         <VImg
           style="border-radius: 4px"
@@ -85,25 +86,21 @@ useSeoMeta({
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/android-app.png"
         />
 
-        <h3 class="text-headline-large mt-12">Step 3: Edit your Excel file</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.articles.excel.step3Title') }}
+        </h3>
         <p>
-          Download the
           <a
             class="text-decoration-none"
             href="/templates/httpsms-bulk.xlsx"
             download
-            >httpSMS Excel file template</a
           >
-          and edit it with your favorite spreadsheet software e.g Excel, Google
-          Sheets, Open Office etc. Fill in the phone number which you registered
-          in httpSMS in the <code>FromPhoneNumber</code> column and fill in the
-          number of the recipient of the SMS in the
-          <code>ToPhoneNumber</code> column. Also add the SMS which you want to
-          send in the message in the <code>Content</code> column.
+            {{ $t('blog.articles.excel.excelTemplateLink') }}
+          </a>
+          {{ $t('blog.articles.excel.step3Desc') }}
         </p>
         <VAlert type="info" variant="tonal" class="mt-2 mb-4">
-          Make sure to use the correct <code>FromPhoneNumber</code> from step 2
-          above in your Excel file
+          {{ $t('blog.articles.excel.step3Alert') }}
         </VAlert>
         <VImg
           style="border-radius: 4px"
@@ -112,9 +109,11 @@ useSeoMeta({
           src="/img/blog/send-bulk-sms-from-csv-file-with-no-code/httpms-spreedsheet.png"
         />
 
-        <h3 class="text-headline-large mt-12">Step 4: Send the SMS Messages</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.articles.excel.step4Title') }}
+        </h3>
         <p>
-          Visit the
+          {{ $t('blog.articles.excel.step4Desc') }}
           <NuxtLink class="text-decoration-none" to="/bulk-messages">
             <VIcon
               color="primary"
@@ -122,10 +121,8 @@ useSeoMeta({
               class="mr-1"
               :icon="mdiCommentTextMultipleOutline"
             />
-            Bulk Messages
-          </NuxtLink>
-          page on httpSMS and upload your Excel file and send the your SMS
-          messages.
+            {{ $t('blog.articles.excel.bulkMessagesLink') }} </NuxtLink
+          >.
         </p>
         <VImg
           style="border-radius: 4px"
@@ -134,17 +131,13 @@ useSeoMeta({
           src="/img/blog/send-bulk-sms-from-csv-file-with-no-code/bulk-csv-upload.png"
         />
 
-        <p class="mt-12">
-          Don't hesitate to
-          <a
-            class="text-decoration-none"
-            href="mailto:suporte@mesaquevende.com.br"
-            >contact us</a
-          >
-          if you face any issues sending bulk SMS messages from your Excel files
-          by following this tutorial.
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.common.conclusion') }}
+        </h3>
+        <p class="mt-4">
+          {{ $t('blog.common.contactPrompt') }}
         </p>
-        <p>Until the next time✌️</p>
+        <p>{{ $t('blog.common.untilNextTime') }}</p>
 
         <BlogAuthorBio />
         <VDivider class="mx-16" />

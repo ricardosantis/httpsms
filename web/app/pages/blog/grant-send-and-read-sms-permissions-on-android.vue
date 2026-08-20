@@ -3,17 +3,19 @@ import { mdiDotsVertical } from '@mdi/js'
 import { useDisplay } from 'vuetify'
 
 const { mdAndUp } = useDisplay()
+const { t, locale } = useI18n()
 
 definePageMeta({ layout: 'website' })
 
 useSeoMeta({
-  title:
-    'How to grant SEND_SMS and RECEIVE_SMS permissions on Android 14+ - httpSMS',
-  description:
-    'In Android 15 (Vanilla Ice Cream), the SEND_SMS and RECEIVE_SMS permissions are now hard restricted. Learn how to grant these permissions step by step.',
-  ogTitle: 'How to grant SEND_SMS and RECEIVE_SMS permissions on Android 14+',
-  ogDescription:
-    'In Android 15 (Vanilla Ice Cream), the SEND_SMS and RECEIVE_SMS permissions are now hard restricted. Learn how to grant these permissions step by step.',
+  title: computed(() => t('blog.articles.grantPermissions.seoTitle')),
+  description: computed(() =>
+    t('blog.articles.grantPermissions.seoDescription'),
+  ),
+  ogTitle: computed(() => t('blog.articles.grantPermissions.title')),
+  ogDescription: computed(() =>
+    t('blog.articles.grantPermissions.description'),
+  ),
   ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
@@ -28,33 +30,35 @@ useSeoMeta({
             mdAndUp ? 'text-display-medium mt-1' : 'text-display-small mt-n2'
           "
         >
-          How to grant SMS permissions on Android 15+
+          {{ $t('blog.articles.grantPermissions.title') }}
         </h1>
-        <BlogInfo date="February 18, 2025" read-time="5 min read" />
+        <BlogInfo
+          :date="
+            locale === 'pt-BR' ? '18 de Fevereiro de 2025' : 'February 18, 2025'
+          "
+          :read-time="$t('blog.index.readTime', { time: '5 min' })"
+        />
 
         <p class="text-body-large mt-2">
-          In Android 15 (Vanilla Ice Cream), the
-          <code>android.permission.SEND_SMS</code> and
-          <code>android.permission.RECEIVE_SMS</code> permissions are now hard
-          restricted and cannot be granted
+          {{ $t('blog.articles.grantPermissions.intro') }}
           <a
             class="text-decoration-none"
             href="https://developer.android.com/training/permissions/requesting"
-            >via the runtime permissions interface</a
+            target="_blank"
+          >
+            {{ $t('blog.articles.grantPermissions.runtimeLink') }} </a
           >.
         </p>
 
         <VAlert type="warning" variant="tonal" class="my-4">
-          Granting the <code>SEND_SMS</code> and
-          <code>RECEIVE_SMS</code> permissions will allow an Android app to be
-          able to read and send SMS messages on your phone. Make sure you trust
-          the application before allowing these permissions.
+          {{ $t('blog.articles.grantPermissions.alert') }}
         </VAlert>
 
-        <h3 class="text-headline-large mt-8 mb-2">Step1: Open App Info</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.articles.grantPermissions.step1Title') }}
+        </h3>
         <p>
-          Long press the icon of the android app which you want to grant the
-          permission and select <b>"App info"</b>
+          {{ $t('blog.articles.grantPermissions.step1Desc') }}
         </p>
         <VImg
           style="border-radius: 4px"
@@ -64,12 +68,11 @@ useSeoMeta({
         />
 
         <h3 class="text-headline-large mb-4 mt-16">
-          Step 2: Allow Restricted Permissions
+          {{ $t('blog.articles.grantPermissions.step2Title') }}
         </h3>
         <p>
-          On the App Info page, click on the menu button
-          <VIcon :icon="mdiDotsVertical" /> and select the
-          <b>"Allow restricted settings"</b> option
+          {{ $t('blog.articles.grantPermissions.step2Desc') }}
+          <VIcon :icon="mdiDotsVertical" />
         </p>
         <VImg
           style="border-radius: 4px"
@@ -79,12 +82,10 @@ useSeoMeta({
         />
 
         <h3 class="text-headline-large mb-4 mt-16">
-          Step 3: Allow SMS Permissions
+          {{ $t('blog.articles.grantPermissions.step3Title') }}
         </h3>
         <p>
-          Once you have allowed the restricted settings from step 2 above, You
-          can navigate to <b>Permissions ➡️ SMS</b> and tap the Allow button to
-          grant SMS permissions to the android app.
+          {{ $t('blog.articles.grantPermissions.step3Desc') }}
         </p>
         <VImg
           style="border-radius: 4px"
@@ -93,11 +94,12 @@ useSeoMeta({
           src="/img/blog/grant-send-and-read-sms-permissions-on-android/allow.png"
         />
 
-        <h3 class="text-headline-large mt-12">Conclusion</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.common.conclusion') }}
+        </h3>
         <p>
-          Congratulations, you have successfully configured SMS permissions on
-          your Android app. Don't hesitate to contact us if you face any
-          problems while following this guide.
+          {{ $t('blog.articles.grantPermissions.conclusionDesc') }}
+          {{ $t('blog.common.contactPrompt') }}
         </p>
 
         <BlogAuthorBio />

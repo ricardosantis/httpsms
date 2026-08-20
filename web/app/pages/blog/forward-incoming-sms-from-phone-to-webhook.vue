@@ -2,18 +2,16 @@
 import { useDisplay } from 'vuetify'
 
 const { mdAndUp } = useDisplay()
+const appStore = useAppStore()
+const { t, locale } = useI18n()
 
 definePageMeta({ layout: 'website' })
 
 useSeoMeta({
-  title:
-    'How to forward a text message (SMS) from an android phone into your webhook - httpSMS',
-  description:
-    'Program your Android phone to forward incoming SMS messages to your server webhook and trigger powerful automations with tools like Zapier and IFTTT.',
-  ogTitle:
-    'How to forward a text message (SMS) from an android phone into your webhook',
-  ogDescription:
-    'You can now program your android phone to forward messages received on your phone to your server and trigger powerful automations with tools like Zapier and IFTTT.',
+  title: computed(() => t('blog.articles.forwardWebhook.seoTitle')),
+  description: computed(() => t('blog.articles.forwardWebhook.seoDescription')),
+  ogTitle: computed(() => t('blog.articles.forwardWebhook.title')),
+  ogDescription: computed(() => t('blog.articles.forwardWebhook.description')),
   ogImage: '/img/blog/forward-incoming-sms-from-phone-to-webhook/header.png',
   twitterCard: 'summary_large_image',
 })
@@ -34,45 +32,44 @@ useSeoMeta({
             mdAndUp ? 'text-display-medium mt-1' : 'text-display-small mt-n2'
           "
         >
-          How to forward a text message (SMS) from an android phone into your
-          webhook
+          {{ $t('blog.articles.forwardWebhook.title') }}
         </h1>
-        <BlogInfo date="April 08, 2023" read-time="5 min read" />
+        <BlogInfo
+          :date="locale === 'pt-BR' ? '08 de Abril de 2023' : 'April 08, 2023'"
+          :read-time="$t('blog.index.readTime', { time: '5 min' })"
+        />
 
         <p class="text-body-large mt-2">
-          You can now program your android phone to forward messages received on
-          your phone to your server and trigger powerful automations with tools
-          like Zapier and IFTTT. I created an open source application called
-          <NuxtLink class="text-decoration-none" to="/">httpSMS</NuxtLink>
-          that helps you to set this up with ease
+          {{ $t('blog.articles.forwardWebhook.intro') }}
         </p>
 
-        <h3 class="text-headline-large mt-2">Step 1: Get your API_KEY</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.common.step1ApiKeyTitle') }}
+        </h3>
         <p>
-          Create an account on the httpSMS web application and copy your API key
-          from the settings page.
-          <NuxtLink class="text-decoration-none" to="/settings"
-            >{{ useAppStore().appData.url }}/settings</NuxtLink
-          >
+          {{ $t('blog.articles.forwardWebhook.step1Desc') }}
+          <NuxtLink class="text-decoration-none" to="/settings">
+            {{ appStore.appData.url }}/settings
+          </NuxtLink>
         </p>
         <VImg
           style="border-radius: 4px"
-          alt="httpsms.com settings page"
+          alt="settings page"
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/settings.png"
         />
 
         <h3 class="text-headline-large mt-12">
-          Step 2: Install the httpSMS android app
+          {{ $t('blog.common.step2AppTitle') }}
         </h3>
         <p>
           <a
             class="text-decoration-none"
-            href="https://github.com/NdoleStudio/httpsms/releases/latest/download/HttpSms.apk"
-            >⬇️ Download and install</a
+            :href="appStore.appData.appDownloadUrl"
+            download
           >
-          the httpSMS android app on your phone and sign in using your API KEY
-          which you copied above. This app listens for SMS messages received on
-          your android phone.
+            {{ $t('blog.common.downloadAndInstall') }}
+          </a>
+          {{ $t('blog.articles.forwardWebhook.step2Desc') }}
         </p>
         <VImg
           style="border-radius: 4px"
@@ -81,16 +78,14 @@ useSeoMeta({
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/android-app.png"
         />
 
-        <h3 class="text-headline-large mt-12">Step 3: Set up a webhook</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.articles.forwardWebhook.step3Title') }}
+        </h3>
         <p>
-          Once the application has been installed, it will be listening for SMS
-          messages received on the android phone. You can configure the
-          application to sent this SMS message to your server URL using a
-          webhook. You can configure this URL under the settings page in the
-          httpSMS application
-          <NuxtLink class="text-decoration-none" to="/settings"
-            >{{ useAppStore().appData.url }}/settings</NuxtLink
-          >
+          {{ $t('blog.articles.forwardWebhook.step3Desc') }}
+          <NuxtLink class="text-decoration-none" to="/settings">
+            {{ appStore.appData.url }}/settings
+          </NuxtLink>
         </p>
         <VImg
           style="border-radius: 4px"
@@ -98,22 +93,23 @@ useSeoMeta({
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/webhook.png"
         />
 
-        <h3 class="text-headline-large mt-12">Conclusion</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.common.conclusion') }}
+        </h3>
         <p>
-          Congratulations, you have successfully set up SMS forwarding from your
-          Android phone to a webhook! This powerful automation tool can help you
-          streamline your business workflow and save you time and effort.
+          {{ $t('blog.articles.forwardWebhook.conclusionDesc') }}
         </p>
         <p>
-          You can also trigger the httpSMS application to send an SMS a simple
-          API. You can find more information on the documentation page at
+          {{ $t('blog.articles.forwardWebhook.docPrompt') }}
           <a
             class="text-decoration-none"
-            :href="useAppStore().appData.documentationUrl"
-            >{{ useAppStore().appData.documentationUrl }}</a
+            :href="appStore.appData.apiBaseUrl + '/docs/'"
+            target="_blank"
           >
+            {{ appStore.appData.apiBaseUrl }}/docs/
+          </a>
         </p>
-        <p>Until the next time✌️</p>
+        <p>{{ $t('blog.common.untilNextTime') }}</p>
 
         <BlogAuthorBio />
         <VDivider class="mx-16" />

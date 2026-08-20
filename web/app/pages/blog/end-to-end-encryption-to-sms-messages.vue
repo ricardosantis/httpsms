@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useDisplay } from 'vuetify'
-
 import { mdiLanguageGo, mdiLanguageJavascript } from '@mdi/js'
 import { ref } from 'vue'
 
 const { mdAndUp } = useDisplay()
+const appStore = useAppStore()
+const { t, locale } = useI18n()
 
 const encryptTab = ref('javascript')
 const sendTab = ref('javascript')
@@ -13,14 +14,10 @@ const receiveTab = ref('javascript')
 definePageMeta({ layout: 'website' })
 
 useSeoMeta({
-  title:
-    'Secure your conversations with end-to-end encryption for SMS messages - httpSMS',
-  description:
-    'Enable end-to-end encryption for your SMS messages with httpSMS so no one but you can read the texts you send and receive through your Android phone.',
-  ogTitle:
-    'Secure your conversations with end-to-end encryption for SMS messages',
-  ogDescription:
-    'We have added support for end-to-end encryption for SMS messages so that no one can see the content of the messages you send using httpSMS except you.',
+  title: computed(() => t('blog.articles.e2eEncryption.seoTitle')),
+  description: computed(() => t('blog.articles.e2eEncryption.seoDescription')),
+  ogTitle: computed(() => t('blog.articles.e2eEncryption.title')),
+  ogDescription: computed(() => t('blog.articles.e2eEncryption.description')),
   ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
@@ -35,41 +32,41 @@ useSeoMeta({
             mdAndUp ? 'text-display-medium mt-1' : 'text-display-small mt-n2'
           "
         >
-          Secure your conversations by encrypting your SMS messages end-to-end
+          {{ $t('blog.articles.e2eEncryption.title') }}
         </h1>
-        <BlogInfo date="January 21, 2024" read-time="10 min read" />
+        <BlogInfo
+          :date="
+            locale === 'pt-BR' ? '21 de Janeiro de 2024' : 'January 21, 2024'
+          "
+          :read-time="$t('blog.index.readTime', { time: '10 min' })"
+        />
 
         <p class="text-body-large mt-2">
-          We have added support for end-to-end encryption for SMS messages so
-          that no one can see the content of the messages you send using httpSMS
-          except you.
+          {{ $t('blog.articles.e2eEncryption.intro1') }}
         </p>
         <p>
-          You setup an encryption key which you use to encrypt your messages
-          before making an API request to httpSMS and you also use the same key
-          to decrypt the messages you receive from httpSMS via our
-          <a
+          {{ $t('blog.articles.e2eEncryption.intro2') }}
+          <NuxtLink
             class="text-decoration-none"
-            :href="`${useAppStore().appData.documentationUrl}/webhooks/introduction`"
-            >webhook events</a
-          >. We are using the
-          <a
-            class="text-decoration-none"
-            href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard"
-            >AES 256</a
+            to="/blog/forward-incoming-sms-from-phone-to-webhook"
           >
-          encryption algorithm to encrypt and decrypt the messages.
+            {{ $t('blog.articles.e2eEncryption.webhookEvents') }} </NuxtLink
+          >.
+          {{ $t('blog.articles.e2eEncryption.algorithmNote') }}
         </p>
 
-        <h3 class="text-headline-large mt-8 mb-2">Setup your encryption key</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.articles.e2eEncryption.step1Title') }}
+        </h3>
         <p>
           <a
             class="text-decoration-none"
-            href="https://github.com/NdoleStudio/httpsms/releases/latest/download/HttpSms.apk"
-            >⬇️ Download and install</a
+            :href="appStore.appData.appDownloadUrl"
+            download
           >
-          the httpSMS Android app on your phone and set you encryption key under
-          the <b>App Settings</b> page of the app.
+            {{ $t('blog.common.downloadAndInstall') }}
+          </a>
+          {{ $t('blog.articles.e2eEncryption.step1Desc') }}
         </p>
         <VImg
           style="border-radius: 4px"
@@ -78,24 +75,17 @@ useSeoMeta({
           src="/img/blog/end-to-end-encryption-to-sms-messages/encryption-key-android.png"
         />
 
-        <h3 class="text-headline-large mb-4 mt-16">Encrypt your SMS message</h3>
+        <h3 class="text-headline-large mb-4 mt-16">
+          {{ $t('blog.articles.e2eEncryption.step2Title') }}
+        </h3>
         <p>
-          We use the AES-256 encryption algorithm to encrypt the SMS messages.
-          This algorithm requires a an encryption key which is 256 bits to work
-          around this, we will hash any encryption key you set on the mobile app
-          using the sha-256 algorithm so that it will always produce a key which
-          is 256 bits.
+          {{ $t('blog.articles.e2eEncryption.step2Desc1') }}
         </p>
         <p>
-          The AES algorithm also has an initialization vector (IV) parameter
-          which is used to ensure that the same value encrypted multiple times
-          will not produce the same encrypted value. The IV is 16 bits and it is
-          appended to the encrypted message before encoding it in base64.
+          {{ $t('blog.articles.e2eEncryption.step2Desc2') }}
         </p>
         <p>
-          When you use our client libraries it will automatically take care of
-          encrypting your message so you don't have to deal with creating the
-          initialization vector and encoding the payload yourself.
+          {{ $t('blog.articles.e2eEncryption.step2Desc3') }}
         </p>
 
         <VTabs v-model="encryptTab" show-arrows>
@@ -138,13 +128,11 @@ encryptedMessage := client.Cipher.Encrypt(key, "This is a test text message")
           </VTabsWindowItem>
         </VTabsWindow>
 
-        <h3 class="text-headline-large mt-6">Send an encrypted message</h3>
+        <h3 class="text-headline-large mt-6">
+          {{ $t('blog.articles.e2eEncryption.step3Title') }}
+        </h3>
         <p>
-          After generating the encrypted message payload, you can send it
-          directly using the httpSMS API. Make sure to set
-          <code>encrypted: true</code> in the JSON request payload so that
-          httpSMS knows that the message is encrypted and it will be decoded in
-          the Android app before sending to your recipient.
+          {{ $t('blog.articles.e2eEncryption.step3Desc') }}
         </p>
 
         <VTabs v-model="sendTab" show-arrows>
@@ -169,7 +157,7 @@ client.messages.postSend({
     encrypted: true,
     to:        '+18005550100',
 })
-.then((message) =&gt; {
+.then((message) => {
     console.log(message.id); // log the ID of the sent message
 });</code></pre>
           </VTabsWindowItem>
@@ -188,9 +176,7 @@ client.Messages.Send(context.Background(), &amp;httpsms.MessageSendParams{
         </VTabsWindow>
 
         <p class="mt-4">
-          When you make the API request, the message will be decrypted before
-          sending to the recipient. This is a screenshot of the SMS message
-          which is sent to the recipient.
+          {{ $t('blog.articles.e2eEncryption.step3SentNote') }}
         </p>
         <VImg
           style="border-radius: 4px"
@@ -200,18 +186,16 @@ client.Messages.Send(context.Background(), &amp;httpsms.MessageSendParams{
         />
 
         <h3 class="text-headline-large mb-4 mt-16">
-          Receiving an encrypted message
+          {{ $t('blog.articles.e2eEncryption.step4Title') }}
         </h3>
         <p>
-          When your android phone receives a new message, it will be encrypted
-          with the encryption Key on your Android phone before it is delivered
-          to your server's webhook endpoint. You can configure webhooks by
-          following
+          {{ $t('blog.articles.e2eEncryption.step4Desc') }}
           <NuxtLink
             class="text-decoration-none"
             to="/blog/forward-incoming-sms-from-phone-to-webhook"
-            >this guide.</NuxtLink
           >
+            {{ $t('blog.articles.e2eEncryption.webhookGuideLink') }}
+          </NuxtLink>
         </p>
 
         <VTabs v-model="receiveTab" show-arrows>
@@ -297,12 +281,12 @@ decryptedMessage := client.Cipher.Decrypt(encryptionkey, encryptedMessage)
           </VTabsWindowItem>
         </VTabsWindow>
 
-        <h3 class="text-headline-large mt-12">Conclusion</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.common.conclusion') }}
+        </h3>
         <p>
-          Congratulations, you have successfully configured your Android phone
-          to send and receive SMS messages with end-to-end encryption. Don't
-          hesitate to contact us if you face any problems while following this
-          guide.
+          {{ $t('blog.articles.e2eEncryption.conclusionDesc') }}
+          {{ $t('blog.common.contactPrompt') }}
         </p>
 
         <BlogAuthorBio />

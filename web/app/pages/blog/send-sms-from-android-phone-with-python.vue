@@ -2,16 +2,16 @@
 import { useDisplay } from 'vuetify'
 
 const { mdAndUp } = useDisplay()
+const appStore = useAppStore()
+const { t, locale } = useI18n()
 
 definePageMeta({ layout: 'website' })
 
 useSeoMeta({
-  title: 'Send an SMS from your Android phone with Python - httpSMS',
-  description:
-    'Configure your Android phone as an SMS gateway and automate sending text messages with Python in a few lines of code using the httpSMS HTTP API.',
-  ogTitle: 'Send an SMS from your Android phone with Python',
-  ogDescription:
-    'Configure your Android phone as an SMS gateway to automate sending text messages with the Python programing language.',
+  title: computed(() => t('blog.articles.python.seoTitle')),
+  description: computed(() => t('blog.articles.python.seoDescription')),
+  ogTitle: computed(() => t('blog.articles.python.title')),
+  ogDescription: computed(() => t('blog.articles.python.description')),
   ogImage: '/img/blog/send-sms-from-android-phone-with-python/header.png',
   twitterCard: 'summary_large_image',
 })
@@ -32,68 +32,68 @@ useSeoMeta({
             mdAndUp ? 'text-display-medium mt-1' : 'text-display-small mt-n2'
           "
         >
-          Send an SMS from your Android phone with Python
+          {{ $t('blog.articles.python.title') }}
         </h1>
-        <BlogInfo date="June 03, 2023" read-time="6 min read" />
+        <BlogInfo
+          :date="locale === 'pt-BR' ? '03 de Junho de 2023' : 'June 03, 2023'"
+          :read-time="$t('blog.index.readTime', { time: '6 min' })"
+        />
 
         <p class="text-body-large mt-2">
-          In an era dominated by social media, instant messaging apps, and
-          ever-evolving communication technologies, it's easy to overlook the
-          humble yet remarkably resilient Short Message Service (SMS). Since its
-          inception in the 1990s, SMS has stood the test of time, remaining one
-          of the most widely used and reliable means of mobile communication.
+          {{ $t('blog.articles.python.intro1') }}
         </p>
         <p>
-          Whether you're a business owner looking to optimize your communication
-          strategy, a developer seeking to integrate SMS functionality into your
-          applications, or simply intrigued by the enduring charm of SMS, this
-          article will explain how to setup your Android phone to send SMS
-          messages.
+          {{ $t('blog.articles.python.intro2') }}
         </p>
 
-        <h3 class="text-headline-large mt-8 mb-2">Prerequisites</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.common.prerequisites') }}
+        </h3>
         <ul>
-          <li>Basic understanding of Python.</li>
-          <li>An Android phone.</li>
+          <li>{{ $t('blog.articles.python.prereqPython') }}</li>
+          <li>{{ $t('blog.articles.excel.prereqAndroid') }}</li>
           <li>
-            <a class="text-decoration-none" href="https://www.python.org/"
-              >Python</a
+            <a
+              class="text-decoration-none"
+              href="https://www.python.org/"
+              target="_blank"
             >
-            installed on your computer.
+              Python
+            </a>
+            {{ $t('blog.articles.python.prereqPythonInstalled') }}
           </li>
         </ul>
 
-        <h3 class="text-headline-large mt-8 mb-2">Step 1: Get your API Key</h3>
+        <h3 class="text-headline-large mt-8 mb-2">
+          {{ $t('blog.common.step1ApiKeyTitle') }}
+        </h3>
         <p>
-          Create an account on
-          <NuxtLink class="text-decoration-none" to="/">httpsms.com</NuxtLink>
-          and copy your API key from the settings page
-          <NuxtLink class="text-decoration-none" to="/settings"
-            >{{ useAppStore().appData.url }}/settings</NuxtLink
-          >
+          {{ $t('blog.common.step1ApiKeyDesc') }}
+          <NuxtLink class="text-decoration-none" to="/settings">
+            {{ appStore.appData.url }}/settings
+          </NuxtLink>
         </p>
         <VImg
           style="border-radius: 4px"
-          alt="httpsms.com settings page"
+          alt="settings page"
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/settings.png"
         />
 
         <h3 class="text-headline-large mb-4 mt-16">
-          Step 2: Install the httpSMS android app
+          {{ $t('blog.common.step2AppTitle') }}
         </h3>
         <p>
           <a
             class="text-decoration-none"
-            href="https://github.com/NdoleStudio/httpsms/releases/latest/download/HttpSms.apk"
-            >⬇️ Download and install</a
+            :href="appStore.appData.appDownloadUrl"
+            download
           >
-          the httpSMS android app on your phone and sign in using your API KEY
-          which you copied above. This app listens for SMS messages received on
-          your android phone.
+            {{ $t('blog.common.downloadAndInstall') }}
+          </a>
+          {{ $t('blog.common.step2AppDesc') }}
         </p>
         <VAlert type="info" variant="outlined">
-          Make sure to enter your phone number in the international format e.g
-          +18005550199 when authenticating with the httpSMS Android app.
+          {{ $t('blog.common.step2PhoneFormatAlert') }}
         </VAlert>
         <VImg
           style="border-radius: 4px"
@@ -102,18 +102,14 @@ useSeoMeta({
           src="/img/blog/forward-incoming-sms-from-phone-to-webhook/android-app.png"
         />
 
-        <h3 class="text-headline-large mt-12">Step 3: Writing the code</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.articles.python.step3Title') }}
+        </h3>
         <p>
-          Now that you have setup your android phone correctly on httpSMS, you
-          can write the python code below in a new file named
-          <code>send_sms.py</code>. This code will send and SMS and after
-          running the script via your Android phone to the recipient phone
-          number specified in the <code>payload</code>.
+          {{ $t('blog.articles.python.step3Desc') }}
         </p>
         <VAlert type="info" variant="outlined" class="mt-2 mb-4">
-          Make sure to use the correct <code>api_key</code> from step 1 and also
-          use the correct <code>to</code> and <code>from</code> phone numbers in
-          the <code>payload</code> variable.
+          {{ $t('blog.articles.python.step3Alert') }}
         </VAlert>
         <pre
           class="pa-4 mb-6 rounded bg-surface overflow-x-auto"
@@ -122,7 +118,7 @@ import json
 
 api_key = "" # Get API Key from /settings
 
-url = 'https://api.httpsms.com/v1/messages/send'
+url = '{{ appStore.appData.apiBaseUrl }}/v1/messages/send'
 
 headers = {
     'x-api-key': api_key,
@@ -140,10 +136,7 @@ response = requests.post(url, headers=headers, data=json.dumps(payload))
 
 print(json.dumps(response.json(), indent=4))</code></pre>
         <p>
-          Run the code above with the command
-          <code>python send_sms.py</code> and check the phone specified in the
-          <code>to</code> field of the <code>payload</code> to verify that the
-          message has been received successfully.
+          {{ $t('blog.articles.python.step3RunDesc') }}
         </p>
         <VImg
           style="border-radius: 4px"
@@ -152,22 +145,22 @@ print(json.dumps(response.json(), indent=4))</code></pre>
           src="/img/blog/send-sms-from-android-phone-with-python/sms-sent.png"
         />
 
-        <h3 class="text-headline-large mt-12">Conclusion</h3>
+        <h3 class="text-headline-large mt-12">
+          {{ $t('blog.common.conclusion') }}
+        </h3>
         <p>
-          Congratulations, you have successfully configured your android phone
-          to send SMS messages via python. You can now reuse this code to send
-          SMS messages from your python applications.
+          {{ $t('blog.articles.python.conclusionDesc') }}
         </p>
         <p>
-          If you are also interested in forwarding incoming SMS from your
-          android phone to your server, checkout our
+          {{ $t('blog.articles.python.forwardPrompt') }}
           <NuxtLink
             class="text-decoration-none"
             to="/blog/forward-incoming-sms-from-phone-to-webhook"
-            >SMS forwarding guide.</NuxtLink
           >
+            {{ $t('blog.articles.python.forwardLink') }}
+          </NuxtLink>
         </p>
-        <p>Until the next time✌️</p>
+        <p>{{ $t('blog.common.untilNextTime') }}</p>
 
         <BlogAuthorBio />
         <VDivider class="mx-16" />
