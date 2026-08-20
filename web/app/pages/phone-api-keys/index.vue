@@ -20,6 +20,7 @@ useHead({
 const config = useRuntimeConfig()
 const { lgAndUp } = useDisplay()
 const authStore = useAuthStore()
+const appStore = useAppStore()
 const phonesStore = usePhonesStore()
 const notificationsStore = useNotificationsStore()
 const { formatTimestamp, formatPhoneNumber } = useFilters()
