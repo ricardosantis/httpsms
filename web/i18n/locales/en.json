@@ -423,7 +423,7 @@
     "privacyPolicy": "Privacy Policy",
     "contactSupport": "Contact Support",
     "madeWith": "Made With",
-    "inTallinn": "in Tallinn"
+    "inSaoPaulo": "in São Paulo, Brazil"
   },
   "featurePhoneApiKeys": {
     "title": "Phone API Keys",
@@ -608,126 +608,383 @@
       "untilNextTime": "Until the next time ✌️",
       "downloadAndInstall": "⬇️ Download and install"
     },
-    "grantPermissions": {
-      "title": "How to grant SMS permissions on Android 15+",
-      "description": "In Android 15 (Vanilla Ice Cream), the SEND_SMS and RECEIVE_SMS permissions are now hard restricted. Learn how to grant these permissions step by step.",
-      "seoTitle": "How to grant SEND_SMS and RECEIVE_SMS permissions on Android 14+ and 15+ - httpSMS",
-      "seoDescription": "In Android 15 (Vanilla Ice Cream), the SEND_SMS and RECEIVE_SMS permissions are now hard restricted. Learn how to grant these permissions step by step.",
-      "intro": "In Android 15 (Vanilla Ice Cream), the android.permission.SEND_SMS and android.permission.RECEIVE_SMS permissions are now hard restricted and cannot be granted via the runtime permissions interface.",
-      "runtimeLink": "via the runtime permissions interface",
-      "alert": "Granting the SEND_SMS and RECEIVE_SMS permissions will allow an Android app to be able to read and send SMS messages on your phone. Make sure you trust the application before allowing these permissions.",
-      "step1Title": "Step 1: Open App Info",
-      "step1Desc": "Long press the icon of the android app which you want to grant the permission and select App info.",
-      "step2Title": "Step 2: Allow Restricted Settings",
-      "step2Desc": "On the App Info page, click on the menu button in the top-right corner and select the Allow restricted settings option.",
-      "step3Title": "Step 3: Allow SMS Permissions",
-      "step3Desc": "Once you have allowed the restricted settings from step 2 above, navigate to Permissions ➡️ SMS and tap Allow to grant SMS permissions to the android app.",
-      "conclusionDesc": "Congratulations, you have successfully configured SMS permissions on your Android app."
+    "articles": {
+      "grantPermissions": {
+        "title": "How to grant SMS permissions on Android 15+",
+        "description": "In Android 15 (Vanilla Ice Cream), the SEND_SMS and RECEIVE_SMS permissions are now hard restricted. Learn how to grant these permissions step by step.",
+        "seoTitle": "How to grant SEND_SMS and RECEIVE_SMS permissions on Android 14+ and 15+ - httpSMS",
+        "seoDescription": "In Android 15 (Vanilla Ice Cream), the SEND_SMS and RECEIVE_SMS permissions are now hard restricted. Learn how to grant these permissions step by step.",
+        "intro": "In Android 15 (Vanilla Ice Cream), the android.permission.SEND_SMS and android.permission.RECEIVE_SMS permissions are now hard restricted and cannot be granted via the runtime permissions interface.",
+        "runtimeLink": "via the runtime permissions interface",
+        "alert": "Granting the SEND_SMS and RECEIVE_SMS permissions will allow an Android app to be able to read and send SMS messages on your phone. Make sure you trust the application before allowing these permissions.",
+        "step1Title": "Step 1: Open App Info",
+        "step1Desc": "Long press the icon of the android app which you want to grant the permission and select App info.",
+        "step2Title": "Step 2: Allow Restricted Settings",
+        "step2Desc": "On the App Info page, click on the menu button in the top-right corner and select the Allow restricted settings option.",
+        "step3Title": "Step 3: Allow SMS Permissions",
+        "step3Desc": "Once you have allowed the restricted settings from step 2 above, navigate to Permissions ➡️ SMS and tap Allow to grant SMS permissions to the android app.",
+        "conclusionDesc": "Congratulations, you have successfully configured SMS permissions on your Android app."
+      },
+      "e2eEncryption": {
+        "title": "Secure your conversations with end-to-end encryption for SMS messages",
+        "description": "Take control of your privacy by encrypting your SMS messages end-to-end. Safeguard your messages from prying eyes, ensuring absolute confidentiality.",
+        "seoTitle": "Secure your conversations with end-to-end encryption for SMS messages - httpSMS",
+        "seoDescription": "Enable end-to-end encryption for your SMS messages with httpSMS so no one but you can read the texts you send and receive through your Android phone.",
+        "intro1": "We have added support for end-to-end encryption for SMS messages so that no one can see the content of the messages you send using httpSMS except you.",
+        "intro2": "You setup an encryption key which you use to encrypt your messages before making an API request to httpSMS and you also use the same key to decrypt the messages you receive from httpSMS via our",
+        "webhookEvents": "webhook events",
+        "algorithmNote": "We are using the AES-256 encryption algorithm to encrypt and decrypt the messages.",
+        "step1Title": "Setup your encryption key",
+        "step1Desc": "the httpSMS Android app on your phone and set your encryption key under the App Settings page of the app.",
+        "step2Title": "Encrypt your SMS message",
+        "step2Desc1": "We use the AES-256 encryption algorithm to encrypt the SMS messages. This algorithm requires an encryption key which is 256 bits; to work around this, we will hash any encryption key you set on the mobile app using the SHA-256 algorithm so that it will always produce a key which is 256 bits.",
+        "step2Desc2": "The AES algorithm also has an initialization vector (IV) parameter which is used to ensure that the same value encrypted multiple times will not produce the same encrypted value. The IV is 16 bits and it is appended to the encrypted message before encoding it in Base64.",
+        "step2Desc3": "When you use our client libraries it will automatically take care of encrypting your message so you don't have to deal with creating the initialization vector and encoding the payload yourself.",
+        "step3Title": "Send an encrypted message",
+        "step3Desc": "After generating the encrypted message payload, you can send it directly using the httpSMS API. Make sure to set encrypted: true in the JSON request payload so that httpSMS knows that the message is encrypted and it will be decoded in the Android app before sending to your recipient.",
+        "step3SentNote": "When you make the API request, the message will be decrypted before sending to the recipient. This is a screenshot of the SMS message which is sent to the recipient:",
+        "step4Title": "Receiving an encrypted message",
+        "step4Desc": "When your android phone receives a new message, it will be encrypted with the encryption Key on your Android phone before it is delivered to your server's webhook endpoint. You can configure webhooks by following",
+        "webhookGuideLink": "this guide.",
+        "conclusionDesc": "Congratulations, you have successfully configured your Android phone to send and receive SMS messages with end-to-end encryption."
+      },
+      "forwardWebhook": {
+        "title": "How to forward a text message (SMS) from an Android phone into your webhook",
+        "description": "Program your Android phone to forward messages received on your phone to your server and trigger powerful automations with tools like Zapier and IFTTT.",
+        "seoTitle": "How to forward a text message (SMS) from an android phone into your webhook - httpSMS",
+        "seoDescription": "Program your Android phone to forward incoming SMS messages to your server webhook and trigger powerful automations with tools like Zapier and IFTTT.",
+        "intro": "You can now program your android phone to forward messages received on your phone to your server and trigger powerful automations with tools like Zapier and IFTTT. httpSMS helps you to set this up with ease.",
+        "step1Desc": "Create an account on the httpSMS web application and copy your API key from the settings page:",
+        "step2Desc": "the httpSMS android app on your phone and sign in using your API KEY which you copied above. This app listens for SMS messages received on your android phone.",
+        "step3Title": "Step 3: Set up a webhook",
+        "step3Desc": "Once the application has been installed, it will be listening for SMS messages received on the android phone. You can configure the application to send this SMS message to your server URL using a webhook on the settings page:",
+        "conclusionDesc": "Congratulations, you have successfully set up SMS forwarding from your Android phone to a webhook! This powerful automation tool can help you streamline your business workflow and save you time and effort.",
+        "docPrompt": "You can find more information on the documentation page at"
+      },
+      "excel": {
+        "title": "How to send SMS messages to multiple phone numbers from Excel",
+        "description": "Send personalized SMS messages to multiple phone numbers straight from Excel for less than $0.002 per message using your Android phone as the SMS gateway.",
+        "seoTitle": "How to send SMS messages to multiple phone numbers from Excel - httpSMS",
+        "seoDescription": "Send personalized SMS messages to multiple phone numbers for less than $0.002 per SMS message using your Android phone as the SMS gateway.",
+        "intro": "Send personalized SMS messages to multiple phone numbers for less than $0.002 per SMS message. You can also configure every SMS message in your Excel spreadsheet so they are unique for each recipient phone number.",
+        "prereqExcel": "Basic understanding of Microsoft Excel or Google Sheets.",
+        "prereqAndroid": "An Android phone.",
+        "step3Title": "Step 3: Edit your Excel file",
+        "step3Desc": "Download the httpSMS Excel file template and edit it with your favorite spreadsheet software e.g Excel, Google Sheets, Open Office etc. Fill in FromPhoneNumber, ToPhoneNumber, and Content.",
+        "excelTemplateLink": "httpSMS Excel file template",
+        "step3Alert": "Make sure to use the correct FromPhoneNumber from step 2 above in your Excel file.",
+        "step4Title": "Step 4: Send the SMS Messages",
+        "step4Desc": "Visit the Bulk Messages page on httpSMS and upload your Excel file and send your SMS messages.",
+        "bulkMessagesLink": "Bulk Messages"
+      },
+      "bulkCsv": {
+        "title": "Send bulk SMS messages from a CSV file with no code",
+        "description": "Send SMS messages to multiple recipients in your CSV file without writing a single piece of code using your Android phone as the SMS gateway.",
+        "seoTitle": "Send bulk SMS messages from a CSV file with no code - httpSMS",
+        "seoDescription": "Upload a CSV file and send personalized bulk SMS messages in minutes using your Android phone as the SMS gateway — no code required.",
+        "intro": "Send personalized SMS messages to your users in bulk using your Android phone. The good news is, you don't have to write a single piece of code, just upload your CSV file and we will take care of the rest.",
+        "whatIsCsvTitle": "What is a CSV file?",
+        "whatIsCsvDesc": "CSV is an abbreviation for comma-separated values. A CSV file allows data to be saved in a table structured format using a comma to separate the various cells of a table and a new line to separate rows. CSV files can be used with any spreadsheet program.",
+        "prereqCsv": "Basic understanding of CSV files.",
+        "step3Title": "Step 3: Edit your CSV file",
+        "step3Desc": "Download the httpSMS CSV file template and fill in FromPhoneNumber, ToPhoneNumber, and Content.",
+        "csvTemplateLink": "httpSMS CSV file template",
+        "step3Alert": "Make sure to use the correct FromPhoneNumber from step 2 above in your CSV file.",
+        "step4Title": "Step 4: Send the SMS Messages",
+        "step4Desc": "Visit the Bulk Messages page on httpSMS and upload your CSV file and send your SMS messages."
+      },
+      "python": {
+        "title": "Send an SMS from your Android phone with Python",
+        "description": "Configure your Android phone as an SMS gateway to automate sending text messages with Python in a few lines of code using the httpSMS HTTP API.",
+        "seoTitle": "Send an SMS from your Android phone with Python - httpSMS",
+        "seoDescription": "Configure your Android phone as an SMS gateway to automate sending text messages with the Python programing language.",
+        "intro1": "In an era dominated by social media, instant messaging apps, and ever-evolving communication technologies, it's easy to overlook the humble yet remarkably resilient SMS.",
+        "intro2": "Whether you're a business owner looking to optimize your communication strategy or a developer seeking to integrate SMS functionality, this article will explain how to setup your Android phone to send SMS messages.",
+        "prereqPython": "Basic understanding of Python.",
+        "prereqPythonInstalled": "Python installed on your computer.",
+        "step3Title": "Step 3: Writing the code",
+        "step3Desc": "Create a file named send_sms.py and paste the code below to send an SMS via httpSMS:",
+        "step3Alert": "Make sure to use the correct api_key from step 1 and also use the correct to and from phone numbers in the payload variable.",
+        "step3RunDesc": "Run the code with the command python send_sms.py and verify that the message has been received successfully.",
+        "conclusionDesc": "Congratulations, you have successfully configured your android phone to send SMS messages via python.",
+        "forwardPrompt": "If you are also interested in forwarding incoming SMS from your android phone to your server, checkout our",
+        "forwardLink": "SMS forwarding guide."
+      },
+      "zapierSheets": {
+        "title": "Send an SMS when a new row is added to Google Sheets using Zapier",
+        "description": "Automate sending personalized SMS messages each time a new row is added to your Google Sheets document using Zapier without writing code.",
+        "seoTitle": "Send an SMS message when a new row is added to Google Sheets using Zapier - httpSMS",
+        "seoDescription": "Automatically send a personalized SMS every time a new row is added to Google Sheets using Zapier and httpSMS — no code required.",
+        "intro": "Automate sending personalized SMS messages each time a new row is added to your Google Sheets document using Zapier. You don't need to write any code to make this happen.",
+        "prereqSheets": "Basic understanding of Google Sheets.",
+        "prereqZapier": "Basic understanding of Zapier.",
+        "prereqAccount": "An active account on httpSMS.",
+        "step1Title": "Step 1: Create trigger on Zapier",
+        "step1Desc": "Create a new Zap on Zapier and select Google Sheets as the trigger. The event name should be New Spreadsheet Row.",
+        "step1SpreadsheetDesc": "On the Zap, select the Spreadsheet from your Google Drive and choose the correct Worksheet.",
+        "step1Alert": "In the sample spreadsheet, we mimic an e-commerce store with Name, Product, and Phone number columns. You can customize your own columns freely.",
+        "step2Title": "Step 2: Create an action on Zapier",
+        "step2Desc": "Select Webhooks By Zapier as the action app and select Custom Request as the action event.",
+        "step2ActionDesc": "Set the Method to POST, set the URL to https://api.httpsms.com/v1/messages/send, set Data Pass-Through to false, and configure the JSON payload.",
+        "step2Alert": "The variables [Name], [Product], and [ToPhoneNumber] are populated dynamically from your spreadsheet columns.",
+        "step2HeadersDesc": "Under headers, add x-api-key with your API key from settings and Content-Type with application/json.",
+        "conclusionDesc": "Publish your zap and you will automatically trigger httpSMS to send an SMS whenever a new row is added to Google Sheets."
+      }
+    }
+  },
+  "docs": {
+    "title": "httpSMS Documentation",
+    "subtitle": "Learn how to integrate and automate SMS sending and receiving using our HTTP API and Android gateway app.",
+    "exploreTopics": "Explore Guides & Features",
+    "sections": {
+      "quickstart": {
+        "title": "Quickstart",
+        "desc": "Get started connecting your Android phone and sending your first SMS via API in under 5 minutes."
+      },
+      "webhooks": {
+        "title": "Introduction to Webhooks",
+        "desc": "Receive incoming SMS in real-time on your server and verify HMAC SHA-256 signatures."
+      },
+      "webhookEvents": {
+        "title": "Webhook Events",
+        "desc": "CloudEvents 1.0 JSON payload specifications and examples for all 6 supported event types."
+      },
+      "phoneApiKeys": {
+        "title": "Phone API Keys",
+        "desc": "Manage multiple Android phones independently and securely with dedicated per-device API keys."
+      },
+      "rateLimit": {
+        "title": "Control Send Rate",
+        "desc": "Avoid carrier anti-spam filters and Android OS rate limit warnings by setting messages per minute."
+      },
+      "scheduling": {
+        "title": "Scheduling SMS Messages",
+        "desc": "Schedule messages for future dates with the send_at parameter or bulk scheduled spreadsheets."
+      },
+      "queue": {
+        "title": "Outgoing Message Queue",
+        "desc": "Understand the 3 queue dispatch rules, active sending hours, and bulk-send API requests."
+      }
     },
-    "e2eEncryption": {
-      "title": "Secure your conversations with end-to-end encryption for SMS messages",
-      "description": "Take control of your privacy by encrypting your SMS messages end-to-end. Safeguard your messages from prying eyes, ensuring absolute confidentiality.",
-      "seoTitle": "Secure your conversations with end-to-end encryption for SMS messages - httpSMS",
-      "seoDescription": "Enable end-to-end encryption for your SMS messages with httpSMS so no one but you can read the texts you send and receive through your Android phone.",
-      "intro1": "We have added support for end-to-end encryption for SMS messages so that no one can see the content of the messages you send using httpSMS except you.",
-      "intro2": "You setup an encryption key which you use to encrypt your messages before making an API request to httpSMS and you also use the same key to decrypt the messages you receive from httpSMS via our",
-      "webhookEvents": "webhook events",
-      "algorithmNote": "We are using the AES-256 encryption algorithm to encrypt and decrypt the messages.",
-      "step1Title": "Setup your encryption key",
-      "step1Desc": "the httpSMS Android app on your phone and set your encryption key under the App Settings page of the app.",
-      "step2Title": "Encrypt your SMS message",
-      "step2Desc1": "We use the AES-256 encryption algorithm to encrypt the SMS messages. This algorithm requires an encryption key which is 256 bits; to work around this, we will hash any encryption key you set on the mobile app using the SHA-256 algorithm so that it will always produce a key which is 256 bits.",
-      "step2Desc2": "The AES algorithm also has an initialization vector (IV) parameter which is used to ensure that the same value encrypted multiple times will not produce the same encrypted value. The IV is 16 bits and it is appended to the encrypted message before encoding it in Base64.",
-      "step2Desc3": "When you use our client libraries it will automatically take care of encrypting your message so you don't have to deal with creating the initialization vector and encoding the payload yourself.",
-      "step3Title": "Send an encrypted message",
-      "step3Desc": "After generating the encrypted message payload, you can send it directly using the httpSMS API. Make sure to set encrypted: true in the JSON request payload so that httpSMS knows that the message is encrypted and it will be decoded in the Android app before sending to your recipient.",
-      "step3SentNote": "When you make the API request, the message will be decrypted before sending to the recipient. This is a screenshot of the SMS message which is sent to the recipient:",
-      "step4Title": "Receiving an encrypted message",
-      "step4Desc": "When your android phone receives a new message, it will be encrypted with the encryption Key on your Android phone before it is delivered to your server's webhook endpoint. You can configure webhooks by following",
-      "webhookGuideLink": "this guide.",
-      "conclusionDesc": "Congratulations, you have successfully configured your Android phone to send and receive SMS messages with end-to-end encryption."
+    "swagger": {
+      "title": "Interactive API Explorer (OpenAPI / Swagger)",
+      "desc": "Explore all endpoints, request schemas, parameters, and test API calls directly in your browser.",
+      "btn": "Open Swagger UI"
     },
-    "forwardWebhook": {
-      "title": "How to forward a text message (SMS) from an Android phone into your webhook",
-      "description": "Program your Android phone to forward messages received on your phone to your server and trigger powerful automations with tools like Zapier and IFTTT.",
-      "seoTitle": "How to forward a text message (SMS) from an android phone into your webhook - httpSMS",
-      "seoDescription": "Program your Android phone to forward incoming SMS messages to your server webhook and trigger powerful automations with tools like Zapier and IFTTT.",
-      "intro": "You can now program your android phone to forward messages received on your phone to your server and trigger powerful automations with tools like Zapier and IFTTT. httpSMS helps you to set this up with ease.",
-      "step1Desc": "Create an account on the httpSMS web application and copy your API key from the settings page:",
-      "step2Desc": "the httpSMS android app on your phone and sign in using your API KEY which you copied above. This app listens for SMS messages received on your android phone.",
-      "step3Title": "Step 3: Set up a webhook",
-      "step3Desc": "Once the application has been installed, it will be listening for SMS messages received on the android phone. You can configure the application to send this SMS message to your server URL using a webhook on the settings page:",
-      "conclusionDesc": "Congratulations, you have successfully set up SMS forwarding from your Android phone to a webhook! This powerful automation tool can help you streamline your business workflow and save you time and effort.",
-      "docPrompt": "You can find more information on the documentation page at"
+    "quickstart": {
+      "title": "Quickstart Guide",
+      "intro": "Send your first SMS through the httpSMS HTTP API in 3 simple steps:",
+      "step1Title": "Step 1: Get your API Key",
+      "step1Desc": "Create your httpSMS account and copy your API key from the settings page.",
+      "getApiKeyBtn": "Get API Key",
+      "step2Title": "Step 2: Install the Android app",
+      "step2Desc": "Download the companion Android app on your phone and sign in with your API key.",
+      "downloadAppBtn": "Download Android App",
+      "step3Title": "Step 3: Send your first SMS",
+      "step3Desc": "Make a POST request to /v1/messages/send using cURL or your favorite programming language."
     },
-    "excel": {
-      "title": "How to send SMS messages to multiple phone numbers from Excel",
-      "description": "Send personalized SMS messages to multiple phone numbers straight from Excel for less than $0.002 per message using your Android phone as the SMS gateway.",
-      "seoTitle": "How to send SMS messages to multiple phone numbers from Excel - httpSMS",
-      "seoDescription": "Send personalized SMS messages to multiple phone numbers for less than $0.002 per SMS message using your Android phone as the SMS gateway.",
-      "intro": "Send personalized SMS messages to multiple phone numbers for less than $0.002 per SMS message. You can also configure every SMS message in your Excel spreadsheet so they are unique for each recipient phone number.",
-      "prereqExcel": "Basic understanding of Microsoft Excel or Google Sheets.",
-      "prereqAndroid": "An Android phone.",
-      "step3Title": "Step 3: Edit your Excel file",
-      "step3Desc": "Download the httpSMS Excel file template and edit it with your favorite spreadsheet software e.g Excel, Google Sheets, Open Office etc. Fill in FromPhoneNumber, ToPhoneNumber, and Content.",
-      "excelTemplateLink": "httpSMS Excel file template",
-      "step3Alert": "Make sure to use the correct FromPhoneNumber from step 2 above in your Excel file.",
-      "step4Title": "Step 4: Send the SMS Messages",
-      "step4Desc": "Visit the Bulk Messages page on httpSMS and upload your Excel file and send your SMS messages.",
-      "bulkMessagesLink": "Bulk Messages"
+    "codeSamples": {
+      "title": "Code Samples",
+      "desc": "Choose your programming language to view ready-to-use code examples:"
     },
-    "bulkCsv": {
-      "title": "Send bulk SMS messages from a CSV file with no code",
-      "description": "Send SMS messages to multiple recipients in your CSV file without writing a single piece of code using your Android phone as the SMS gateway.",
-      "seoTitle": "Send bulk SMS messages from a CSV file with no code - httpSMS",
-      "seoDescription": "Upload a CSV file and send personalized bulk SMS messages in minutes using your Android phone as the SMS gateway — no code required.",
-      "intro": "Send personalized SMS messages to your users in bulk using your Android phone. The good news is, you don't have to write a single piece of code, just upload your CSV file and we will take care of the rest.",
-      "whatIsCsvTitle": "What is a CSV file?",
-      "whatIsCsvDesc": "CSV is an abbreviation for comma-separated values. A CSV file allows data to be saved in a table structured format using a comma to separate the various cells of a table and a new line to separate rows. CSV files can be used with any spreadsheet program.",
-      "prereqCsv": "Basic understanding of CSV files.",
-      "step3Title": "Step 3: Edit your CSV file",
-      "step3Desc": "Download the httpSMS CSV file template and fill in FromPhoneNumber, ToPhoneNumber, and Content.",
-      "csvTemplateLink": "httpSMS CSV file template",
-      "step3Alert": "Make sure to use the correct FromPhoneNumber from step 2 above in your CSV file.",
-      "step4Title": "Step 4: Send the SMS Messages",
-      "step4Desc": "Visit the Bulk Messages page on httpSMS and upload your CSV file and send your SMS messages."
+    "sdks": {
+      "title": "Official Libraries & SDKs"
     },
-    "python": {
-      "title": "Send an SMS from your Android phone with Python",
-      "description": "Configure your Android phone as an SMS gateway to automate sending text messages with Python in a few lines of code using the httpSMS HTTP API.",
-      "seoTitle": "Send an SMS from your Android phone with Python - httpSMS",
-      "seoDescription": "Configure your Android phone as an SMS gateway to automate sending text messages with the Python programing language.",
-      "intro1": "In an era dominated by social media, instant messaging apps, and ever-evolving communication technologies, it's easy to overlook the humble yet remarkably resilient SMS.",
-      "intro2": "Whether you're a business owner looking to optimize your communication strategy or a developer seeking to integrate SMS functionality, this article will explain how to setup your Android phone to send SMS messages.",
-      "prereqPython": "Basic understanding of Python.",
-      "prereqPythonInstalled": "Python installed on your computer.",
-      "step3Title": "Step 3: Writing the code",
-      "step3Desc": "Create a file named send_sms.py and paste the code below to send an SMS via httpSMS:",
-      "step3Alert": "Make sure to use the correct api_key from step 1 and also use the correct to and from phone numbers in the payload variable.",
-      "step3RunDesc": "Run the code with the command python send_sms.py and verify that the message has been received successfully.",
-      "conclusionDesc": "Congratulations, you have successfully configured your android phone to send SMS messages via python.",
-      "forwardPrompt": "If you are also interested in forwarding incoming SMS from your android phone to your server, checkout our",
-      "forwardLink": "SMS forwarding guide."
+    "sidebar": {
+      "guidesTitle": "Guides & Resources"
+    }
+  },
+  "webhooksIntro": {
+    "title": "Introduction to Webhooks",
+    "subtitle": "Receive real-time notifications on your server when messages are received, sent, delivered, or when phone heartbeat status changes.",
+    "whatIs": {
+      "title": "What are Webhooks?",
+      "desc": "Webhooks are automated HTTP POST requests sent by httpSMS to your server whenever a relevant event happens on your Android phone (such as receiving an incoming SMS).",
+      "alert": "Webhooks eliminate the need for continuous API polling, allowing your application to respond immediately to new SMS events."
     },
-    "zapierSheets": {
-      "title": "Send an SMS when a new row is added to Google Sheets using Zapier",
-      "description": "Automate sending personalized SMS messages each time a new row is added to your Google Sheets document using Zapier without writing code.",
-      "seoTitle": "Send an SMS message when a new row is added to Google Sheets using Zapier - httpSMS",
-      "seoDescription": "Automatically send a personalized SMS every time a new row is added to Google Sheets using Zapier and httpSMS — no code required.",
-      "intro": "Automate sending personalized SMS messages each time a new row is added to your Google Sheets document using Zapier. You don't need to write any code to make this happen.",
-      "prereqSheets": "Basic understanding of Google Sheets.",
-      "prereqZapier": "Basic understanding of Zapier.",
-      "prereqAccount": "An active account on httpSMS.",
-      "step1Title": "Step 1: Create trigger on Zapier",
-      "step1Desc": "Create a new Zap on Zapier and select Google Sheets as the trigger. The event name should be New Spreadsheet Row.",
-      "step1SpreadsheetDesc": "On the Zap, select the Spreadsheet from your Google Drive and choose the correct Worksheet.",
-      "step1Alert": "In the sample spreadsheet, we mimic an e-commerce store with Name, Product, and Phone number columns. You can customize your own columns freely.",
-      "step2Title": "Step 2: Create an action on Zapier",
-      "step2Desc": "Select Webhooks By Zapier as the action app and select Custom Request as the action event.",
-      "step2ActionDesc": "Set the Method to POST, set the URL to https://api.httpsms.com/v1/messages/send, set Data Pass-Through to false, and configure the JSON payload.",
-      "step2Alert": "The variables [Name], [Product], and [ToPhoneNumber] are populated dynamically from your spreadsheet columns.",
-      "step2HeadersDesc": "Under headers, add x-api-key with your API key from settings and Content-Type with application/json.",
-      "conclusionDesc": "Publish your zap and you will automatically trigger httpSMS to send an SMS whenever a new row is added to Google Sheets."
+    "config": {
+      "title": "1. Configuring your Webhook URL",
+      "desc": "You can configure your server endpoint URL in the settings page of the web dashboard:",
+      "stepTitle": "Webhook Endpoint URL",
+      "stepDesc": "Set the full URL of your endpoint (e.g. https://your-domain.com/api/webhook) and enable event forwarding.",
+      "goToSettings": "Go to Settings"
+    },
+    "security": {
+      "title": "2. Security Signature Verification",
+      "desc": "To ensure incoming webhook requests genuinely originate from httpSMS and were not tampered with, each request includes an x-signature header containing an HMAC SHA-256 hash of the request body.",
+      "secretNote": "Use the Webhook Signing Secret generated in your settings page to verify the signature on every incoming request."
+    },
+    "eventsLink": {
+      "title": "Explore Webhook Event Types",
+      "desc": "View all 6 CloudEvents 1.0 JSON payload structures and field definitions.",
+      "btn": "View Event Schemas"
+    }
+  },
+  "webhookEvents": {
+    "title": "Webhook Events",
+    "subtitle": "Complete reference of all events dispatched by httpSMS conforming to CloudEvents 1.0 specifications.",
+    "cloudEventsInfo": "All webhook payloads dispatched by httpSMS strictly follow the open CloudEvents 1.0 JSON specification.",
+    "types": {
+      "received": "Dispatched when a new SMS message is received on your Android phone's SIM card.",
+      "sent": "Dispatched when an outgoing message has been successfully transmitted over the cellular network.",
+      "failed": "Dispatched when an outgoing message fails to send on the phone (e.g., no cell service or carrier error).",
+      "delivered": "Dispatched when the cellular carrier delivery receipt is received.",
+      "heartbeatReceived": "Dispatched when the Android phone sends a periodic ping confirming it is online.",
+      "heartbeatMissed": "Dispatched when the phone fails to send a heartbeat and is deemed offline by the server."
+    }
+  },
+  "featureControlRate": {
+    "title": "Control SMS Send Rate",
+    "subtitle": "Set limits on messages sent per minute to prevent carrier spam filtering and Android OS restrictions.",
+    "why": {
+      "title": "Why Control Send Rate?",
+      "desc1": "The Android operating system includes built-in security protections that monitor outgoing SMS frequency. If too many messages are fired within seconds, the system may block the app or prompt intrusive permission dialogs.",
+      "desc2": "Additionally, telecommunication carriers enforce automated anti-spam algorithms that temporarily throttle or block SIM cards that blast high volumes of SMS in rapid bursts.",
+      "carrierAlert": "We recommend setting your rate limit between 10 and 20 messages per minute for reliable, uninterrupted SMS delivery."
+    },
+    "config": {
+      "title": "Rate Limit Configuration",
+      "desc": "Configure your preferred messages-per-minute rate in your account settings:",
+      "defaultLimitTitle": "Default Rate (10 msgs/min)",
+      "defaultLimitDesc": "Safe and recommended default setting suitable for most day-to-day use cases.",
+      "maxLimitTitle": "Maximum Rate (29 msgs/min)",
+      "maxLimitDesc": "Maximum system-supported rate to prevent Android OS security interventions.",
+      "settingsBtn": "Configure Rate Limit"
+    },
+    "formula": {
+      "title": "Queue Dispatch Calculation",
+      "desc": "When bulk messages are queued, httpSMS calculates individual message delays using:"
+    }
+  },
+  "featureScheduling": {
+    "title": "Scheduling SMS Messages",
+    "subtitle": "Schedule SMS messages for future delivery via the HTTP API or Excel spreadsheets.",
+    "howItWorks": {
+      "title": "How does scheduling work?",
+      "desc": "You can specify exact future timestamps when SMS messages should be pushed to your Android phone for transmission, enabling campaigns, appointment reminders, and automated alerts in advance.",
+      "alertMaxDays": "Messages can be scheduled up to 20 days in advance."
+    },
+    "api": {
+      "title": "Scheduling via HTTP API (send_at)",
+      "desc": "Simply include the send_at field in RFC 3339 format (with timezone) in your POST request body:"
+    },
+    "bulk": {
+      "title": "Bulk Scheduling with Excel",
+      "desc": "When uploading Excel spreadsheets on the Bulk Messages page, you can define individual send times per row:",
+      "columnTitle": "SendTime Column in Spreadsheet",
+      "columnDesc": "Fill the SendTime column with the desired date and time (e.g. 2026-08-21 14:00). If left blank, the message will send immediately respecting your configured rate limit.",
+      "bulkBtn": "Go to Bulk Messages"
+    }
+  },
+  "featureQueue": {
+    "title": "Outgoing Message Queue",
+    "subtitle": "Learn how httpSMS buffers, schedules, and dispatches messages to your Android device.",
+    "intro": {
+      "title": "Intelligent Queue Management",
+      "desc": "All outgoing messages sent to the httpSMS API enter a secure Redis/database queue before being transmitted via FCM push to your Android phone.",
+      "alert": "The queue guarantees zero message loss even if your device is temporarily disconnected or powered off."
+    },
+    "rules": {
+      "title": "The 3 Queue Dispatch Rules",
+      "desc": "The dispatcher evaluates each message in the queue against three priority criteria:",
+      "rule1Title": "1. Scheduled Time (send_at)",
+      "rule1Desc": "If the message specifies an explicit future timestamp (send_at), it waits until that exact moment.",
+      "rule2Title": "2. Rate Limit Spacing",
+      "rule2Desc": "Bulk messages are spaced evenly according to your configured rate (e.g., every 6 seconds for 10/min).",
+      "rule3Title": "3. Active Schedule Window",
+      "rule3Desc": "If an active schedule window is configured (e.g. 08:00 to 20:00), out-of-hours messages wait until the next morning."
+    },
+    "bulkApi": {
+      "title": "Bulk Send API (bulk-send)",
+      "desc": "You can submit up to 1,000 messages in a single POST request using the /v1/messages/bulk-send endpoint:"
+    },
+    "settingsBtn": "Configure Queue & Schedule"
+  },
+  "terms": {
+    "title": "Terms and Conditions of Service",
+    "subtitle": "Please read our guidelines, rights, and responsibilities before using the httpSMS platform.",
+    "lastUpdated": "Last updated: August 20, 2026",
+    "section1": {
+      "title": "1. Subject and Acceptance of Terms",
+      "p1": "By creating an account, downloading the companion Android app, or utilizing the httpSMS APIs (service operated by Mesa Que Vende, under Brazilian law), you agree to be bound by these Terms and Conditions.",
+      "p2": "If you do not agree with any of these terms, please do not use our services or applications."
+    },
+    "section2": {
+      "title": "2. SMS Gateway Operation and User Responsibilities",
+      "p1": "httpSMS operates as a technical integration bridge between your software applications (via HTTP API) and your physical Android phone.",
+      "p2": "All SMS messages are dispatched and received directly through the SIM card in your physical Android phone connected to your cellular carrier network.",
+      "p3": "The user is solely responsible for: (a) keeping the Android device charged, connected to the internet (Wi-Fi or mobile data), and with active cellular service; (b) paying all carrier fees and charges associated with SMS sending and mobile data; (c) ensuring full compliance with national telecommunication regulations and anti-spam laws."
+    },
+    "section3": {
+      "title": "3. Acceptable Use Policy and SPAM Prohibition",
+      "p1": "It is strictly prohibited to use httpSMS for: (a) unsolicited bulk messaging (SPAM); (b) phishing, financial fraud, social engineering, or spreading malicious links; (c) sending defamatory, unlawful, threatening, or infringing content; (d) any activity that violates applicable laws.",
+      "p2": "We reserve the right to immediately terminate or suspend accounts that violate this policy without notice or refund."
+    },
+    "section4": {
+      "title": "4. Plans, Billing, and Cancellation",
+      "p1": "Paid subscriptions are billed in Brazilian Reais (BRL) on a recurring basis (monthly or yearly) through our secure payment processor Stripe.",
+      "p2": "You can cancel your subscription at any time from your Billing dashboard. Cancellation prevents future charges and your access remains active until the end of the paid period.",
+      "p3": "In accordance with Brazilian Consumer Protection Law, a 7-day right of withdrawal applies to initial plan purchases."
+    },
+    "section5": {
+      "title": "5. Limitation of Liability",
+      "p1": "httpSMS is not liable for: (a) delayed, failed, or undelivered messages caused by mobile carrier network outages or destination handset issues; (b) SIM card blocks enacted by telecom operators for spam detection; (c) phone disconnections, battery failure, or lost network signal.",
+      "p2": "The service is provided 'as is', with commercially reasonable efforts made to maintain 24/7 cloud infrastructure availability."
+    },
+    "section6": {
+      "title": "6. Governing Law and Jurisdiction",
+      "p1": "These Terms are governed by and construed in accordance with the laws of the Federative Republic of Brazil, notably the Brazilian Internet Civil Framework (Law No. 12,965/2014) and General Data Protection Law (LGPD - Law No. 13,709/2018).",
+      "p2": "The courts of the Judicial District of São Paulo/SP, Brazil, shall have exclusive jurisdiction over any disputes."
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy (LGPD Compliance)",
+    "subtitle": "Learn how we collect, store, and protect your personal data in accordance with the Brazilian General Data Protection Law (LGPD).",
+    "lastUpdated": "Last updated: August 20, 2026",
+    "section1": {
+      "title": "1. General Information and Data Controller",
+      "p1": "This Privacy Policy governs the processing of personal data by httpSMS (operated within the Mesa Que Vende ecosystem, São Paulo, Brazil).",
+      "p2": "We are committed to protecting your privacy and treating your data transparently and securely in strict compliance with the LGPD (Law No. 13,709/2018) and Marco Civil da Internet (Law No. 12,965/2014)."
+    },
+    "section2": {
+      "title": "2. Data We Collect",
+      "p1": "We collect the following categories of data to provide our SMS gateway services:",
+      "item1": "Account Data: Full name, email address, and authentication credentials (Firebase Auth).",
+      "item2": "Message Metadata: Sender phone number, recipient phone number, timestamps, and delivery status.",
+      "item3": "Message Content: Temporarily processed to forward and display messages. When end-to-end encryption (AES-256) is enabled, content is stored strictly ciphertext, inaccessible to httpSMS staff.",
+      "item4": "Billing Information: Payment transactions are processed directly by Stripe in a PCI-DSS certified environment. We do not store credit card numbers on our servers.",
+      "item5": "Connection and Access Logs: IP address, access timestamps, and app diagnostic logs retained in compliance with Brazilian law."
+    },
+    "section3": {
+      "title": "3. Legal Bases and Processing Purposes",
+      "p1": "Data processing is performed under the following legal bases of LGPD:",
+      "item1": "Contract Performance (Art. 7, V): To deliver SMS gateway functionality, account management, and support.",
+      "item2": "Legal Obligation (Art. 7, II): Connection log retention under Marco Civil da Internet and tax compliance.",
+      "item3": "Legitimate Interest (Art. 7, IX): Fraud prevention, platform security, and service reliability."
+    },
+    "section4": {
+      "title": "4. End-to-End Encryption",
+      "p1": "We provide native support for AES-256 end-to-end encryption. When configured, message bodies are encrypted on your backend before transmission and decrypted solely on your Android device. Neither httpSMS nor intermediaries can read encrypted message contents."
+    },
+    "section5": {
+      "title": "5. Third-Party Service Providers",
+      "p1": "We do not sell or rent personal information. Data is shared strictly with essential infrastructure providers:",
+      "item1": "Google Cloud Platform / Firebase: Cloud hosting and authentication.",
+      "item2": "Stripe: Secure payment and subscription processing.",
+      "item3": "Neon PostgreSQL & Upstash Redis: Encrypted database and message queue infrastructure."
+    },
+    "section6": {
+      "title": "6. Data Subject Rights (LGPD)",
+      "p1": "Under Article 18 of LGPD, you have the right to:",
+      "item1": "Confirm the existence of and access your personal data;",
+      "item2": "Correct incomplete, inaccurate, or outdated data;",
+      "item3": "Request anonymization, blocking, or deletion of unnecessary or excessive data;",
+      "item4": "Request data portability or full deletion of your account and personal records;",
+      "item5": "Revoke consent at any time."
+    },
+    "section7": {
+      "title": "7. Data Protection Officer (DPO) Contact",
+      "p1": "To exercise your privacy rights or submit questions regarding data handling, contact our Data Protection Officer via our support email."
     }
   }
 }

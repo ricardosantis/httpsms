@@ -1787,6 +1787,12 @@ func (container *Container) RegisterEventRoutes() {
 // RegisterSwaggerRoutes registers routes for swagger
 func (container *Container) RegisterSwaggerRoutes() {
 	container.logger.Debug(fmt.Sprintf("registering %T routes", swagger.HandlerDefault))
+	container.App().Get("/docs", func(c fiber.Ctx) error {
+		return c.Redirect().Status(fiber.StatusMovedPermanently).To("/index.html")
+	})
+	container.App().Get("/docs/*", func(c fiber.Ctx) error {
+		return c.Redirect().Status(fiber.StatusMovedPermanently).To("/index.html")
+	})
 	container.App().Get("/*", swagger.New(swagger.Config{
 		Title: docs.SwaggerInfo.Title,
 		CustomScript: `

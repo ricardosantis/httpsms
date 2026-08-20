@@ -75,6 +75,16 @@ function goToPricing() {
               variant="text"
               color="primary"
               class="my-5 mr-2"
+              to="/docs"
+            >
+              {{ $t('website.documentation') }}
+            </v-btn>
+            <v-btn
+              v-show="lgAndUp"
+              size="large"
+              variant="text"
+              color="primary"
+              class="my-5 mr-2"
               :to="{ name: 'blog' }"
             >
               {{ $t('website.blog') }}
@@ -145,11 +155,11 @@ function goToPricing() {
             <div class="text-title-medium mb-4 text-medium-emphasis">
               {{ $t('website.madeWith') }}
               <v-icon color="#cf1112" :icon="mdiHeart" />
-              {{ $t('website.inTallinn') }}
+              {{ $t('website.inSaoPaulo') }}
               <v-img
                 class="d-inline-block"
                 width="20"
-                src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Flag_of_Estonia.svg"
+                src="https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg"
               />
             </div>
             <p class="mt-n3">
@@ -241,13 +251,13 @@ function goToPricing() {
             </h2>
             <ul style="list-style: none" class="pa-0">
               <li class="mb-2">
-                <a
-                  :href="appStore.appData.documentationUrl"
+                <NuxtLink
+                  to="/docs"
                   class="text-white text-decoration-none footer-link"
                 >
                   {{ $t('website.documentation') }}
                   <v-icon size="small" :icon="mdiBookOpenVariant" />
-                </a>
+                </NuxtLink>
               </li>
               <li class="mb-2">
                 <a

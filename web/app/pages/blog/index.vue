@@ -118,7 +118,11 @@ const sortedArticles = computed(() =>
                   </VCardTitle>
                   <VCardSubtitle>
                     <span class="text-uppercase text-blue">
-                      {{ locale === 'pt-BR' ? article.datePt : article.dateEn }}
+                      {{
+                        locale.startsWith('pt')
+                          ? article.datePt
+                          : article.dateEn
+                      }}
                     </span>
                     •
                     <span class="text-uppercase">

@@ -3,7 +3,6 @@ import {
   mdiCheckCircle,
   mdiSend,
   mdiGift,
-  mdiLightbulbOn60,
   mdiCreation,
   mdiLockOutline,
   mdiLanguagePython,
@@ -51,17 +50,19 @@ const faqPanel = ref<number | undefined>(undefined)
 const pricing = ref(0)
 
 const pricingLabels = ['10K', '20K', '50K', '100K', '200K']
-const pricingLabelsFull = ['10,000', '20,000', '50,000', '100,000', '200,000']
+const pricingLabelsFull = ['10.000', '20.000', '50.000', '100.000', '200.000']
 
 const planMessages = computed(() =>
-  pricingLabels[pricing.value].replace('K', ',000'),
+  pricingLabels[pricing.value].replace('K', '.000'),
 )
-const planMonthlyPrice = computed(() => [20, 35, 89, 175, 350][pricing.value])
+const planMonthlyPrice = computed(
+  () => ['115', '199', '499', '990', '1.990'][pricing.value],
+)
 const planYearlyPrice = computed(
-  () => [200, 350, 1068, 2100, 4200][pricing.value],
+  () => ['1.150', '1.990', '4.990', '9.900', '19.900'][pricing.value],
 )
 const planYearlyMonthlyPrice = computed(
-  () => [16.66, 29.16, 89, 175, 350][pricing.value],
+  () => ['95,83', '165,83', '415,83', '825,00', '1.658,33'][pricing.value],
 )
 </script>
 
@@ -778,7 +779,7 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                   {{ $t('landing.pricing.free.desc') }}
                 </p>
                 <p class="text-center">
-                  <span class="text-display-small">$0</span>
+                  <span class="text-display-small">R$ 0</span>
                 </p>
                 <p class="text-center mt-n3 text-medium-emphasis">
                   {{ $t('landing.pricing.noCreditCard') }}
@@ -844,21 +845,21 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                   {{ $t('landing.pricing.pro.desc') }}
                 </p>
                 <p v-if="!yearlyPricing" class="text-center">
-                  <span class="text-display-small">$10</span
+                  <span class="text-display-small">R$ 59</span
                   >{{ $t('landing.pricing.perMonth') }}
                 </p>
                 <p v-else class="text-center">
-                  <span class="text-display-small">$100</span
+                  <span class="text-display-small">R$ 570</span
                   >{{ $t('landing.pricing.perYear') }}
                 </p>
                 <p
                   v-if="!yearlyPricing"
                   class="text-center mt-n3 text-medium-emphasis"
                 >
-                  {{ $t('landing.pricing.orPerYear', { price: '$100' }) }}
+                  {{ $t('landing.pricing.orPerYear', { price: 'R$ 570' }) }}
                 </p>
                 <p v-else class="text-center mt-n3 text-medium-emphasis">
-                  {{ $t('landing.pricing.orPerMonth', { price: '$8.33' }) }}
+                  {{ $t('landing.pricing.orPerMonth', { price: 'R$ 47,50' }) }}
                 </p>
                 <VBtn block color="primary" to="/login" size="large">
                   {{ $t('landing.pricing.tryFree') }}
@@ -925,11 +926,13 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                   }}
                 </p>
                 <p v-if="!yearlyPricing" class="text-center">
-                  <span class="text-display-small">${{ planMonthlyPrice }}</span
+                  <span class="text-display-small"
+                    >R$ {{ planMonthlyPrice }}</span
                   >{{ $t('landing.pricing.perMonth') }}
                 </p>
                 <p v-else class="text-center">
-                  <span class="text-display-small">${{ planYearlyPrice }}</span
+                  <span class="text-display-small"
+                    >R$ {{ planYearlyPrice }}</span
                   >{{ $t('landing.pricing.perYear') }}
                 </p>
                 <p
@@ -938,14 +941,14 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                 >
                   {{
                     $t('landing.pricing.orPerYear', {
-                      price: '$' + planYearlyPrice,
+                      price: 'R$ ' + planYearlyPrice,
                     })
                   }}
                 </p>
                 <p v-else class="text-center mt-n3 text-medium-emphasis">
                   {{
                     $t('landing.pricing.orPerMonth', {
-                      price: '$' + planYearlyMonthlyPrice,
+                      price: 'R$ ' + planYearlyMonthlyPrice,
                     })
                   }}
                 </p>
@@ -994,40 +997,6 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                 </p>
               </VCardText>
             </VCard>
-          </VCol>
-        </VRow>
-        <VRow>
-          <VCol>
-            <VAlert
-              color="info"
-              :icon="mdAndUp ? mdiLightbulbOn60 : undefined"
-              :prominent="mdAndUp"
-              variant="tonal"
-            >
-              {{
-                $t('landing.pricing.customContact', {
-                  contactLink: '',
-                  sponsorLink: '',
-                }).split('{contactLink}')[0]
-              }}
-              <a href="mailto:suporte@mesaquevende.com.br">{{
-                $t('landing.pricing.contactUs')
-              }}</a>
-              {{
-                $t('landing.pricing.customContact', {
-                  contactLink: '',
-                  sponsorLink: '',
-                })
-                  .split('{contactLink}')[1]
-                  ?.split('{sponsorLink}')[0]
-              }}
-              <a
-                href="https://github.com/sponsors/NdoleStudio"
-                target="_blank"
-                >{{ $t('landing.pricing.githubSponsors') }}</a
-              >
-              💖
-            </VAlert>
           </VCol>
         </VRow>
       </VContainer>

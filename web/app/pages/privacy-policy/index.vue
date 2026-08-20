@@ -1,189 +1,152 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
+import {
+  mdiShieldLockOutline,
+  mdiShieldCheck,
+  mdiDatabaseLock,
+  mdiEmailOutline,
+} from '@mdi/js'
+
+const { mdAndUp } = useDisplay()
+const { t } = useI18n()
+
 definePageMeta({
   layout: 'website',
 })
 
 useSeoMeta({
-  title: 'Privacy Policy - httpSMS',
-  description:
-    'Read the httpSMS privacy policy to learn what personal information we collect, how it is used, and the steps we take to protect your data.',
+  title: computed(() => `${t('privacy.title')} - httpSMS`),
+  description: computed(() => t('privacy.subtitle')),
+  ogTitle: computed(() => `${t('privacy.title')} | httpSMS`),
+  ogDescription: computed(() => t('privacy.subtitle')),
+  ogImage: '/header.png',
+  twitterCard: 'summary_large_image',
 })
 </script>
 
 <template>
-  <VContainer>
-    <VRow>
-      <VCol cols="12" md="8" offset-md="2">
-        <h1 class="text-display-medium mb-2">Privacy Policy</h1>
-        <p class="text-body-large mb-4">
-          Ndole Studio built the httpSMS service as an open source project. This
-          SERVICE is provided by Ndole Studio and is intended for use as is.
-          This page is used to inform visitors regarding our policies with the
-          collection, use, and disclosure of Personal Information if anyone
-          decided to use our Service. If you choose to use our Service, then you
-          agree to the collection and use of information in relation to this
-          policy. The Personal Information that we collect is used for providing
-          and improving the Service. We will not use or share your information
-          with anyone except as described in this Privacy Policy. The terms used
-          in this Privacy Policy have the same meanings as in our Terms and
-          Conditions, which are accessible at httpSMS unless otherwise defined
-          in this Privacy Policy.
-        </p>
+  <VContainer class="pt-8 pb-16">
+    <VRow :class="{ 'mt-16': mdAndUp }">
+      <VCol cols="12" md="10" offset-md="1">
+        <VCard class="pa-6 pa-md-10" elevation="2">
+          <div class="d-flex align-center mb-3">
+            <VChip color="success" size="small" variant="tonal" class="mr-2">
+              <VIcon start :icon="mdiShieldLockOutline" size="small" />
+              {{ $t('website.legal') }} (LGPD)
+            </VChip>
+            <span class="text-caption text-medium-emphasis">
+              {{ $t('privacy.lastUpdated') }}
+            </span>
+          </div>
 
-        <h2 class="text-headline-medium mt-8 mb-4">
-          Information Collection and Use
-        </h2>
-        <p class="text-body-large mb-4">
-          For a better experience, while using our Service, we may require you
-          to provide us with certain personally identifiable information,
-          including but not limited to email, full name. The information that we
-          request will be retained by us and used as described in this privacy
-          policy.
-        </p>
-        <p class="text-body-large mb-4">
-          httpSMS does use third-party services that may collect information
-          used to identify you. Link to the privacy policy of third-party
-          service providers used by httpSMS:
-        </p>
-        <ul class="text-body-large pl-6 mb-6">
-          <li>
-            <a
-              href="https://www.google.com/policies/privacy/"
-              target="_blank"
-              rel="noopener"
-              >Google Play Services</a
-            >
-          </li>
-          <li>
-            <a
-              href="https://firebase.google.com/policies/analytics"
-              target="_blank"
-              rel="noopener"
-              >Google Analytics for Firebase</a
-            >
-          </li>
-          <li>
-            <a href="https://sentry.io/privacy/" target="_blank" rel="noopener"
-              >Sentry</a
-            >
-          </li>
-          <li>
-            <a
-              href="https://segment.com/legal/privacy/"
-              target="_blank"
-              rel="noopener"
-              >Segment</a
-            >
-          </li>
-          <li>
-            <a
-              href="https://privacy.microsoft.com/en-GB/privacystatement"
-              target="_blank"
-              rel="noopener"
-              >Microsoft Clarity</a
-            >
-          </li>
-        </ul>
+          <h1
+            :class="
+              mdAndUp ? 'text-display-medium mb-3' : 'text-headline-large mb-2'
+            "
+          >
+            {{ $t('privacy.title') }}
+          </h1>
 
-        <h2 class="text-headline-medium mt-8 mb-4">Log Data</h2>
-        <p class="text-body-large mb-4">
-          We want to inform you that whenever you use our Service, in a case of
-          an error in the app we collect data and information (through
-          third-party products) on your phone and computer called Log Data. This
-          Log Data may include information such as your device Internet Protocol
-          ('IP') address, device name, operating system version, the
-          configuration of the app when utilizing our Service, the time and date
-          of your use of the Service, and other statistics.
-        </p>
+          <p class="text-body-large text-medium-emphasis mb-6">
+            {{ $t('privacy.subtitle') }}
+          </p>
 
-        <h2 class="text-headline-medium mt-8 mb-4">Cookies</h2>
-        <p class="text-body-large mb-4">
-          Cookies are files with a small amount of data that are commonly used
-          as anonymous unique identifiers. These are sent to your browser from
-          the websites that you visit and are stored on your device's internal
-          memory. This Service does not use these 'cookies' explicitly. However,
-          the app may use third-party code and libraries that use 'cookies' to
-          collect information and improve their services. You have the option to
-          either accept or refuse these cookies and know when a cookie is being
-          sent to your device. If you choose to refuse our cookies, you may not
-          be able to use some portions of this Service.
-        </p>
+          <VDivider class="mb-6" />
 
-        <h2 class="text-headline-medium mt-8 mb-4">Service Providers</h2>
-        <p class="text-body-large mb-4">
-          We may employ third-party companies and individuals due to the
-          following reasons:
-        </p>
-        <ul class="text-body-large pl-6 mb-6">
-          <li>To facilitate our Service;</li>
-          <li>To provide the Service on our behalf;</li>
-          <li>To perform Service-related services; or</li>
-          <li>To assist us in analyzing how our Service is used.</li>
-        </ul>
-        <p class="text-body-large mb-4">
-          We want to inform users of this Service that these third parties have
-          access to their Personal Information. The reason is to perform the
-          tasks assigned to them on our behalf. However, they are obligated not
-          to disclose or use the information for any other purpose.
-        </p>
+          <!-- Section 1 -->
+          <h2 class="text-headline-small font-weight-bold mb-3">
+            {{ $t('privacy.section1.title') }}
+          </h2>
+          <p class="text-body-large text-medium-emphasis mb-4">
+            {{ $t('privacy.section1.p1') }}
+          </p>
+          <p class="text-body-large text-medium-emphasis mb-6">
+            {{ $t('privacy.section1.p2') }}
+          </p>
 
-        <h2 class="text-headline-medium mt-8 mb-4">Security</h2>
-        <p class="text-body-large mb-4">
-          We value your trust in providing us your Personal Information, thus we
-          are striving to use commercially acceptable means of protecting it.
-          But remember that no method of transmission over the internet, or
-          method of electronic storage is 100% secure and reliable, and we
-          cannot guarantee its absolute security.
-        </p>
+          <!-- Section 2: Data Collection -->
+          <h2 class="text-headline-small font-weight-bold mb-3">
+            {{ $t('privacy.section2.title') }}
+          </h2>
+          <p class="text-body-large text-medium-emphasis mb-3">
+            {{ $t('privacy.section2.p1') }}
+          </p>
+          <ul class="text-body-large text-medium-emphasis pl-6 mb-6">
+            <li class="mb-2">{{ $t('privacy.section2.item1') }}</li>
+            <li class="mb-2">{{ $t('privacy.section2.item2') }}</li>
+            <li class="mb-2">{{ $t('privacy.section2.item3') }}</li>
+            <li class="mb-2">{{ $t('privacy.section2.item4') }}</li>
+            <li class="mb-2">{{ $t('privacy.section2.item5') }}</li>
+          </ul>
 
-        <h2 class="text-headline-medium mt-8 mb-4">Links to Other Sites</h2>
-        <p class="text-body-large mb-4">
-          This Service may contain links to other sites. If you click on a
-          third-party link, you will be directed to that site. Note that these
-          external sites are not operated by us. Therefore, we strongly advise
-          you to review the Privacy Policy of these websites. We have no control
-          over and assume no responsibility for the content, privacy policies,
-          or practices of any third-party sites or services.
-        </p>
+          <!-- Section 3: Legal Bases -->
+          <h2 class="text-headline-small font-weight-bold mb-3">
+            {{ $t('privacy.section3.title') }}
+          </h2>
+          <p class="text-body-large text-medium-emphasis mb-3">
+            {{ $t('privacy.section3.p1') }}
+          </p>
+          <ul class="text-body-large text-medium-emphasis pl-6 mb-6">
+            <li class="mb-2">{{ $t('privacy.section3.item1') }}</li>
+            <li class="mb-2">{{ $t('privacy.section3.item2') }}</li>
+            <li class="mb-2">{{ $t('privacy.section3.item3') }}</li>
+          </ul>
 
-        <h2 class="text-headline-medium mt-8 mb-4">Children's Privacy</h2>
-        <p class="text-body-large mb-4">
-          These Services do not address anyone under the age of 13. We do not
-          knowingly collect personally identifiable information from children
-          under 13 years of age. In the case we discover that a child under 13
-          has provided us with personal information, we immediately delete this
-          from our servers. If you are a parent or guardian and you are aware
-          that your child has provided us with personal information, please
-          contact us so that we will be able to do the necessary actions.
-        </p>
+          <!-- Section 4: End to End Encryption -->
+          <h2 class="text-headline-small font-weight-bold mb-3">
+            <VIcon color="success" :icon="mdiDatabaseLock" class="mr-1 mt-n1" />
+            {{ $t('privacy.section4.title') }}
+          </h2>
+          <p class="text-body-large text-medium-emphasis mb-6">
+            {{ $t('privacy.section4.p1') }}
+          </p>
 
-        <h2 class="text-headline-medium mt-8 mb-4">
-          Changes to This Privacy Policy
-        </h2>
-        <p class="text-body-large mb-4">
-          We may update our Privacy Policy from time to time. Thus, you are
-          advised to review this page periodically for any changes. We will
-          notify you of any changes by posting the new Privacy Policy on this
-          page.
-        </p>
-        <p class="text-body-large mb-4">
-          This policy is effective as of 2022-10-09
-        </p>
+          <!-- Section 5: Third Party Sharing -->
+          <h2 class="text-headline-small font-weight-bold mb-3">
+            {{ $t('privacy.section5.title') }}
+          </h2>
+          <p class="text-body-large text-medium-emphasis mb-3">
+            {{ $t('privacy.section5.p1') }}
+          </p>
+          <ul class="text-body-large text-medium-emphasis pl-6 mb-6">
+            <li class="mb-2">{{ $t('privacy.section5.item1') }}</li>
+            <li class="mb-2">{{ $t('privacy.section5.item2') }}</li>
+            <li class="mb-2">{{ $t('privacy.section5.item3') }}</li>
+          </ul>
 
-        <h2 class="text-headline-medium mt-8 mb-4">Contact Us</h2>
-        <p class="text-body-large mb-10">
-          If you have any questions or suggestions about our Privacy Policy, do
-          not hesitate to contact us at
-          <a
-            class="text-decoration-none font-weight-bold"
-            href="mailto:support@httpsms.com"
-            >support@httpsms.com</a
-          >.
-        </p>
-        <VDivider class="mx-16" />
-        <div class="text-center mt-8 mb-4">
-          <BackButton />
-        </div>
+          <!-- Section 6: Data Subject Rights -->
+          <h2 class="text-headline-small font-weight-bold mb-3">
+            <VIcon color="primary" :icon="mdiShieldCheck" class="mr-1 mt-n1" />
+            {{ $t('privacy.section6.title') }}
+          </h2>
+          <p class="text-body-large text-medium-emphasis mb-3">
+            {{ $t('privacy.section6.p1') }}
+          </p>
+          <ul class="text-body-large text-medium-emphasis pl-6 mb-6">
+            <li class="mb-2">{{ $t('privacy.section6.item1') }}</li>
+            <li class="mb-2">{{ $t('privacy.section6.item2') }}</li>
+            <li class="mb-2">{{ $t('privacy.section6.item3') }}</li>
+            <li class="mb-2">{{ $t('privacy.section6.item4') }}</li>
+            <li class="mb-2">{{ $t('privacy.section6.item5') }}</li>
+          </ul>
+
+          <!-- Section 7: DPO Contact -->
+          <h2 class="text-headline-small font-weight-bold mb-3">
+            <VIcon color="primary" :icon="mdiEmailOutline" class="mr-1 mt-n1" />
+            {{ $t('privacy.section7.title') }}
+          </h2>
+          <p class="text-body-large text-medium-emphasis mb-2">
+            {{ $t('privacy.section7.p1') }}
+          </p>
+          <VBtn
+            variant="tonal"
+            color="primary"
+            href="mailto:suporte@mesaquevende.com.br"
+          >
+            <VIcon start :icon="mdiEmailOutline" />
+            suporte@mesaquevende.com.br
+          </VBtn>
+        </VCard>
       </VCol>
     </VRow>
   </VContainer>

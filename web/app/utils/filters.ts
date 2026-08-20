@@ -46,10 +46,10 @@ export function formatTimestamp(value: string): string {
 
 export function formatMoney(value: string | number): string {
   try {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'USD',
-    }).format(typeof value === 'string' ? parseInt(value, 10) : value)
+      currency: 'BRL',
+    }).format(typeof value === 'string' ? parseFloat(value) : value)
   } catch {
     return String(value ?? '')
   }
@@ -57,9 +57,9 @@ export function formatMoney(value: string | number): string {
 
 export function formatDecimal(value: string | number): string {
   try {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'decimal',
-    }).format(typeof value === 'string' ? parseInt(value, 10) : value)
+    }).format(typeof value === 'string' ? parseFloat(value) : value)
   } catch {
     return String(value ?? '')
   }

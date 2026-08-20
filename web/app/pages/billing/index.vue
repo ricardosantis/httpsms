@@ -58,64 +58,64 @@ type PaymentPlan = {
 const plans: PaymentPlan[] = [
   { name: 'Free', id: 'free', messagesPerMonth: 200, price: 0 },
   {
-    name: 'PRO - Monthly',
+    name: 'PRO - Mensal',
     id: 'pro-monthly',
     messagesPerMonth: 5000,
-    price: 10,
+    price: 59,
   },
   {
-    name: 'PRO - Yearly',
+    name: 'PRO - Anual',
     id: 'pro-yearly',
     messagesPerMonth: 5000,
-    price: 100,
+    price: 570,
   },
   {
-    name: 'Ultra - Monthly',
+    name: 'Ultra - Mensal',
     id: 'ultra-monthly',
     messagesPerMonth: 10000,
-    price: 20,
+    price: 115,
   },
   {
-    name: 'Ultra - Yearly',
+    name: 'Ultra - Anual',
     id: 'ultra-yearly',
     messagesPerMonth: 10000,
-    price: 200,
+    price: 1150,
   },
   {
-    name: '20k - Monthly',
+    name: '20k - Mensal',
     id: '20k-monthly',
     messagesPerMonth: 20000,
-    price: 35,
+    price: 199,
   },
   {
-    name: '20k - Yearly',
+    name: '20k - Anual',
     id: '20k-yearly',
     messagesPerMonth: 20000,
-    price: 350,
+    price: 1990,
   },
   {
-    name: '50k - Monthly',
+    name: '50k - Mensal',
     id: '50k-monthly',
     messagesPerMonth: 50000,
-    price: 89,
+    price: 499,
   },
   {
-    name: '100k - Monthly',
+    name: '100k - Mensal',
     id: '100k-monthly',
     messagesPerMonth: 100000,
-    price: 175,
+    price: 990,
   },
   {
-    name: '200k - Monthly',
+    name: '200k - Mensal',
     id: '200k-monthly',
     messagesPerMonth: 200000,
-    price: 350,
+    price: 1990,
   },
   {
-    name: 'PRO - Lifetime',
+    name: 'PRO - Vitalício',
     id: 'pro-lifetime',
     messagesPerMonth: 10000,
-    price: 1000,
+    price: 4990,
   },
 ]
 
@@ -495,7 +495,8 @@ onMounted(async () => {
                           </p>
                         </VCol>
                         <VCol class="flex-grow-0 flex-shrink-0 text-center">
-                          <span class="text-headline-medium">$10</span>/month
+                          <span class="text-headline-medium">R$ 59</span
+                          >{{ $t('billing.perMonth') }}
                         </VCol>
                       </VRow>
                     </VCardText>
@@ -516,7 +517,8 @@ onMounted(async () => {
                           </p>
                         </VCol>
                         <VCol class="flex-grow-0 flex-shrink-0 text-center">
-                          <span class="text-headline-medium">$89</span>/month
+                          <span class="text-headline-medium">R$ 499</span
+                          >{{ $t('billing.perMonth') }}
                         </VCol>
                       </VRow>
                     </VCardText>

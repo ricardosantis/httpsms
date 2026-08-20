@@ -423,7 +423,7 @@
     "privacyPolicy": "Política de Privacidade",
     "contactSupport": "Falar com o Suporte",
     "madeWith": "Feito com",
-    "inTallinn": "em Tallinn"
+    "inSaoPaulo": "em São Paulo, Brasil"
   },
   "featurePhoneApiKeys": {
     "title": "Chaves de API do Telefone",
@@ -608,126 +608,383 @@
       "untilNextTime": "Até a próxima! ✌️",
       "downloadAndInstall": "⬇️ Baixe e instale"
     },
-    "grantPermissions": {
-      "title": "Como conceder permissões de SMS no Android 15+",
-      "description": "No Android 15 (Vanilla Ice Cream), as permissões SEND_SMS e RECEIVE_SMS possuem restrições rígidas. Aprenda como conceder essas permissões passo a passo.",
-      "seoTitle": "Como conceder permissões SEND_SMS e RECEIVE_SMS no Android 14+ e 15+ - httpSMS",
-      "seoDescription": "No Android 15 (Vanilla Ice Cream), as permissões SEND_SMS e RECEIVE_SMS agora são restritas. Aprenda como conceder essas permissões passo a passo.",
-      "intro": "No Android 15 (Vanilla Ice Cream), as permissões android.permission.SEND_SMS e android.permission.RECEIVE_SMS agora possuem restrições de segurança do sistema e não podem ser concedidas diretamente pela janela de permissões tradicional.",
-      "runtimeLink": "pela interface de permissões em tempo de execução",
-      "alert": "Conceder as permissões SEND_SMS e RECEIVE_SMS permitirá que o aplicativo Android leia e envie mensagens SMS no seu celular. Certifique-se de que confia no aplicativo antes de habilitar essas permissões.",
-      "step1Title": "Passo 1: Abrir Informações do App",
-      "step1Desc": "Pressione e segure o ícone do aplicativo Android do httpSMS na tela inicial do seu celular e selecione Informações do app.",
-      "step2Title": "Passo 2: Permitir Configurações Restritas",
-      "step2Desc": "Na página de Informações do app, toque no menu de opções no canto superior direito e selecione a opção Permitir configurações restritas.",
-      "step3Title": "Passo 3: Conceder Permissões de SMS",
-      "step3Desc": "Depois de liberar as configurações restritas no passo anterior, acesse Permissões ➡️ SMS e selecione Permitir para conceder o acesso completo de SMS ao aplicativo.",
-      "conclusionDesc": "Parabéns! Você configurou com sucesso as permissões de SMS no seu aplicativo Android."
+    "articles": {
+      "grantPermissions": {
+        "title": "Como conceder permissões de SMS no Android 15+",
+        "description": "No Android 15 (Vanilla Ice Cream), as permissões SEND_SMS e RECEIVE_SMS possuem restrições rígidas. Aprenda como conceder essas permissões passo a passo.",
+        "seoTitle": "Como conceder permissões SEND_SMS e RECEIVE_SMS no Android 14+ e 15+ - httpSMS",
+        "seoDescription": "No Android 15 (Vanilla Ice Cream), as permissões SEND_SMS e RECEIVE_SMS agora são restritas. Aprenda como conceder essas permissões passo a passo.",
+        "intro": "No Android 15 (Vanilla Ice Cream), as permissões android.permission.SEND_SMS e android.permission.RECEIVE_SMS agora possuem restrições de segurança do sistema e não podem ser concedidas diretamente pela janela de permissões tradicional.",
+        "runtimeLink": "pela interface de permissões em tempo de execução",
+        "alert": "Conceder as permissões SEND_SMS e RECEIVE_SMS permitirá que o aplicativo Android leia e envie mensagens SMS no seu celular. Certifique-se de que confia no aplicativo antes de habilitar essas permissões.",
+        "step1Title": "Passo 1: Abrir Informações do App",
+        "step1Desc": "Pressione e segure o ícone do aplicativo Android do httpSMS na tela inicial do seu celular e selecione Informações do app.",
+        "step2Title": "Passo 2: Permitir Configurações Restritas",
+        "step2Desc": "Na página de Informações do app, toque no menu de opções no canto superior direito e selecione a opção Permitir configurações restritas.",
+        "step3Title": "Passo 3: Conceder Permissões de SMS",
+        "step3Desc": "Depois de liberar as configurações restritas no passo anterior, acesse Permissões ➡️ SMS e selecione Permitir para conceder o acesso completo de SMS ao aplicativo.",
+        "conclusionDesc": "Parabéns! Você configurou com sucesso as permissões de SMS no seu aplicativo Android."
+      },
+      "e2eEncryption": {
+        "title": "Proteja suas conversas com criptografia de ponta a ponta para mensagens SMS",
+        "description": "Tenha controle absoluto da sua privacidade com mensagens SMS criptografadas de ponta a ponta. Garanta que ninguém além de você possa ler os textos enviados e recebidos.",
+        "seoTitle": "Proteja suas conversas com criptografia de ponta a ponta para SMS - httpSMS",
+        "seoDescription": "Ative a criptografia de ponta a ponta para suas mensagens SMS com o httpSMS para que ninguém além de você possa ler o conteúdo das mensagens.",
+        "intro1": "Adicionamos suporte à criptografia de ponta a ponta para mensagens SMS, garantindo que ninguém além de você e do destinatário final possa ver o conteúdo das mensagens enviadas pelo httpSMS.",
+        "intro2": "Você define uma chave de criptografia para proteger suas mensagens antes de enviar a requisição para a API do httpSMS, e utiliza essa mesma chave para descriptografar as mensagens recebidas via",
+        "webhookEvents": "eventos de webhook",
+        "algorithmNote": "Utilizamos o algoritmo de criptografia AES-256 para cifrar e decifrar todas as mensagens.",
+        "step1Title": "Configure sua chave de criptografia",
+        "step1Desc": "o app Android do httpSMS no seu celular e defina sua chave de criptografia na tela de Configurações do App.",
+        "step2Title": "Criptografe sua mensagem SMS",
+        "step2Desc1": "Utilizamos o algoritmo AES-256 para criptografia das mensagens SMS. Esse algoritmo requer uma chave de 256 bits; por isso, aplicamos a função de hash SHA-256 sobre qualquer senha informada no aplicativo para garantir que o tamanho seja sempre 256 bits.",
+        "step2Desc2": "O algoritmo AES também utiliza um vetor de inicialização (IV) de 16 bits, garantindo que o mesmo texto cifrado múltiplas vezes produza saídas diferentes. O IV é anexado à mensagem antes da codificação em Base64.",
+        "step2Desc3": "Nossos SDKs oficiais tratam todo o processo de criptografia e IV automaticamente para você.",
+        "step3Title": "Envie uma mensagem criptografada",
+        "step3Desc": "Após gerar a mensagem criptografada, você pode enviá-la normalmente pela API. Certifique-se de marcar encrypted: true no payload JSON para que o aplicativo Android saiba que deve descriptografar o conteúdo antes de disparar pelo chip.",
+        "step3SentNote": "Ao fazer a requisição na API, o SMS é descriptografado no aparelho celular no momento do disparo. Esta é a visualização da mensagem entregue ao destinatário:",
+        "step4Title": "Recebendo uma mensagem criptografada",
+        "step4Desc": "Quando o celular Android receber uma nova mensagem, ela será criptografada com a sua chave antes de ser despachada para o webhook do seu servidor. Você pode configurar webhooks seguindo",
+        "webhookGuideLink": "este tutorial.",
+        "conclusionDesc": "Parabéns! Você configurou com sucesso seu celular Android para enviar e receber mensagens SMS com criptografia de ponta a ponta."
+      },
+      "forwardWebhook": {
+        "title": "Como encaminhar mensagens SMS do celular Android para um webhook",
+        "description": "Programe seu celular Android para encaminhar as mensagens SMS recebidas para o seu servidor via webhook e dispare automações poderosas com ferramentas como Zapier e n8n.",
+        "seoTitle": "Como encaminhar SMS do celular Android para um webhook - httpSMS",
+        "seoDescription": "Configure seu telefone Android para encaminhar mensagens SMS recebidas para um webhook do seu servidor e integre com ferramentas de automação.",
+        "intro": "Agora você pode programar seu aparelho Android para encaminhar automaticamente todas as mensagens SMS recebidas para o seu servidor, disparando automações em tempo real. O httpSMS foi desenvolvido exatamente para tornar essa configuração rápida e simples.",
+        "step1Desc": "Crie sua conta no httpSMS e obtenha sua Chave de API na página de configurações:",
+        "step2Desc": "o app do httpSMS no seu celular e faça login com a Chave de API obtida acima. O aplicativo ficará ouvindo as mensagens recebidas no aparelho.",
+        "step3Title": "Passo 3: Configurar o Webhook",
+        "step3Desc": "Com o app instalado, configure a URL de destino na página de configurações do httpSMS para que as mensagens recebidas sejam enviadas via requisição POST ao seu servidor:",
+        "conclusionDesc": "Parabéns! Você configurou com sucesso o encaminhamento de SMS para o seu webhook. Você também pode disparar SMS usando nossa API HTTP simples.",
+        "docPrompt": "Encontre mais detalhes e exemplos na nossa documentação:"
+      },
+      "excel": {
+        "title": "Como enviar mensagens SMS para múltiplos números direto do Excel",
+        "description": "Envie mensagens SMS personalizadas para múltiplos números de telefone a partir de uma planilha do Excel usando seu celular Android como gateway de SMS.",
+        "seoTitle": "Como enviar mensagens SMS para múltiplos números a partir do Excel - httpSMS",
+        "seoDescription": "Envie mensagens SMS personalizadas para múltiplos destinatários direto do Excel com custo reduzido usando seu celular Android como gateway.",
+        "intro": "Envie mensagens SMS personalizadas para diversos contatos de forma prática e com custo reduzido. Você pode customizar a mensagem de cada destinatário diretamente nas colunas da sua planilha.",
+        "prereqExcel": "Conhecimento básico de Microsoft Excel ou Google Sheets.",
+        "prereqAndroid": "Um celular com sistema Android.",
+        "step3Title": "Passo 3: Preencha sua planilha Excel",
+        "step3Desc": "Baixe o modelo de planilha Excel do httpSMS e preencha as colunas FromPhoneNumber (seu número de envio), ToPhoneNumber (destinatário) e Content (texto do SMS).",
+        "excelTemplateLink": "modelo de planilha Excel do httpSMS",
+        "step3Alert": "Certifique-se de que o número na coluna FromPhoneNumber seja o mesmo cadastrado e conectado no app Android.",
+        "step4Title": "Passo 4: Dispare os envios em lote",
+        "step4Desc": "Acesse a página de Mensagens em Lote no httpSMS, faça o upload da sua planilha Excel preenchida e confirme o envio das mensagens.",
+        "bulkMessagesLink": "Mensagens em Lote"
+      },
+      "bulkCsv": {
+        "title": "Como enviar SMS em lote a partir de um arquivo CSV sem escrever código",
+        "description": "Faça o upload de um arquivo CSV e envie mensagens SMS personalizadas em massa em minutos usando seu celular Android como gateway — sem programar.",
+        "seoTitle": "Enviar SMS em lote a partir de arquivo CSV sem código - httpSMS",
+        "seoDescription": "Envie mensagens SMS personalizadas em massa a partir de um arquivo CSV de forma simples e rápida com seu celular Android.",
+        "intro": "Envie mensagens SMS personalizadas em massa para seus clientes e usuários. Não é necessário programar nada: basta preencher o arquivo CSV, fazer o upload e o sistema cuidará de todo o envio.",
+        "whatIsCsvTitle": "O que é um arquivo CSV?",
+        "whatIsCsvDesc": "CSV significa Comma-Separated Values (Valores Separados por Vírgula). Trata-se de um formato leve e universal para armazenar dados tabulares, compatível com Excel, Google Sheets, LibreOffice e qualquer editor de texto.",
+        "prereqCsv": "Conhecimento básico sobre arquivos CSV.",
+        "step3Title": "Passo 3: Edite seu arquivo CSV",
+        "step3Desc": "Baixe o modelo de arquivo CSV do httpSMS e adicione seus contatos nas colunas FromPhoneNumber, ToPhoneNumber e Content.",
+        "csvTemplateLink": "modelo CSV do httpSMS",
+        "step3Alert": "Utilize o número no formato internacional correto na coluna FromPhoneNumber.",
+        "step4Title": "Passo 4: Realize o upload e envie",
+        "step4Desc": "Acesse a página de Mensagens em Lote no httpSMS, faça o upload do arquivo CSV e inicie os disparos com um clique."
+      },
+      "python": {
+        "title": "Como enviar SMS a partir do seu celular Android com Python",
+        "description": "Configure seu celular Android como gateway de SMS e automatize o envio de mensagens de texto com Python em poucas linhas de código usando a API do httpSMS.",
+        "seoTitle": "Como enviar SMS a partir do seu celular Android com Python - httpSMS",
+        "seoDescription": "Aprenda a enviar mensagens SMS com Python através da API HTTP do httpSMS usando seu celular Android como gateway.",
+        "intro1": "O SMS continua sendo um dos canais de comunicação mais estáveis, universais e com maior taxa de abertura do mundo.",
+        "intro2": "Se você é desenvolvedor ou deseja integrar o envio de alertas e notificações SMS nas suas aplicações Python, este guia mostra como configurar tudo em poucos minutos.",
+        "prereqPython": "Conhecimento básico da linguagem Python.",
+        "prereqPythonInstalled": "Python instalado no seu computador.",
+        "step3Title": "Passo 3: Escrevendo o script Python",
+        "step3Desc": "Crie um arquivo chamado send_sms.py e adicione o código abaixo para disparar mensagens SMS via API do httpSMS:",
+        "step3Alert": "Substitua a variável api_key com sua chave real de /settings e informe os números com código de país e DDD.",
+        "step3RunDesc": "Execute o script com o comando python send_sms.py e verifique o celular de destino.",
+        "conclusionDesc": "Parabéns! Você configurou o envio de SMS via Python utilizando seu próprio celular Android.",
+        "forwardPrompt": "Se você também deseja receber e processar SMS recebidos em Python, consulte nosso",
+        "forwardLink": "guia de encaminhamento de SMS."
+      },
+      "zapierSheets": {
+        "title": "Como enviar um SMS quando uma nova linha for adicionada ao Google Sheets via Zapier",
+        "description": "Automatize o envio de SMS personalizados sempre que uma nova linha for inserida na planilha do Google Sheets usando Zapier e httpSMS — sem código.",
+        "seoTitle": "Enviar SMS quando nova linha for adicionada ao Google Sheets via Zapier - httpSMS",
+        "seoDescription": "Aprenda a conectar Google Sheets e httpSMS através do Zapier para enviar SMS automáticos a cada novo registro inserido na planilha.",
+        "intro": "Automatize o envio de mensagens SMS personalizadas para seus clientes toda vez que uma nova linha for adicionada à sua planilha do Google Sheets usando o Zapier, sem escrever uma única linha de código.",
+        "prereqSheets": "Conhecimento básico de Google Sheets.",
+        "prereqZapier": "Uma conta no Zapier.",
+        "prereqAccount": "Uma conta ativa no httpSMS.",
+        "step1Title": "Passo 1: Criar o gatilho (Trigger) no Zapier",
+        "step1Desc": "Crie um novo Zap no Zapier e selecione Google Sheets como aplicativo de gatilho. Escolha o evento New Spreadsheet Row.",
+        "step1SpreadsheetDesc": "Selecione a sua Planilha e a Página correspondente do seu Google Drive.",
+        "step1Alert": "No exemplo abaixo, simulamos uma loja de e-commerce onde as colunas contêm Nome do Cliente, Produto Comprado e Telefone de Contato. Você pode personalizar suas próprias colunas livremente.",
+        "step2Title": "Passo 2: Criar a ação (Action) no Zapier",
+        "step2Desc": "Adicione uma ação com o app Webhooks by Zapier e selecione o evento Custom Request.",
+        "step2ActionDesc": "Configure o método como POST, aponte para a URL da API do httpSMS, defina Data Pass-Through como false e monte o payload JSON mapeando as colunas da planilha.",
+        "step2Alert": "As variáveis [Nome], [Produto] e [Telefone] são preenchidas dinamicamente com base nas colunas da planilha.",
+        "step2HeadersDesc": "Nos cabeçalhos (Headers), adicione x-api-key com a chave de API da sua conta e Content-Type como application/json.",
+        "conclusionDesc": "Ao publicar o Zap, cada novo registro incluído na planilha acionará o envio automático do SMS personalizado pelo seu celular Android."
+      }
+    }
+  },
+  "docs": {
+    "title": "Documentação do httpSMS",
+    "subtitle": "Aprenda a integrar e automatizar o envio e recebimento de mensagens SMS através da nossa API HTTP e aplicativo Android.",
+    "exploreTopics": "Explorar Guias e Recursos",
+    "sections": {
+      "quickstart": {
+        "title": "Início Rápido",
+        "desc": "Primeiros passos para conectar seu celular e enviar seu primeiro SMS via API em menos de 5 minutos."
+      },
+      "webhooks": {
+        "title": "Introdução aos Webhooks",
+        "desc": "Receba SMS em tempo real no seu servidor e configure a verificação de assinatura HMAC SHA-256."
+      },
+      "webhookEvents": {
+        "title": "Eventos de Webhook",
+        "desc": "Especificações e exemplos de payloads JSON no formato CloudEvents 1.0 para todos os 6 tipos de evento."
+      },
+      "phoneApiKeys": {
+        "title": "Phone API Keys",
+        "desc": "Gerencie múltiplos telefones de forma independente e segura com chaves de API exclusivas por aparelho."
+      },
+      "rateLimit": {
+        "title": "Controle de Taxa de Envio",
+        "desc": "Evite bloqueios de operadoras e restrições do Android configurando mensagens por minuto."
+      },
+      "scheduling": {
+        "title": "Agendamento de SMS",
+        "desc": "Programe envios futuros com o parâmetro send_at ou dispare planilhas em massa agendadas."
+      },
+      "queue": {
+        "title": "Fila de Mensagens de Saída",
+        "desc": "Entenda as 3 regras de despacho da fila, horários ativos de envio e requisições bulk-send."
+      }
     },
-    "e2eEncryption": {
-      "title": "Proteja suas conversas com criptografia de ponta a ponta para mensagens SMS",
-      "description": "Tenha controle absoluto da sua privacidade com mensagens SMS criptografadas de ponta a ponta. Garanta que ninguém além de você possa ler os textos enviados e recebidos.",
-      "seoTitle": "Proteja suas conversas com criptografia de ponta a ponta para SMS - httpSMS",
-      "seoDescription": "Ative a criptografia de ponta a ponta para suas mensagens SMS com o httpSMS para que ninguém além de você possa ler o conteúdo das mensagens.",
-      "intro1": "Adicionamos suporte à criptografia de ponta a ponta para mensagens SMS, garantindo que ninguém além de você e do destinatário final possa ver o conteúdo das mensagens enviadas pelo httpSMS.",
-      "intro2": "Você define uma chave de criptografia para proteger suas mensagens antes de enviar a requisição para a API do httpSMS, e utiliza essa mesma chave para descriptografar as mensagens recebidas via",
-      "webhookEvents": "eventos de webhook",
-      "algorithmNote": "Utilizamos o algoritmo de criptografia AES-256 para cifrar e decifrar todas as mensagens.",
-      "step1Title": "Configure sua chave de criptografia",
-      "step1Desc": "o app Android do httpSMS no seu celular e defina sua chave de criptografia na tela de Configurações do App.",
-      "step2Title": "Criptografe sua mensagem SMS",
-      "step2Desc1": "Utilizamos o algoritmo AES-256 para criptografia das mensagens SMS. Esse algoritmo requer uma chave de 256 bits; por isso, aplicamos a função de hash SHA-256 sobre qualquer senha informada no aplicativo para garantir que o tamanho seja sempre 256 bits.",
-      "step2Desc2": "O algoritmo AES também utiliza um vetor de inicialização (IV) de 16 bits, garantindo que o mesmo texto cifrado múltiplas vezes produza saídas diferentes. O IV é anexado à mensagem antes da codificação em Base64.",
-      "step2Desc3": "Nossos SDKs oficiais tratam todo o processo de criptografia e IV automaticamente para você.",
-      "step3Title": "Envie uma mensagem criptografada",
-      "step3Desc": "Após gerar a mensagem criptografada, você pode enviá-la normalmente pela API. Certifique-se de marcar encrypted: true no payload JSON para que o aplicativo Android saiba que deve descriptografar o conteúdo antes de disparar pelo chip.",
-      "step3SentNote": "Ao fazer a requisição na API, o SMS é descriptografado no aparelho celular no momento do disparo. Esta é a visualização da mensagem entregue ao destinatário:",
-      "step4Title": "Recebendo uma mensagem criptografada",
-      "step4Desc": "Quando o celular Android receber uma nova mensagem, ela será criptografada com a sua chave antes de ser despachada para o webhook do seu servidor. Você pode configurar webhooks seguindo",
-      "webhookGuideLink": "este tutorial.",
-      "conclusionDesc": "Parabéns! Você configurou com sucesso seu celular Android para enviar e receber mensagens SMS com criptografia de ponta a ponta."
+    "swagger": {
+      "title": "Explorador Interativo de API (OpenAPI / Swagger)",
+      "desc": "Consulte todos os endpoints, esquemas de requisição, parâmetros e teste chamadas diretamente no navegador.",
+      "btn": "Abrir Swagger UI"
     },
-    "forwardWebhook": {
-      "title": "Como encaminhar mensagens SMS do celular Android para um webhook",
-      "description": "Programe seu celular Android para encaminhar as mensagens SMS recebidas para o seu servidor via webhook e dispare automações poderosas com ferramentas como Zapier e n8n.",
-      "seoTitle": "Como encaminhar SMS do celular Android para um webhook - httpSMS",
-      "seoDescription": "Configure seu telefone Android para encaminhar mensagens SMS recebidas para um webhook do seu servidor e integre com ferramentas de automação.",
-      "intro": "Agora você pode programar seu aparelho Android para encaminhar automaticamente todas as mensagens SMS recebidas para o seu servidor, disparando automações em tempo real. O httpSMS foi desenvolvido exatamente para tornar essa configuração rápida e simples.",
-      "step1Desc": "Crie sua conta no httpSMS e obtenha sua Chave de API na página de configurações:",
-      "step2Desc": "o app do httpSMS no seu celular e faça login com a Chave de API obtida acima. O aplicativo ficará ouvindo as mensagens recebidas no aparelho.",
-      "step3Title": "Passo 3: Configurar o Webhook",
-      "step3Desc": "Com o app instalado, configure a URL de destino na página de configurações do httpSMS para que as mensagens recebidas sejam enviadas via requisição POST ao seu servidor:",
-      "conclusionDesc": "Parabéns! Você configurou com sucesso o encaminhamento de SMS para o seu webhook. Você também pode disparar SMS usando nossa API HTTP simples.",
-      "docPrompt": "Encontre mais detalhes e exemplos na nossa documentação:"
+    "quickstart": {
+      "title": "Guia de Início Rápido",
+      "intro": "Envie seu primeiro SMS através da API HTTP do httpSMS em 3 passos simples:",
+      "step1Title": "Passo 1: Obtenha sua Chave de API",
+      "step1Desc": "Crie sua conta no painel do httpSMS e copie sua chave de API nas configurações.",
+      "getApiKeyBtn": "Obter Chave de API",
+      "step2Title": "Passo 2: Instale o aplicativo Android",
+      "step2Desc": "Baixe o aplicativo Android complementar e faça login com a Chave de API da sua conta.",
+      "downloadAppBtn": "Baixar App Android",
+      "step3Title": "Passo 3: Envie seu primeiro SMS",
+      "step3Desc": "Faça uma requisição POST para o endpoint /v1/messages/send utilizando cURL ou sua linguagem preferida."
     },
-    "excel": {
-      "title": "Como enviar mensagens SMS para múltiplos números direto do Excel",
-      "description": "Envie mensagens SMS personalizadas para múltiplos números de telefone a partir de uma planilha do Excel usando seu celular Android como gateway de SMS.",
-      "seoTitle": "Como enviar mensagens SMS para múltiplos números a partir do Excel - httpSMS",
-      "seoDescription": "Envie mensagens SMS personalizadas para múltiplos destinatários direto do Excel com custo reduzido usando seu celular Android como gateway.",
-      "intro": "Envie mensagens SMS personalizadas para diversos contatos de forma prática e com custo reduzido. Você pode customizar a mensagem de cada destinatário diretamente nas colunas da sua planilha.",
-      "prereqExcel": "Conhecimento básico de Microsoft Excel ou Google Sheets.",
-      "prereqAndroid": "Um celular com sistema Android.",
-      "step3Title": "Passo 3: Preencha sua planilha Excel",
-      "step3Desc": "Baixe o modelo de planilha Excel do httpSMS e preencha as colunas FromPhoneNumber (seu número de envio), ToPhoneNumber (destinatário) e Content (texto do SMS).",
-      "excelTemplateLink": "modelo de planilha Excel do httpSMS",
-      "step3Alert": "Certifique-se de que o número na coluna FromPhoneNumber seja o mesmo cadastrado e conectado no app Android.",
-      "step4Title": "Passo 4: Dispare os envios em lote",
-      "step4Desc": "Acesse a página de Mensagens em Lote no httpSMS, faça o upload da sua planilha Excel preenchida e confirme o envio das mensagens.",
-      "bulkMessagesLink": "Mensagens em Lote"
+    "codeSamples": {
+      "title": "Exemplos de Código",
+      "desc": "Escolha sua linguagem de programação para ver exemplos prontos de integração:"
     },
-    "bulkCsv": {
-      "title": "Como enviar SMS em lote a partir de um arquivo CSV sem escrever código",
-      "description": "Faça o upload de um arquivo CSV e envie mensagens SMS personalizadas em massa em minutos usando seu celular Android como gateway — sem programar.",
-      "seoTitle": "Enviar SMS em lote a partir de arquivo CSV sem código - httpSMS",
-      "seoDescription": "Envie mensagens SMS personalizadas em massa a partir de um arquivo CSV de forma simples e rápida com seu celular Android.",
-      "intro": "Envie mensagens SMS personalizadas em massa para seus clientes e usuários. Não é necessário programar nada: basta preencher o arquivo CSV, fazer o upload e o sistema cuidará de todo o envio.",
-      "whatIsCsvTitle": "O que é um arquivo CSV?",
-      "whatIsCsvDesc": "CSV significa Comma-Separated Values (Valores Separados por Vírgula). Trata-se de um formato leve e universal para armazenar dados tabulares, compatível com Excel, Google Sheets, LibreOffice e qualquer editor de texto.",
-      "prereqCsv": "Conhecimento básico sobre arquivos CSV.",
-      "step3Title": "Passo 3: Edite seu arquivo CSV",
-      "step3Desc": "Baixe o modelo de arquivo CSV do httpSMS e adicione seus contatos nas colunas FromPhoneNumber, ToPhoneNumber e Content.",
-      "csvTemplateLink": "modelo CSV do httpSMS",
-      "step3Alert": "Utilize o número no formato internacional correto na coluna FromPhoneNumber.",
-      "step4Title": "Passo 4: Realize o upload e envie",
-      "step4Desc": "Acesse a página de Mensagens em Lote no httpSMS, faça o upload do arquivo CSV e inicie os disparos com um clique."
+    "sdks": {
+      "title": "Bibliotecas e SDKs Oficiais"
     },
-    "python": {
-      "title": "Como enviar SMS a partir do seu celular Android com Python",
-      "description": "Configure seu celular Android como gateway de SMS e automatize o envio de mensagens de texto com Python em poucas linhas de código usando a API do httpSMS.",
-      "seoTitle": "Como enviar SMS a partir do seu celular Android com Python - httpSMS",
-      "seoDescription": "Aprenda a enviar mensagens SMS com Python através da API HTTP do httpSMS usando seu celular Android como gateway.",
-      "intro1": "O SMS continua sendo um dos canais de comunicação mais estáveis, universais e com maior taxa de abertura do mundo.",
-      "intro2": "Se você é desenvolvedor ou deseja integrar o envio de alertas e notificações SMS nas suas aplicações Python, este guia mostra como configurar tudo em poucos minutos.",
-      "prereqPython": "Conhecimento básico da linguagem Python.",
-      "prereqPythonInstalled": "Python instalado no seu computador.",
-      "step3Title": "Passo 3: Escrevendo o script Python",
-      "step3Desc": "Crie um arquivo chamado send_sms.py e adicione o código abaixo para disparar mensagens SMS via API do httpSMS:",
-      "step3Alert": "Substitua a variável api_key com sua chave real de /settings e informe os números com código de país e DDD.",
-      "step3RunDesc": "Execute o script com o comando python send_sms.py e verifique o celular de destino.",
-      "conclusionDesc": "Parabéns! Você configurou o envio de SMS via Python utilizando seu próprio celular Android.",
-      "forwardPrompt": "Se você também deseja receber e processar SMS recebidos em Python, consulte nosso",
-      "forwardLink": "guia de encaminhamento de SMS."
+    "sidebar": {
+      "guidesTitle": "Guias e Recursos"
+    }
+  },
+  "webhooksIntro": {
+    "title": "Introdução aos Webhooks",
+    "subtitle": "Receba notificações em tempo real no seu servidor quando uma mensagem for recebida, enviada, entregue ou quando o status do aparelho mudar.",
+    "whatIs": {
+      "title": "O que são Webhooks?",
+      "desc": "Webhooks são requisições HTTP POST automáticas enviadas pelo httpSMS para a URL do seu servidor sempre que um evento relevante acontece no seu celular Android (como o recebimento de um novo SMS).",
+      "alert": "Os webhooks eliminam a necessidade de consultar (polling) a API constantemente, permitindo reagir instantaneamente a novas mensagens recebidas."
     },
-    "zapierSheets": {
-      "title": "Como enviar um SMS quando uma nova linha for adicionada ao Google Sheets via Zapier",
-      "description": "Automatize o envio de SMS personalizados sempre que uma nova linha for inserida na planilha do Google Sheets usando Zapier e httpSMS — sem código.",
-      "seoTitle": "Enviar SMS quando nova linha for adicionada ao Google Sheets via Zapier - httpSMS",
-      "seoDescription": "Aprenda a conectar Google Sheets e httpSMS através do Zapier para enviar SMS automáticos a cada novo registro inserido na planilha.",
-      "intro": "Automatize o envio de mensagens SMS personalizadas para seus clientes toda vez que uma nova linha for adicionada à sua planilha do Google Sheets usando o Zapier, sem escrever uma única linha de código.",
-      "prereqSheets": "Conhecimento básico de Google Sheets.",
-      "prereqZapier": "Uma conta no Zapier.",
-      "prereqAccount": "Uma conta ativa no httpSMS.",
-      "step1Title": "Passo 1: Criar o gatilho (Trigger) no Zapier",
-      "step1Desc": "Crie um novo Zap no Zapier e selecione Google Sheets como aplicativo de gatilho. Escolha o evento New Spreadsheet Row.",
-      "step1SpreadsheetDesc": "Selecione a sua Planilha e a Página correspondente do seu Google Drive.",
-      "step1Alert": "No exemplo abaixo, simulamos uma loja de e-commerce onde as colunas contêm Nome do Cliente, Produto Comprado e Telefone de Contato. Você pode personalizar suas próprias colunas livremente.",
-      "step2Title": "Passo 2: Criar a ação (Action) no Zapier",
-      "step2Desc": "Adicione uma ação com o app Webhooks by Zapier e selecione o evento Custom Request.",
-      "step2ActionDesc": "Configure o método como POST, aponte para a URL da API do httpSMS, defina Data Pass-Through como false e monte o payload JSON mapeando as colunas da planilha.",
-      "step2Alert": "As variáveis [Nome], [Produto] e [Telefone] são preenchidas dinamicamente com base nas colunas da planilha.",
-      "step2HeadersDesc": "Nos cabeçalhos (Headers), adicione x-api-key com a chave de API da sua conta e Content-Type como application/json.",
-      "conclusionDesc": "Ao publicar o Zap, cada novo registro incluído na planilha acionará o envio automático do SMS personalizado pelo seu celular Android."
+    "config": {
+      "title": "1. Configurando a URL do Webhook",
+      "desc": "Você pode configurar a URL do seu servidor na página de configurações do painel web:",
+      "stepTitle": "URL de Destino do Webhook",
+      "stepDesc": "Defina o endereço completo do seu endpoint (ex: https://seu-site.com.br/api/webhook) e ative o recebimento de eventos.",
+      "goToSettings": "Ir para Configurações"
+    },
+    "security": {
+      "title": "2. Verificação de Assinatura de Segurança",
+      "desc": "Para garantir que as requisições recebidas realmente vieram do httpSMS e não foram alteradas por terceiros, cada requisição inclui o cabeçalho x-signature contendo um hash HMAC SHA-256 do corpo da requisição.",
+      "secretNote": "Utilize a Chave Secreta de Assinatura (Webhook Signing Secret) gerada no seu painel para validar a assinatura em cada requisição."
+    },
+    "eventsLink": {
+      "title": "Conheça os Tipos de Eventos",
+      "desc": "Veja todos os 6 formatos de payload JSON compatíveis com a especificação CloudEvents 1.0.",
+      "btn": "Ver Lista de Eventos"
+    }
+  },
+  "webhookEvents": {
+    "title": "Eventos de Webhook",
+    "subtitle": "Referência completa de todos os eventos disparados pelo httpSMS no padrão CloudEvents 1.0.",
+    "cloudEventsInfo": "Todos os payloads de webhook enviados pelo httpSMS seguem rigorosamente a especificação aberta CloudEvents 1.0 em formato JSON.",
+    "types": {
+      "received": "Disparado quando um novo SMS é recebido pelo chip SIM do seu celular Android.",
+      "sent": "Disparado quando uma mensagem enviada é transmitida com sucesso pela rede celular.",
+      "failed": "Disparado quando ocorre uma falha no envio do SMS pelo celular (ex: sem crédito ou sem sinal).",
+      "delivered": "Disparado quando o relatório de entrega (Delivery Receipt) da operadora é confirmado.",
+      "heartbeatReceived": "Disparado quando o aplicativo Android envia um sinal periódico confirmando que está online.",
+      "heartbeatMissed": "Disparado quando o celular deixa de enviar sinais e é considerado offline pelo sistema."
+    }
+  },
+  "featureControlRate": {
+    "title": "Controle de Taxa de Envio de SMS",
+    "subtitle": "Defina o limite de mensagens enviadas por minuto para evitar bloqueios de operadoras e restrições do sistema Android.",
+    "why": {
+      "title": "Por que controlar a taxa de envio?",
+      "desc1": "O sistema operacional Android possui mecanismos internos de segurança que monitoram a quantidade de SMS disparados por aplicativos. Se muitos SMS forem enviados em poucos segundos, o sistema pode bloquear o aplicativo ou exibir alertas intrusivos.",
+      "desc2": "Além disso, operadoras de telefonia utilizam filtros anti-spam automáticos que podem bloquear temporariamente chips que disparam rajadas excessivas de mensagens em intervalos curtos.",
+      "carrierAlert": "Recomendamos manter a taxa de envio entre 10 e 20 mensagens por minuto para garantir entregabilidade contínua e sem interrupções."
+    },
+    "config": {
+      "title": "Configuração da Taxa",
+      "desc": "Ajuste o limite de mensagens por minuto na página de configurações do seu painel:",
+      "defaultLimitTitle": "Taxa Padrão (10 msgs/min)",
+      "defaultLimitDesc": "Configuração padrão segura e recomendada para a maioria das operações.",
+      "maxLimitTitle": "Taxa Máxima (29 msgs/min)",
+      "maxLimitDesc": "Limite máximo suportado pelo sistema para prevenir bloqueios de segurança do Android.",
+      "settingsBtn": "Configurar Taxa de Envio"
+    },
+    "formula": {
+      "title": "Cálculo de Despacho na Fila",
+      "desc": "Quando mensagens em lote são adicionadas à fila, o httpSMS calcula o atraso individual de cada mensagem:"
+    }
+  },
+  "featureScheduling": {
+    "title": "Agendamento de Mensagens SMS",
+    "subtitle": "Programe o envio de SMS para datas e horários futuros via API ou planilhas do Excel.",
+    "howItWorks": {
+      "title": "Como funciona o agendamento?",
+      "desc": "Você pode especificar exatamente quando cada SMS deve ser entregue ao celular Android para disparo, permitindo planejar campanhas, lembretes de consultas e avisos com antecedência.",
+      "alertMaxDays": "As mensagens podem ser agendadas para envio em até 20 dias no futuro."
+    },
+    "api": {
+      "title": "Agendamento via API HTTP (send_at)",
+      "desc": "Basta incluir o campo send_at no formato RFC 3339 (com timezone) no corpo da sua requisição POST:"
+    },
+    "bulk": {
+      "title": "Agendamento em Lote com Excel",
+      "desc": "Ao fazer upload de planilhas Excel na página de Mensagens em Lote, você pode definir horários individuais de envio por linha:",
+      "columnTitle": "Coluna SendTime na Planilha",
+      "columnDesc": "Preencha a coluna SendTime com a data e hora desejada (ex: 2026-08-21 14:00). Se deixada em branco, a mensagem será enviada imediatamente respeitando a taxa de envio.",
+      "bulkBtn": "Ir para Mensagens em Lote"
+    }
+  },
+  "featureQueue": {
+    "title": "Fila de Mensagens de Saída",
+    "subtitle": "Entenda como o httpSMS gerencia, enfileira e despacha mensagens para o seu aparelho Android.",
+    "intro": {
+      "title": "Gerenciamento Inteligente de Fila",
+      "desc": "Todas as mensagens enviadas para a API do httpSMS entram em uma fila segura no Redis/Banco de Dados antes de serem transmitidas via push para o aparelho Android.",
+      "alert": "A fila garante que nenhuma mensagem seja perdida mesmo se o aparelho ficar temporariamente sem conexão ou desligado."
+    },
+    "rules": {
+      "title": "As 3 Regras de Despacho da Fila",
+      "desc": "O despachante avalia cada mensagem na fila segundo três critérios prioritários:",
+      "rule1Title": "1. Horário Agendado (send_at)",
+      "rule1Desc": "Se a mensagem possuir uma data futura explícita (send_at), ela aguardará até o momento exato para ser liberada.",
+      "rule2Title": "2. Taxa por Minuto (Rate Delay)",
+      "rule2Desc": "Envios em massa são espaçados automaticamente segundo a taxa configurada (ex: a cada 6 segundos para 10/min).",
+      "rule3Title": "3. Janela de Horário Ativo",
+      "rule3Desc": "Se você configurou um horário de envio permitido (ex: 08:00 às 20:00), mensagens fora desse intervalo aguardarão o próximo dia."
+    },
+    "bulkApi": {
+      "title": "Envio em Massa via API (bulk-send)",
+      "desc": "Você pode enviar até 1.000 mensagens em uma única requisição POST utilizando o endpoint /v1/messages/bulk-send:"
+    },
+    "settingsBtn": "Configurar Horários e Fila"
+  },
+  "terms": {
+    "title": "Termos de Uso e Condições de Serviço",
+    "subtitle": "Leia atentamente as diretrizes, direitos e responsabilidades ao utilizar a plataforma httpSMS.",
+    "lastUpdated": "Última atualização: 20 de Agosto de 2026",
+    "section1": {
+      "title": "1. Objeto e Aceitação dos Termos",
+      "p1": "Ao criar uma conta, baixar o aplicativo complementar para Android ou utilizar as APIs do httpSMS (serviço operado pela plataforma Mesa Que Vende, sob a legislação brasileira), você concorda integralmente com estes Termos e Condições.",
+      "p2": "Se você não concordar com qualquer uma das disposições aqui estabelecidas, recomendamos que não utilize os nossos serviços ou aplicativos."
+    },
+    "section2": {
+      "title": "2. Funcionamento do Gateway SMS e Responsabilidade do Usuário",
+      "p1": "O httpSMS funciona como uma ponte de integração tecnológica entre suas aplicações de software (via HTTP API) e o seu aparelho celular Android.",
+      "p2": "Todas as mensagens SMS são disparadas e recebidas através do chip (SIM card) instalado no seu próprio aparelho físico conectado à rede da sua operadora de telefonia móvel brasileira (ou internacional).",
+      "p3": "É de responsabilidade exclusiva do usuário: (a) manter o aparelho celular com carga de bateria, conectado à internet (Wi-Fi ou dados móveis) e com sinal de rede celular; (b) arcar com os custos de planos, pacotes e tarifas cobrados pela sua operadora de telefonia pelo disparo de SMS e tráfego de dados; (c) garantir a conformidade do uso com as normas da Anatel e a legislação brasileira."
+    },
+    "section3": {
+      "title": "3. Política de Uso Aceitável e Proibição de SPAM",
+      "p1": "É expressamente proibido utilizar o httpSMS para: (a) envio de mensagens não solicitadas em massa (SPAM); (b) práticas de phishing, golpes financeiros, engenharia social ou disseminação de links maliciosos; (c) envio de conteúdo difamatório, pornográfico ilegal, ameaçador, discriminatório ou que viole direitos autorais; (d) qualquer atividade que viole leis federais, estaduais ou municipais do Brasil.",
+      "p2": "Reservamo-nos o direito de suspender ou encerrar imediatamente contas que violem estas diretrizes de uso aceitável, sem direito a reembolso."
+    },
+    "section4": {
+      "title": "4. Planos, Cobrança e Cancelamento",
+      "p1": "Os planos pagos do httpSMS são cobrados em Reais (BRL) de forma recorrente (mensal ou anual) através do nosso processador de pagamentos seguro Stripe.",
+      "p2": "Você pode cancelar sua assinatura a qualquer momento através da página de Faturamento. O cancelamento interrompe cobranças futuras e seu plano permanecerá ativo até o final do período já pago.",
+      "p3": "Em consonância com o Código de Defesa do Consumidor (Lei nº 8.078/1990), garantimos o direito de arrependimento no prazo de 7 (sete) dias após a primeira contratação do plano."
+    },
+    "section5": {
+      "title": "5. Limitação de Responsabilidade",
+      "p1": "O httpSMS não se responsabiliza por: (a) falhas, atrasos ou não entrega de mensagens decorrentes de indisponibilidade da operadora de telefonia móvel do usuário ou do destinatário; (b) bloqueios impostos por operadoras de telecomunicações por detecção de spam no chip do usuário; (c) perda de conexão com a internet ou desligamento do aparelho Android do usuário.",
+      "p2": "Nosso serviço é fornecido 'no estado em que se encontra', com garantia de esforço comercialmente razoável para manter a infraestrutura de nuvem, APIs e serviços online 24 horas por dia."
+    },
+    "section6": {
+      "title": "6. Legislação Aplicável e Foro",
+      "p1": "Estes Termos são regidos e interpretados de acordo com as Leis da República Federativa do Brasil, em especial o Marco Civil da Internet (Lei nº 12.965/2014) e a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).",
+      "p2": "Fica eleito o Foro da Comarca de São Paulo, Estado de São Paulo, para dirimir quaisquer litígios oriundos destes Termos, renunciando a qualquer outro por mais privilegiado que seja."
+    }
+  },
+  "privacy": {
+    "title": "Política de Privacidade (LGPD)",
+    "subtitle": "Conheça como tratamos, armazenamos e protegemos seus dados pessoais de acordo com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).",
+    "lastUpdated": "Última atualização: 20 de Agosto de 2026",
+    "section1": {
+      "title": "1. Informações Gerais e Controlador de Dados",
+      "p1": "A presente Política de Privacidade regula o tratamento de dados pessoais realizado pela plataforma httpSMS (operada no ecossistema Mesa Que Vende, São Paulo, Brasil).",
+      "p2": "Estamos comprometidos em proteger a sua privacidade e tratar seus dados pessoais com transparência, segurança e em estrita conformidade com a LGPD (Lei nº 13.709/2018) e o Marco Civil da Internet (Lei nº 12.965/2014)."
+    },
+    "section2": {
+      "title": "2. Dados que Coletamos",
+      "p1": "Coletamos as seguintes categorias de dados para viabilizar a prestação dos serviços:",
+      "item1": "Dados Cadastrais: Nome, endereço de e-mail e informações de autenticação (Firebase Auth).",
+      "item2": "Metadados de Mensagens: Número do telefone remetente, número do telefone destinatário, data/hora e status de entrega (SENT, DELIVERED, FAILED, RECEIVED).",
+      "item3": "Conteúdo das Mensagens: Armazenado de forma temporária para viabilizar o encaminhamento e exibição no painel. Caso utilize a criptografia ponta a ponta (AES-256), o conteúdo é armazenado exclusivamente de forma cifrada, sem possibilidade de acesso por nossa equipe.",
+      "item4": "Dados de Faturamento: Informações de pagamento processadas diretamente pelo Stripe em ambiente compatível com PCI-DSS. Nós não armazenamos dados de cartão de crédito nos nossos servidores.",
+      "item5": "Logs de Acesso e Conexão: Endereço IP, data e hora de acesso, versão do aplicativo e logs técnicos, mantidos em cumprimento ao Art. 15 do Marco Civil da Internet."
+    },
+    "section3": {
+      "title": "3. Bases Legais e Finalidade do Tratamento",
+      "p1": "O tratamento dos dados é realizado com base nas seguintes hipóteses da LGPD:",
+      "item1": "Execução de Contrato (Art. 7º, V): Para prestar os serviços de gateway de SMS, autenticação e suporte.",
+      "item2": "Cumprimento de Obrigação Legal (Art. 7º, II): Guarda de logs de conexão conforme Marco Civil da Internet e emissão de notas fiscais.",
+      "item3": "Legítimo Interesse (Art. 7º, IX): Prevenção a fraudes, segurança da infraestrutura e melhorias de performance da plataforma."
+    },
+    "section4": {
+      "title": "4. Criptografia de Ponta a Ponta",
+      "p1": "Oferecemos suporte nativo à Criptografia de Ponta a Ponta utilizando o padrão AES-256 com chave derivada por SHA-256. Quando ativada, a mensagem é cifrada no seu servidor antes do envio e decifrada exclusivamente pelo chip do seu celular Android de destino. Nem o httpSMS nem terceiros conseguem ler o texto das mensagens cifradas."
+    },
+    "section5": {
+      "title": "5. Compartilhamento de Dados com Terceiros",
+      "p1": "Não vendemos nem comercializamos seus dados pessoais. Compartilhamos dados estritamente com provedores de infraestrutura indispensáveis para a operação do serviço:",
+      "item1": "Google Cloud Platform / Firebase: Armazenamento e autenticação de usuários.",
+      "item2": "Stripe: Processamento seguro de pagamentos e assinaturas.",
+      "item3": "Neon PostgreSQL & Upstash Redis: Armazenamento de banco de dados e filas de eventos com conexões criptografadas TLS."
+    },
+    "section6": {
+      "title": "6. Direitos do Titular dos Dados (LGPD)",
+      "p1": "Conforme o Artigo 18 da LGPD, você possui os seguintes direitos em relação aos seus dados pessoais:",
+      "item1": "Confirmar a existência de tratamento e acessar seus dados;",
+      "item2": "Corrigir dados incompletos, inexatos ou desatualizados;",
+      "item3": "Solicitar a anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos;",
+      "item4": "Solicitar a portabilidade dos dados ou a exclusão total da sua conta e dados cadastrais;",
+      "item5": "Revogar o consentimento a qualquer momento."
+    },
+    "section7": {
+      "title": "7. Canal de Contato do Encarregado de Dados (DPO)",
+      "p1": "Para exercer qualquer um dos seus direitos ou esclarecer dúvidas sobre esta Política de Privacidade, entre em contato com nosso Encarregado de Proteção de Dados através do nosso e-mail de suporte."
     }
   }
 }
