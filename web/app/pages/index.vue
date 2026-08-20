@@ -38,11 +38,12 @@ useSeoMeta({
   ogTitle: 'Convert your Android phone into an SMS gateway',
   ogDescription:
     'Send and receive SMS messages worldwide through your own Android phone using a simple HTTP API. No SMS provider, short code, or monthly minimum required.',
-  ogImage: 'https://httpsms.com/header.png',
+  ogImage: `${useRuntimeConfig().public.appUrl || 'https://sms.mesaquevende.com.br'}/header.png`,
   twitterCard: 'summary_large_image',
 })
 
 const config = useRuntimeConfig()
+const appStore = useAppStore()
 const { lgAndUp, mdAndUp, mdAndDown, md, smAndDown, xl } = useDisplay()
 
 const selectedTab = ref('javascript')
@@ -262,7 +263,7 @@ const planYearlyMonthlyPrice = computed(
               </h5>
               <VBtn
                 target="_blank"
-                href="https://docs.httpsms.com/webhooks/introduction"
+                :href="`${appStore.appData.documentationUrl}/webhooks/introduction`"
                 color="primary"
               >
                 <VIcon start :icon="mdiWebhook" />
@@ -287,7 +288,7 @@ const planYearlyMonthlyPrice = computed(
                 per 20 seconds.
               </h5>
               <VBtn
-                href="https://docs.httpsms.com/features/control-sms-send-rate"
+                :href="`${appStore.appData.documentationUrl}/features/control-sms-send-rate`"
                 color="primary"
               >
                 <VIcon start :icon="mdiArrowRightThin" />
@@ -392,7 +393,7 @@ const planYearlyMonthlyPrice = computed(
                 account by creating unique phone API keys.
               </h5>
               <VBtn
-                href="https://docs.httpsms.com/features/phone-api-keys"
+                :href="`${appStore.appData.documentationUrl}/features/phone-api-keys`"
                 color="primary"
               >
                 <VIcon start :icon="mdiCellphoneKey" />
@@ -420,7 +421,7 @@ const planYearlyMonthlyPrice = computed(
                 your messages in advance.
               </h5>
               <VBtn
-                href="https://docs.httpsms.com/features/scheduling-sms-messages"
+                :href="`${appStore.appData.documentationUrl}/features/scheduling-sms-messages`"
                 color="primary"
               >
                 <VIcon start :icon="mdiClockOutline" />
@@ -565,7 +566,7 @@ const planYearlyMonthlyPrice = computed(
                       class="pa-4 bg-surface rounded mt-2"
                     ><code class="language-javascript">import HttpSms from 'httpsms'
 
-const client = new HttpSms('' /* Get the API Key from https://httpsms.com/settings */);
+const client = new HttpSms('' /* Get the API Key from {{ appStore.appData.url }}/settings */);
 
 client.messages.postSend({
     content:   'This is a sample text message',
@@ -580,7 +581,7 @@ client.messages.postSend({
                     <pre
                       class="pa-4 bg-surface rounded mt-2"
                     ><code class="language-php">&lt;?php
-$apiKey = "Get API Key from https://httpsms.com/settings";
+$apiKey = "Get API Key from {{ appStore.appData.url }}/settings";
 
 $options = array(
   'http' => array(
@@ -597,7 +598,7 @@ $options = array(
 );
 
 $context  = stream_context_create( $options );
-$result = file_get_contents( "https://api.httpsms.com/v1/messages/send", false, $context );
+$result = file_get_contents( "{{ appStore.appData.apiBaseUrl }}/v1/messages/send", false, $context );
 
 echo $result;</code></pre>
                   </VTabsWindowItem>
@@ -607,9 +608,9 @@ echo $result;</code></pre>
                     ><code class="language-python">import requests
 import json
 
-api_key = "Get API Key from https://httpsms.com/settings"
+api_key = "Get API Key from {{ appStore.appData.url }}/settings"
 
-url = 'https://api.httpsms.com/v1/messages/send'
+url = '{{ appStore.appData.apiBaseUrl }}/v1/messages/send'
 
 headers = {
     'x-api-key': api_key,
@@ -632,7 +633,7 @@ print(json.dumps(response.json(), indent=4))</code></pre>
                       class="pa-4 bg-surface rounded mt-2"
                     ><code class="language-go">import "github.com/NdoleStudio/httpsms-go"
 
-client := htpsms.New(htpsms.WithAPIKey(/* API Key from https://httpsms.com/settings */))
+client := htpsms.New(htpsms.WithAPIKey(/* API Key from {{ appStore.appData.url }}/settings */))
 
 client.Messages.Send(context.Background(), &amp;httpsms.MessageSendParams{
     Content: "This is a sample text message",
@@ -644,7 +645,7 @@ client.Messages.Send(context.Background(), &amp;httpsms.MessageSendParams{
                     <pre
                       class="pa-4 bg-surface rounded mt-2"
                     ><code class="language-java">var client = HttpClient.newHttpClient();
-var apiKey = "Get API Key from https://httpsms.com/settings";
+var apiKey = "Get API Key from {{ appStore.appData.url }}/settings";
 
 var payload = """
         {
@@ -655,7 +656,7 @@ var payload = """
         """;
 
 var request = HttpRequest.newBuilder()
-        .uri(URI.create("https://api.httpsms.com/v1/messages/send"))
+        .uri(URI.create("{{ appStore.appData.apiBaseUrl }}/v1/messages/send"))
         .header("accept", "application/json")
         .header("Content-Type", "application/json")
         .header("x-api-key", apiKey)
@@ -668,8 +669,8 @@ System.out.println(response.body());</code></pre>
                   <VTabsWindowItem value="curl">
                     <pre
                       class="pa-4 bg-surface rounded mt-2"
-                    ><code class="language-bash">curl --location --request POST 'https://api.httpsms.com/v1/messages/send' \
---header 'x-api-key: Get API Key from https://httpsms.com/settings' \
+                    ><code class="language-bash">curl --location --request POST '{{ appStore.appData.apiBaseUrl }}/v1/messages/send' \
+--header 'x-api-key: Get API Key from {{ appStore.appData.url }}/settings' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "from": "+18005550199",
@@ -681,10 +682,10 @@ System.out.println(response.body());</code></pre>
                     <pre
                       class="pa-4 bg-surface rounded mt-2"
                     ><code class="language-csharp">var client = new HttpClient();
-client.DefaultRequestHeaders.Add("x-api-key", ""/* Get API Key from https://httpsms.com/settings */);
+client.DefaultRequestHeaders.Add("x-api-key", ""/* Get API Key from {{ appStore.appData.url }}/settings */);
 
 var response = await client.PostAsync(
-    "https://api.httpsms.com/v1/messages/send",
+    "{{ appStore.appData.apiBaseUrl }}/v1/messages/send",
     new StringContent(
         JsonSerializer.Serialize(new {
             from = "+18005550199",
@@ -983,10 +984,11 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
               :prominent="mdAndUp"
               variant="tonal"
             >
-              Feel free to <a href="mailto:arnold@httpsms.com">contact us</a> if
-              you need a bigger plan, or if you want us to install the httpSMS
-              API on your dedicated server. If you would still like to support
-              us, please donate via
+              Feel free to
+              <a href="mailto:suporte@mesaquevende.com.br">contact us</a> if you
+              need a bigger plan, or if you want us to install the httpSMS API
+              on your dedicated server. If you would still like to support us,
+              please donate via
               <a href="https://github.com/sponsors/NdoleStudio"
                 >GitHub Sponsors</a
               >💖
@@ -1087,8 +1089,9 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
           </h2>
           <p class="text-center text-title-large mt-4 text-medium-emphasis">
             If you still cannot find the answer to your question,
-            <a href="mailto:arnold@httpsms.com">send us an email</a> or ask in
-            our <a href="https://discord.gg/kGk8HVqeEZ">Discord</a> channel.
+            <a href="mailto:suporte@mesaquevende.com.br">send us an email</a> or
+            ask in our
+            <a href="https://discord.gg/kGk8HVqeEZ">Discord</a> channel.
           </p>
         </VCol>
       </VRow>
@@ -1142,9 +1145,11 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                 <p class="mt-4">
                   We do have packages that allow up to 200,000 SMS messages per
                   month but you can
-                  <a href="mailto:arnold@httpsms.com">send us an email</a> if
-                  you will like to send more messages so we create a custom plan
-                  just for you.
+                  <a href="mailto:suporte@mesaquevende.com.br"
+                    >send us an email</a
+                  >
+                  if you will like to send more messages so we create a custom
+                  plan just for you.
                 </p>
               </VExpansionPanelText>
             </VExpansionPanel>

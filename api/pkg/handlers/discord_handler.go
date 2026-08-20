@@ -31,6 +31,7 @@ type DiscordHandler struct {
 	validator        *validators.DiscordHandlerValidator
 	service          *services.DiscordService
 	messageService   *services.MessageService
+	appURL           string
 }
 
 // NewDiscordHandler creates a new DiscordHandler
@@ -42,6 +43,7 @@ func NewDiscordHandler(
 	messageService *services.MessageService,
 	billingService *services.BillingService,
 	messageValidator *validators.MessageHandlerValidator,
+	appURL string,
 ) (h *DiscordHandler) {
 	return &DiscordHandler{
 		logger:           logger.WithService(fmt.Sprintf("%T", h)),
@@ -51,6 +53,7 @@ func NewDiscordHandler(
 		messageService:   messageService,
 		billingService:   billingService,
 		messageValidator: messageValidator,
+		appURL:           appURL,
 	}
 }
 
@@ -299,7 +302,7 @@ func (h *DiscordHandler) sendSMS(ctx context.Context, c fiber.Ctx, payload map[s
 					"content": "**⚠️ error while sending message**",
 					"embeds": []fiber.Map{
 						{
-							"title": "We cannot find the link to your discord server to an account on [httpsms.com](https://httpsms.com/settings).",
+							"title": fmt.Sprintf("We cannot find the link to your discord server to an account on [%s/settings](%s/settings).", h.appURL, h.appURL),
 							"color": 14681092,
 						},
 					},

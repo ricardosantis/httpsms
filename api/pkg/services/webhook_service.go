@@ -36,6 +36,9 @@ type WebhookService struct {
 	client     *http.Client
 	repository repositories.WebhookRepository
 	dispatcher *EventDispatcher
+	appURL     string
+	apiHost    string
+	appName    string
 }
 
 // NewWebhookService creates a new WebhookService
@@ -45,6 +48,9 @@ func NewWebhookService(
 	client *http.Client,
 	repository repositories.WebhookRepository,
 	dispatcher *EventDispatcher,
+	appURL string,
+	apiHost string,
+	appName string,
 ) (s *WebhookService) {
 	return &WebhookService{
 		logger:     logger.WithService(fmt.Sprintf("%T", s)),
@@ -52,6 +58,9 @@ func NewWebhookService(
 		client:     client,
 		dispatcher: dispatcher,
 		repository: repository,
+		appURL:     appURL,
+		apiHost:    apiHost,
+		appName:    appName,
 	}
 }
 
@@ -294,9 +303,14 @@ func (service *WebhookService) getPayload(ctxLogger telemetry.Logger, event clou
 		return event
 	}
 
+	avatarURL := fmt.Sprintf("%s/avatar.png", service.appURL)
+	username := service.appName
+	if username == "" {
+		username = "httpSMS"
+	}
 	return map[string]any{
-		"avatar_url": "https://httpsms.com/avatar.png",
-		"username":   "httpsms.com",
+		"avatar_url": avatarURL,
+		"username":   username,
 		"content":    "✉ new message received",
 		"embeds": []fiber.Map{
 			{
@@ -330,7 +344,7 @@ func (service *WebhookService) getAuthToken(webhook *entities.Webhook) (string, 
 		Audience:  []string{webhook.URL},
 		ExpiresAt: jwt.NewNumericDate(time.Now().UTC().Add(10 * time.Minute)),
 		IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
-		Issuer:    "api.httpsms.com",
+		Issuer:    service.apiHost,
 		NotBefore: jwt.NewNumericDate(time.Now().UTC().Add(-10 * time.Minute)),
 		Subject:   string(webhook.UserID),
 	})

@@ -146,6 +146,7 @@ func NewContainer(projectID string, version string) (container *Container) {
 	container.RegisterWebhookListeners()
 
 	container.RegisterLemonsqueezyRoutes()
+	container.RegisterStripeRoutes()
 
 	container.RegisterIntegration3CXRoutes()
 	container.RegisterIntegration3CXListeners()
@@ -852,6 +853,7 @@ func (container *Container) EntitlementService() *services.EntitlementService {
 		container.Tracer(),
 		os.Getenv("ENTITLEMENT_ENABLED") == "true",
 		container.UserRepository(),
+		container.AppURL(),
 	)
 }
 
@@ -938,6 +940,7 @@ func (container *Container) BillingService() (service *services.BillingService) 
 		container.UserEmailFactory(),
 		container.BillingUsageRepository(),
 		container.UserRepository(),
+		container.AppURL(),
 	)
 }
 
@@ -965,6 +968,9 @@ func (container *Container) WebhookService() (service *services.WebhookService) 
 		},
 		container.WebhookRepository(),
 		container.EventDispatcher(),
+		container.AppURL(),
+		container.SwaggerHost(),
+		container.AppName(),
 	)
 }
 
@@ -1223,6 +1229,17 @@ func (container *Container) LemonsqueezyService() (service *services.Lemonsqueez
 	)
 }
 
+// StripeService creates a new instance of services.StripeService
+func (container *Container) StripeService() (service *services.StripeService) {
+	container.logger.Debug(fmt.Sprintf("creating %T", service))
+	return services.NewStripeService(
+		container.Logger(),
+		container.Tracer(),
+		container.UserRepository(),
+		container.EventDispatcher(),
+	)
+}
+
 // LemonsqueezyHandler creates a new instance of handlers.LemonsqueezyHandler
 func (container *Container) LemonsqueezyHandler() (handler *handlers.LemonsqueezyHandler) {
 	container.logger.Debug(fmt.Sprintf("creating %T", handler))
@@ -1232,6 +1249,18 @@ func (container *Container) LemonsqueezyHandler() (handler *handlers.Lemonsqueez
 		container.Tracer(),
 		container.LemonsqueezyService(),
 		container.LemonsqueezyHandlerValidator(),
+	)
+}
+
+// StripeHandler creates a new instance of handlers.StripeHandler
+func (container *Container) StripeHandler() (handler *handlers.StripeHandler) {
+	container.logger.Debug(fmt.Sprintf("creating %T", handler))
+
+	return handlers.NewStripeHandler(
+		container.Logger(),
+		container.Tracer(),
+		container.StripeService(),
+		container.StripeHandlerValidator(),
 	)
 }
 
@@ -1272,6 +1301,7 @@ func (container *Container) DiscordHandler() (handler *handlers.DiscordHandler) 
 		container.MessageService(),
 		container.BillingService(),
 		container.MessageHandlerValidator(),
+		container.AppURL(),
 	)
 }
 
@@ -1282,6 +1312,15 @@ func (container *Container) LemonsqueezyHandlerValidator() (validator *validator
 		container.Logger(),
 		container.Tracer(),
 		container.LemonsqueezyClient(),
+	)
+}
+
+// StripeHandlerValidator creates a new instance of validators.StripeHandlerValidator
+func (container *Container) StripeHandlerValidator() (validator *validators.StripeHandlerValidator) {
+	container.logger.Debug(fmt.Sprintf("creating %T", validator))
+	return validators.NewStripeHandlerValidator(
+		container.Logger(),
+		container.Tracer(),
 	)
 }
 
@@ -1340,6 +1379,12 @@ func (container *Container) PlunkClient() (client *plunk.Client) {
 func (container *Container) RegisterLemonsqueezyRoutes() {
 	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.LemonsqueezyHandler{}))
 	container.LemonsqueezyHandler().RegisterRoutes(container.App())
+}
+
+// RegisterStripeRoutes registers routes for the /stripe prefix
+func (container *Container) RegisterStripeRoutes() {
+	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.StripeHandler{}))
+	container.StripeHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
 }
 
 // RegisterIntegration3CXRoutes registers routes for the /integration/3cx prefix
@@ -1565,6 +1610,7 @@ func (container *Container) MessageService() (service *services.MessageService) 
 		container.PhoneService(),
 		container.AttachmentRepository(),
 		container.APIBaseURL(),
+		container.AppURL(),
 	)
 }
 
@@ -1598,9 +1644,39 @@ func (container *Container) AttachmentRepository() repositories.AttachmentReposi
 	return container.attachmentRepository
 }
 
+// AppURL returns the application frontend URL from APP_URL
+func (container *Container) AppURL() string {
+	url := os.Getenv("APP_URL")
+	if url == "" {
+		url = "https://sms.mesaquevende.com.br"
+	}
+	return strings.TrimSuffix(url, "/")
+}
+
+// AppName returns the application name from APP_NAME
+func (container *Container) AppName() string {
+	name := os.Getenv("APP_NAME")
+	if name == "" {
+		name = "httpSMS"
+	}
+	return name
+}
+
+// SwaggerHost returns the API host from SWAGGER_HOST
+func (container *Container) SwaggerHost() string {
+	host := os.Getenv("SWAGGER_HOST")
+	if host == "" {
+		host = "api.mesaquevende.com.br"
+	}
+	return host
+}
+
 // APIBaseURL returns the API base URL derived from EVENTS_QUEUE_ENDPOINT
 func (container *Container) APIBaseURL() string {
 	endpoint := os.Getenv("EVENTS_QUEUE_ENDPOINT")
+	if endpoint == "" {
+		return "https://api.mesaquevende.com.br"
+	}
 	return strings.TrimSuffix(endpoint, "/v1/events")
 }
 
@@ -1718,7 +1794,7 @@ func (container *Container) RegisterSwaggerRoutes() {
 			document.body.style.margin = '0';
 			var links = document.querySelectorAll("link[rel~='icon']");
 			links.forEach(function (link) {
-				link.href = 'https://httpsms.com/favicon.ico';
+				link.href = '/favicon.ico';
 			});
 		});`,
 	}))
@@ -1793,7 +1869,7 @@ func (container *Container) UserRistrettoCache() *ristretto.Cache[string, entiti
 
 // InitializeTraceProvider initializes the open telemetry trace provider
 func (container *Container) InitializeTraceProvider() func() {
-	if container.isLocal() {
+	if isLocal() {
 		return func() {}
 	}
 	if os.Getenv("AXIOM_TOKEN") != "" {

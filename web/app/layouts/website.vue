@@ -42,7 +42,7 @@ function goToPricing() {
     <v-app-bar color="#121212" elevation="0">
       <v-container>
         <v-row>
-          <v-col class="w-full d-flex">
+          <v-col class="w-full d-flex align-center">
             <NuxtLink to="/" class="text-decoration-none d-flex align-baseline">
               <v-avatar
                 color="#121212"
@@ -67,7 +67,7 @@ function goToPricing() {
               class="my-5 mr-2"
               @click="goToPricing"
             >
-              Pricing
+              {{ $t('website.pricing') }}
             </v-btn>
             <v-btn
               v-show="lgAndUp"
@@ -77,7 +77,7 @@ function goToPricing() {
               class="my-5 mr-2"
               :to="{ name: 'blog' }"
             >
-              Blog
+              {{ $t('website.blog') }}
             </v-btn>
             <v-btn
               v-show="
@@ -91,7 +91,7 @@ function goToPricing() {
               class="my-5 mr-2"
               :to="{ name: 'login' }"
             >
-              Login
+              {{ $t('website.login') }}
             </v-btn>
             <v-btn
               v-show="authStore.authStateChanged && authStore.authUser === null"
@@ -101,8 +101,8 @@ function goToPricing() {
               :size="lgAndUp ? 'large' : 'default'"
               :to="{ name: 'login' }"
             >
-              Get Started
-              <span v-show="lgAndUp">&nbsp;For Free</span>
+              {{ $t('website.getStarted') }}
+              <span v-show="lgAndUp">&nbsp;{{ $t('website.forFree') }}</span>
             </v-btn>
             <div
               v-show="authStore.authStateChanged && authStore.authUser !== null"
@@ -115,10 +115,11 @@ function goToPricing() {
                 :size="lgAndUp ? 'large' : 'default'"
                 :to="{ name: 'threads' }"
               >
-                Dashboard
+                {{ $t('website.dashboard') }}
               </v-btn>
               <RedirectPromptPopover />
             </div>
+            <LanguageSwitcher class="ml-4" />
           </v-col>
         </v-row>
       </v-container>
@@ -142,7 +143,7 @@ function goToPricing() {
               <h3 class="text-headline-large ml-1 mb-0 text-white">httpSMS</h3>
             </NuxtLink>
             <div class="text-title-medium mb-4 text-medium-emphasis">
-              Made With
+              {{ $t('website.madeWith') }}
               <v-icon color="#cf1112" :icon="mdiHeart" /> in Tallinn
               <v-img
                 class="d-inline-block"
@@ -190,7 +191,9 @@ function goToPricing() {
             </a>
           </v-col>
           <v-col cols="12" md="3">
-            <h2 class="text-headline-small mb-2">Resources</h2>
+            <h2 class="text-headline-small mb-2">
+              {{ $t('website.resources') }}
+            </h2>
             <ul style="list-style: none" class="pa-0">
               <li class="mb-2">
                 <a
@@ -198,7 +201,7 @@ function goToPricing() {
                   style="cursor: pointer"
                   @click.stop="goToPricing"
                 >
-                  Pricing
+                  {{ $t('website.pricing') }}
                   <v-icon size="small" :icon="mdiCreditCardOutline" />
                 </a>
               </li>
@@ -207,7 +210,7 @@ function goToPricing() {
                   href="https://httpsms.lemonsqueezy.com/affiliates"
                   class="text-white text-decoration-none footer-link"
                 >
-                  Affiliates
+                  {{ $t('website.affiliates') }}
                   <v-icon color="warning" size="small" :icon="mdiShieldStar" />
                 </a>
               </li>
@@ -216,7 +219,7 @@ function goToPricing() {
                   href="https://status.httpsms.com"
                   class="text-white text-decoration-none footer-link"
                 >
-                  Site status
+                  {{ $t('website.siteStatus') }}
                   <v-icon color="success" size="x-small" :icon="mdiCircle" />
                 </a>
               </li>
@@ -225,20 +228,23 @@ function goToPricing() {
                   class="text-white text-decoration-none footer-link"
                   to="/blog"
                 >
-                  Blog <v-icon size="small" :icon="mdiPost" />
+                  {{ $t('website.blog') }}
+                  <v-icon size="small" :icon="mdiPost" />
                 </NuxtLink>
               </li>
             </ul>
           </v-col>
           <v-col cols="12" md="3">
-            <h2 class="text-headline-small mb-2">Developers</h2>
+            <h2 class="text-headline-small mb-2">
+              {{ $t('website.developers') }}
+            </h2>
             <ul style="list-style: none" class="pa-0">
               <li class="mb-2">
                 <a
                   :href="appStore.appData.documentationUrl"
                   class="text-white text-decoration-none footer-link"
                 >
-                  Documentation
+                  {{ $t('website.documentation') }}
                   <v-icon size="small" :icon="mdiBookOpenVariant" />
                 </a>
               </li>
@@ -255,7 +261,7 @@ function goToPricing() {
                   href="https://sandbox.httpsms.com"
                   class="text-white text-decoration-none footer-link"
                 >
-                  Sandbox
+                  {{ $t('website.sandbox') }}
                   <v-icon size="small" color="pink" :icon="mdiCreation" />
                 </a>
               </li>
@@ -264,7 +270,7 @@ function goToPricing() {
                   href="https://httpsms.featurebase.app"
                   class="text-white text-decoration-none footer-link"
                 >
-                  Request Feature
+                  {{ $t('website.requestFeature') }}
                   <v-icon
                     size="small"
                     color="yellow"
@@ -275,14 +281,14 @@ function goToPricing() {
             </ul>
           </v-col>
           <v-col cols="12" md="3">
-            <h2 class="text-headline-small mb-2">Legal</h2>
+            <h2 class="text-headline-small mb-2">{{ $t('website.legal') }}</h2>
             <ul style="list-style: none" class="pa-0">
               <li class="mb-2">
                 <NuxtLink
                   class="text-white text-decoration-none footer-link"
                   to="/terms-and-conditions"
                 >
-                  Terms & Conditions
+                  {{ $t('website.termsAndConditions') }}
                   <v-icon size="small" :icon="mdiScaleBalance" />
                 </NuxtLink>
               </li>
@@ -291,16 +297,16 @@ function goToPricing() {
                   class="text-white text-decoration-none footer-link"
                   to="/privacy-policy"
                 >
-                  Privacy Policy
+                  {{ $t('website.privacyPolicy') }}
                   <v-icon size="small" :icon="mdiEyeOffOutline" />
                 </NuxtLink>
               </li>
               <li class="mt-2">
                 <a
                   class="text-white text-decoration-none footer-link"
-                  href="mailto:support@httpsms.com"
+                  href="mailto:suporte@mesaquevende.com.br"
                 >
-                  Contact Support
+                  {{ $t('website.contactSupport') }}
                   <v-icon size="small" :icon="mdiEmailOutline" />
                 </a>
               </li>

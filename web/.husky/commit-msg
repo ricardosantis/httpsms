@@ -1,1 +1,1 @@
-cd web && pnpm exec commitlint --edit "$1"
+cd web && npx --no-install commitlint --edit "$1"

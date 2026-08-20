@@ -21,7 +21,7 @@ useSeoMeta({
     'Secure your conversations with end-to-end encryption for SMS messages',
   ogDescription:
     'We have added support for end-to-end encryption for SMS messages so that no one can see the content of the messages you send using httpSMS except you.',
-  ogImage: 'https://httpsms.com/header.png',
+  ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
 </script>
@@ -50,7 +50,7 @@ useSeoMeta({
           to decrypt the messages you receive from httpSMS via our
           <a
             class="text-decoration-none"
-            href="https://docs.httpsms.com/webhooks/introduction"
+            :href="`${useAppStore().appData.documentationUrl}/webhooks/introduction`"
             >webhook events</a
           >. We are using the
           <a
@@ -114,7 +114,7 @@ useSeoMeta({
               class="pa-4 mb-6 rounded bg-surface overflow-x-auto"
             ><code class="language-javascript text-body-medium">import HttpSms from "httpsms"
 
-const client = new HttpSms("" /* API Key from https://httpsms.com/settings */);
+const client = new HttpSms("" /* API Key from /settings */);
 
 const key = "Password123";
 
@@ -128,7 +128,7 @@ const encryptedMessage = client.cipher.encrypt(key, "This is a sample text messa
               class="pa-4 mb-6 rounded bg-surface overflow-x-auto"
             ><code class="language-go text-body-medium">import "github.com/NdoleStudio/httpsms-go"
 
-client := htpsms.New(htpsms.WithAPIKey(""/* API Key from https://httpsms.com/settings */))
+client := htpsms.New(htpsms.WithAPIKey(""/* API Key from /settings */))
 
 key := "Password123" // use the same key on the Android app
 encryptedMessage := client.Cipher.Encrypt(key, "This is a test text message")
@@ -230,7 +230,7 @@ client.Messages.Send(context.Background(), &amp;httpsms.MessageSendParams{
               class="pa-4 mb-6 rounded bg-surface overflow-x-auto"
             ><code class="language-javascript text-body-medium">import HttpSms from "httpsms"
 
-const client = new HttpSms("" /* API Key from https://httpsms.com/settings */);
+const client = new HttpSms("" /* API Key from /settings */);
 
 // The payload in the webhook HTTP request looks like this
 /*
@@ -265,7 +265,7 @@ const decryptedMessage = client.cipher.decrypt(encryptionkey, encryptedMessage)
               class="pa-4 mb-6 rounded bg-surface overflow-x-auto"
             ><code class="language-go text-body-medium">import "github.com/NdoleStudio/httpsms-go"
 
-client := htpsms.New(htpsms.WithAPIKey(/* API Key from https://httpsms.com/settings */))
+client := htpsms.New(htpsms.WithAPIKey(/* API Key from /settings */))
 
 // The payload in the webhook HTTP request looks like this
 /*

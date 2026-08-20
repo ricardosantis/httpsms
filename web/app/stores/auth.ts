@@ -59,14 +59,25 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const activePhone = phonesStore.activePhone
-    if (!activePhone) return
+    const activePhoneId =
+      activePhone?.id ||
+      (payload.owner
+        ? phonesStore.phones.find((p) => p.phone_number === payload.owner)?.id
+        : user.value?.active_phone_id)
+
+    const body: { active_phone_id?: string; timezone?: string } = {}
+    if (activePhoneId) {
+      body.active_phone_id = activePhoneId
+    }
+    if (payload.timezone) {
+      body.timezone = payload.timezone
+    } else if (user.value?.timezone) {
+      body.timezone = user.value.timezone
+    }
 
     const response = await apiFetch<{ data: EntitiesUser }>('/v1/users/me', {
       method: 'PUT',
-      body: {
-        active_phone_id: activePhone.id,
-        timezone: payload.timezone ?? user.value?.timezone,
-      },
+      body,
     })
 
     setApiKey(response.data.api_key)

@@ -21,6 +21,7 @@ const props = withDefaults(
   { to: '/' },
 )
 
+const { t } = useI18n()
 const router = useRouter()
 const authStore = useAuthStore()
 const notificationsStore = useNotificationsStore()
@@ -60,12 +61,12 @@ function clearErrors() {
 function validateEmail(): boolean {
   clearErrors()
   if (!email.value.trim()) {
-    errorMessages.value.add('email', 'Please provide an email address')
+    errorMessages.value.add('email', t('auth.provideEmail'))
     return false
   }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(email.value.trim())) {
-    errorMessages.value.add('email', 'Please enter a valid email address')
+    errorMessages.value.add('email', t('auth.enterValidEmail'))
     return false
   }
   return true
@@ -75,21 +76,21 @@ function validateLoginForm(): boolean {
   clearErrors()
   let valid = true
   if (isSignUp.value && !name.value.trim()) {
-    errorMessages.value.add('name', 'Please provide your name')
+    errorMessages.value.add('name', t('auth.provideName'))
     valid = false
   }
   if (!email.value.trim()) {
-    errorMessages.value.add('email', 'Please provide an email address')
+    errorMessages.value.add('email', t('auth.provideEmail'))
     valid = false
   } else {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email.value.trim())) {
-      errorMessages.value.add('email', 'Please enter a valid email address')
+      errorMessages.value.add('email', t('auth.enterValidEmail'))
       valid = false
     }
   }
   if (!password.value) {
-    errorMessages.value.add('password', 'Please enter your password')
+    errorMessages.value.add('password', t('auth.enterPassword'))
     valid = false
   }
   return valid
@@ -198,7 +199,7 @@ function onSuccess(user: FirebaseUser, method: LoginMethod) {
     console.error(error)
   }
   notificationsStore.addNotification({
-    message: 'Login successful!',
+    message: t('auth.loginSuccess'),
     type: 'success',
   })
   authStore.onAuthStateChanged(user)
@@ -226,49 +227,38 @@ function handleError(error: unknown, isSocial = false) {
 
   switch (code) {
     case 'auth/wrong-password':
-      errorMessages.value.add('password', 'Incorrect password')
+      errorMessages.value.add('password', t('auth.incorrectPassword'))
       break
     case 'auth/invalid-credential':
-      errorMessages.value.add('email', 'Invalid email or password')
-      errorMessages.value.add('password', 'Invalid email or password')
+      errorMessages.value.add('email', t('auth.invalidCredentials'))
+      errorMessages.value.add('password', t('auth.invalidCredentials'))
       break
     case 'auth/user-not-found':
-      errorMessages.value.add(
-        'email',
-        'No account found with this email address',
-      )
+      errorMessages.value.add('email', t('auth.noAccountFound'))
       break
     case 'auth/invalid-email':
-      errorMessages.value.add('email', 'Please enter a valid email address')
+      errorMessages.value.add('email', t('auth.enterValidEmail'))
       break
     case 'auth/email-already-in-use':
-      errorMessages.value.add(
-        'email',
-        'An account already exists with this email',
-      )
+      errorMessages.value.add('email', t('auth.emailInUse'))
       break
     case 'auth/weak-password':
-      errorMessages.value.add(
-        'password',
-        'Password should be at least 6 characters',
-      )
+      errorMessages.value.add('password', t('auth.passwordMinLength'))
       break
     case 'auth/user-disabled':
-      errorMessages.value.add('email', 'This account has been disabled')
+      errorMessages.value.add('email', t('auth.accountDisabled'))
       break
     case 'auth/too-many-requests':
-      generalError.value = 'Too many failed attempts. Please try again later'
+      generalError.value = t('auth.tooManyRequests')
       break
     case 'auth/network-request-failed':
-      generalError.value =
-        'Unable to connect to the server. Please check your internet connection'
+      generalError.value = t('auth.networkError')
       break
     case 'auth/missing-email':
-      errorMessages.value.add('email', 'Please provide an email address')
+      errorMessages.value.add('email', t('auth.provideEmail'))
       break
     default:
-      generalError.value =
-        firebaseError.message || 'An unexpected error occurred'
+      generalError.value = firebaseError.message || t('auth.unexpectedError')
   }
 }
 
@@ -278,18 +268,18 @@ function getGeneralErrorMessage(
 ): string {
   switch (code) {
     case 'auth/user-not-found':
-      return 'No account found with this email address'
+      return t('auth.noAccountFound')
     case 'auth/wrong-password':
     case 'auth/invalid-credential':
-      return 'The provided credentials are invalid.'
+      return t('auth.invalidCredentials')
     case 'auth/user-disabled':
-      return 'This account has been disabled'
+      return t('auth.accountDisabled')
     case 'auth/too-many-requests':
-      return 'Too many failed attempts. Please try again later'
+      return t('auth.tooManyRequests')
     case 'auth/network-request-failed':
-      return 'Unable to connect to the server. Please check your internet connection'
+      return t('auth.networkError')
     default:
-      return fallback || 'An unexpected error occurred'
+      return fallback || t('auth.unexpectedError')
   }
 }
 </script>
@@ -313,10 +303,10 @@ function getGeneralErrorMessage(
         variant="flat"
         class="position-absolute last-used-chip"
       >
-        Last Used
+        {{ $t('auth.lastUsed') }}
       </v-chip>
       <v-icon color="red" :icon="mdiGoogle" class="mr-2" />
-      Continue with Google
+      {{ $t('auth.continueWithGoogle') }}
     </v-btn>
 
     <v-btn
@@ -337,10 +327,10 @@ function getGeneralErrorMessage(
         variant="flat"
         class="position-absolute last-used-chip"
       >
-        Last Used
+        {{ $t('auth.lastUsed') }}
       </v-chip>
       <v-icon :icon="mdiGithub" class="mr-2" />
-      Continue with GitHub
+      {{ $t('auth.continueWithGithub') }}
     </v-btn>
 
     <v-btn
@@ -361,10 +351,10 @@ function getGeneralErrorMessage(
         variant="flat"
         class="position-absolute last-used-chip"
       >
-        Last Used
+        {{ $t('auth.lastUsed') }}
       </v-chip>
       <v-icon :icon="mdiEmail" class="mr-2" />
-      Continue with email
+      {{ $t('auth.continueWithEmail') }}
     </v-btn>
 
     <!-- Forgot Password Form -->
@@ -375,11 +365,11 @@ function getGeneralErrorMessage(
     >
       <template v-if="!resetEmailSent">
         <p class="text-body-medium text-medium-emphasis mb-4">
-          Enter your email address to reset your password
+          {{ $t('auth.resetPasswordInstructions') }}
         </p>
         <v-text-field
           v-model="email"
-          label="Email Address"
+          :label="$t('auth.emailAddress')"
           color="primary"
           type="email"
           variant="outlined"
@@ -403,12 +393,12 @@ function getGeneralErrorMessage(
           type="submit"
           :loading="loading"
         >
-          Send Reset Link
+          {{ $t('auth.sendResetLink') }}
         </v-btn>
       </template>
       <template v-else>
         <v-alert type="success" density="compact" class="mb-3">
-          Check your email for password reset instructions
+          {{ $t('auth.resetEmailSent') }}
         </v-alert>
       </template>
       <v-btn
@@ -419,7 +409,7 @@ function getGeneralErrorMessage(
         class="mt-2"
         @click="backToSignIn"
       >
-        Back to Sign In
+        {{ $t('auth.backToSignIn') }}
       </v-btn>
     </v-form>
 
@@ -432,24 +422,24 @@ function getGeneralErrorMessage(
       <v-text-field
         v-if="isSignUp"
         v-model="name"
-        label="Name"
+        :label="$t('common.name')"
         color="primary"
         type="text"
         variant="outlined"
         density="comfortable"
         class="mb-2"
         persistent-placeholder
-        placeholder="Enter your full name (e.g. John Doe)"
+        :placeholder="$t('auth.namePlaceholder')"
         :error="errorMessages.has('name')"
         :error-messages="errorMessages.get('name')"
       />
       <v-text-field
         v-model="email"
-        label="Email Address"
+        :label="$t('auth.emailAddress')"
         color="primary"
         type="email"
         persistent-placeholder
-        placeholder="Enter your email address (e.g. john@gmail.com)"
+        :placeholder="$t('auth.emailPlaceholder')"
         variant="outlined"
         density="comfortable"
         class="mb-2"
@@ -458,12 +448,12 @@ function getGeneralErrorMessage(
       />
       <v-text-field
         v-model="password"
-        label="Password"
+        :label="$t('auth.password')"
         type="password"
         color="primary"
         variant="outlined"
         density="comfortable"
-        placeholder="Create a secure /password"
+        :placeholder="$t('auth.passwordPlaceholder')"
         persistent-placeholder
         class="mb-2"
         :error="errorMessages.has('password')"
@@ -480,7 +470,7 @@ function getGeneralErrorMessage(
         class="mb-3 px-0 mt-n4"
         @click="showForgotPasswordForm"
       >
-        Forgot Password?
+        {{ $t('auth.forgotPassword') }}
       </v-btn>
       <v-btn
         block
@@ -489,7 +479,7 @@ function getGeneralErrorMessage(
         type="submit"
         :loading="loading"
       >
-        {{ isSignUp ? 'Sign Up' : 'Sign In' }}
+        {{ isSignUp ? $t('auth.signUp') : $t('auth.signIn') }}
       </v-btn>
       <v-btn
         block
@@ -499,27 +489,25 @@ function getGeneralErrorMessage(
         class="mt-2"
         @click="toggleAuthMode"
       >
-        {{
-          isSignUp ? 'Already have an account? Sign In' : 'No account? Sign Up'
-        }}
+        {{ isSignUp ? $t('auth.alreadyHaveAccount') : $t('auth.noAccount') }}
       </v-btn>
     </v-form>
 
     <p class="text-body-small text-medium-emphasis mt-4">
-      By continuing, you are indicating that you accept our
+      {{ $t('auth.termsNotice') }}
       <a
         :href="appStore.appData.url + '/terms-and-conditions'"
         class="text-decoration-none"
       >
-        Terms of Service
+        {{ $t('auth.termsOfService') }}
       </a>
-      and
+      {{ $t('auth.and') }}
       <a
         :href="appStore.appData.url + '/privacy-policy'"
         class="text-decoration-none"
       >
-        Privacy Policy.</a
-      >
+        {{ $t('auth.privacyPolicy') }}
+      </a>
     </p>
   </div>
 </template>

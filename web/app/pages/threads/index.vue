@@ -3,8 +3,10 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const { t } = useI18n()
+
 useHead({
-  title: 'Threads - httpSMS',
+  title: computed(() => `${t('threads.title')} - httpSMS`),
 })
 
 const { lgAndUp } = useDisplay()
@@ -36,16 +38,20 @@ onMounted(async () => {
           :src="'/img/person-texting.svg'"
         />
         <div class="text-center">
-          <h3 class="text-headline-medium mt-4 mb-0">Select a Message</h3>
+          <h3 class="text-headline-medium mt-4 mb-0">
+            {{ $t('threads.selectMessage') }}
+          </h3>
           <p class="text-medium-emphasis mt-0">
-            Don't hesitate to
+            {{ $t('threads.discordHelp', { link: '' }).split('{link}')[0] }}
             <a
               href="https://discord.gg/kGk8HVqeEZ"
               target="_blank"
               class="text-decoration-none hover:text-decoration-underline"
-              >message us on Discord</a
+              >{{ $t('threads.messageUsOnDiscord') }}</a
             >
-            if you have any questions
+            {{
+              $t('threads.discordHelp', { link: '' }).split('{link}')[1] || ''
+            }}
           </p>
         </div>
       </div>

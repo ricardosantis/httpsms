@@ -25,6 +25,7 @@ type BillingService struct {
 	mailer                 emails.Mailer
 	userRepository         repositories.UserRepository
 	billingUsageRepository repositories.BillingUsageRepository
+	appURL                 string
 }
 
 // NewBillingService creates a new BillingService
@@ -36,6 +37,7 @@ func NewBillingService(
 	emailFactory emails.UserEmailFactory,
 	usageRepository repositories.BillingUsageRepository,
 	userRepository repositories.UserRepository,
+	appURL string,
 ) (s *BillingService) {
 	return &BillingService{
 		logger:                 logger.WithService(fmt.Sprintf("%T", s)),
@@ -45,6 +47,7 @@ func NewBillingService(
 		mailer:                 mailer,
 		userRepository:         userRepository,
 		billingUsageRepository: usageRepository,
+		appURL:                 appURL,
 	}
 }
 
@@ -83,10 +86,15 @@ func (service *BillingService) handleLimitExceeded(ctx context.Context, user *en
 
 	service.sendLimitExceededEmail(ctx, user, usage)
 
+	appURL := service.appURL
+	if appURL == "" {
+		appURL = "https://sms.mesaquevende.com.br"
+	}
 	message := fmt.Sprintf(
-		"You have exceeded your limit of [%d] messages on your [%s] plan. Upgrade to send more messages on https://httpsms.com/billing",
+		"You have exceeded your limit of [%d] messages on your [%s] plan. Upgrade to send more messages on %s/billing",
 		user.SubscriptionName.Limit(),
 		user.SubscriptionName,
+		appURL,
 	)
 	return &message
 }

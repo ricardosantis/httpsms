@@ -36,13 +36,15 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const { t } = useI18n()
+
 useHead({
-  title: 'Search your Messages - httpSMS',
+  title: computed(() => `${t('searchMessages.title')} - httpSMS`),
 })
 
 const route = useRoute()
 const config = useRuntimeConfig()
-const { mdAndUp, smAndDown, lgAndUp } = useDisplay()
+const { mdAndUp, lgAndUp } = useDisplay()
 const messagesStore = useMessagesStore()
 const phonesStore = usePhonesStore()
 const authStore = useAuthStore()
@@ -80,14 +82,14 @@ const itemsPerPageOptions = [
   { value: 200, title: '200' },
 ]
 
-const headers = [
-  { title: 'Created At', key: 'created_at' },
-  { title: 'Owner', key: 'owner' },
-  { title: 'Contact', key: 'contact' },
-  { title: 'Message Type', key: 'type' },
-  { title: 'Status', key: 'status' },
-  { title: 'Message Content', key: 'content', sortable: false },
-]
+const headers = computed(() => [
+  { title: t('searchMessages.createdAt'), key: 'created_at' },
+  { title: t('searchMessages.owner'), key: 'owner' },
+  { title: t('searchMessages.contact'), key: 'contact' },
+  { title: t('searchMessages.type'), key: 'type' },
+  { title: t('searchMessages.status'), key: 'status' },
+  { title: t('searchMessages.content'), key: 'content', sortable: false },
+])
 
 const selectedMessages = computed<EntitiesMessage[]>(() =>
   messages.value.filter((message) => selectedIds.value.includes(message.id)),
@@ -110,20 +112,20 @@ const phoneNumberSelectItems = computed(() =>
   })),
 )
 
-const messageTypeSelectItems = [
-  { title: 'Outbound', value: 'mobile-terminated' },
-  { title: 'Inbound', value: 'mobile-originated' },
-  { title: 'Missed Calls', value: 'call/missed' },
-]
+const messageTypeSelectItems = computed(() => [
+  { title: t('searchMessages.outbound'), value: 'mobile-terminated' },
+  { title: t('searchMessages.inbound'), value: 'mobile-originated' },
+  { title: t('searchMessages.missedCalls'), value: 'call/missed' },
+])
 
-const messageStatusSelectItems = [
-  { value: 'pending', title: 'Pending' },
-  { value: 'sent', title: 'Sent' },
-  { value: 'delivered', title: 'Delivered' },
-  { value: 'failed', title: 'Failed' },
-  { value: 'expired', title: 'Expired' },
-  { value: 'received', title: 'Received' },
-]
+const messageStatusSelectItems = computed(() => [
+  { value: 'pending', title: t('searchMessages.pending') },
+  { value: 'sent', title: t('searchMessages.sent') },
+  { value: 'delivered', title: t('searchMessages.delivered') },
+  { value: 'failed', title: t('searchMessages.failed') },
+  { value: 'expired', title: t('searchMessages.expired') },
+  { value: 'received', title: t('searchMessages.received') },
+])
 
 function getCaptcha(): Promise<string> {
   return new Promise<string>((resolve, reject) => {
@@ -202,50 +204,44 @@ function onUpdateOptions(options: {
   itemsPerPage: number
   sortBy: { key: string; order: 'asc' | 'desc' }[]
 }) {
+  if (!initialLoadComplete.value) return
   page.value = options.page
   itemsPerPage.value = options.itemsPerPage
-  sortBy.value = options.sortBy.length
-    ? options.sortBy
-    : [{ key: 'created_at', order: 'desc' }]
-
-  if (!initialLoadComplete.value) {
-    return
+  if (options.sortBy.length > 0) {
+    sortBy.value = options.sortBy
   }
   fetchMessages()
 }
 
-function sanitizeContent(content: string): string {
-  content = content.replaceAll('"', '""')
-  return content.includes(',') ? '"' + content + '"' : content
-}
-
 function exportMessages() {
-  let csvContent = 'data:text/csv;charset=utf-8,'
-  csvContent +=
-    'Message ID,Created At,Owner,Contact,Message Type,Status,Message Content\n'
-  selectedMessages.value.forEach((message) => {
-    csvContent += `${message.id},${new Date(
-      message.created_at,
-    ).toLocaleString()},${message.owner},${message.contact},${message.type},${
-      message.status
-    },${sanitizeContent(message.content)}\n`
-  })
-
+  const headers = [
+    'id',
+    'created_at',
+    'owner',
+    'contact',
+    'type',
+    'status',
+    'content',
+  ]
+  const rows = selectedMessages.value.map((m) => [
+    m.id,
+    m.created_at,
+    m.owner,
+    m.contact,
+    m.type,
+    m.status,
+    `"${(m.content || '').replace(/"/g, '""')}"`,
+  ])
+  const csvContent =
+    'data:text/csv;charset=utf-8,' +
+    [headers.join(','), ...rows.map((e) => e.join(','))].join('\n')
   const encodedUri = encodeURI(csvContent)
   const link = document.createElement('a')
   link.setAttribute('href', encodedUri)
-  link.setAttribute(
-    'download',
-    `httpsms-${new Date().toJSON().slice(0, 10)}.csv`,
-  )
+  link.setAttribute('download', `httpsms_messages_${Date.now()}.csv`)
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
-
-  notificationsStore.addNotification({
-    message: 'The selected messages have been exported successfully',
-    type: 'success',
-  })
 }
 
 async function deleteMessages() {
@@ -257,13 +253,13 @@ async function deleteMessages() {
       ),
     )
     notificationsStore.addNotification({
-      message: 'The selected messages have been deleted successfully',
+      message: t('searchMessages.deleteSuccess'),
       type: 'success',
     })
     selectedIds.value = []
   } catch {
     notificationsStore.addNotification({
-      message: 'Error while deleting the selected messages',
+      message: t('searchMessages.deleteError'),
       type: 'error',
     })
   } finally {
@@ -295,20 +291,21 @@ async function resendMessages() {
     const failed = results.filter((r) => r.status === 'rejected')
     if (failed.length === 0) {
       notificationsStore.addNotification({
-        message: 'The selected messages have been queued for resending',
+        message: t('searchMessages.resendSuccess'),
         type: 'success',
       })
       selectedIds.value = []
     } else if (failed.length === results.length) {
       notificationsStore.addNotification({
-        message: 'Error while resending the selected messages',
+        message: t('searchMessages.resendError'),
         type: 'error',
       })
     } else {
       notificationsStore.addNotification({
-        message: `${results.length - failed.length} messages resent, ${
-          failed.length
-        } failed`,
+        message: t('searchMessages.resendPartial', {
+          success: results.length - failed.length,
+          failed: failed.length,
+        }),
         type: 'info',
       })
       selectedIds.value = []
@@ -354,8 +351,10 @@ onBeforeUnmount(() => {
           <VIcon :icon="mdiArrowLeft" />
         </VBtn>
         <VToolbarTitle>
-          <div class="py-16">Search Messages</div>
+          <div class="py-16">{{ $t('searchMessages.title') }}</div>
         </VToolbarTitle>
+        <VSpacer />
+        <LanguageSwitcher class="mr-2" />
         <VProgressLinear
           :active="loading"
           color="primary"
@@ -367,12 +366,11 @@ onBeforeUnmount(() => {
       <VContainer>
         <VRow>
           <VCol cols="12">
-            <h5 class="text-headline-large mb-3 mt-0">Search Messages</h5>
+            <h5 class="text-headline-large mb-3 mt-0">
+              {{ $t('searchMessages.title') }}
+            </h5>
             <p>
-              On this page, you can search all your messages by phone number,
-              message type, and message status and even using the content of the
-              SMS message. You will also be able to bulk delete messages and
-              even export your messages in a CSV file.
+              {{ $t('searchMessages.desc') }}
             </p>
             <VAlert v-if="errorTitle" variant="tonal" prominent type="warning">
               <h6 class="text-title-large font-weight-bold">
@@ -393,7 +391,7 @@ onBeforeUnmount(() => {
                   :items="phoneNumberSelectItems"
                   multiple
                   density="compact"
-                  label="Phone Numbers"
+                  :label="$t('searchMessages.phoneNumbers')"
                   variant="outlined"
                 />
               </VCol>
@@ -406,7 +404,7 @@ onBeforeUnmount(() => {
                   :items="messageTypeSelectItems"
                   density="compact"
                   multiple
-                  label="Message Types"
+                  :label="$t('searchMessages.messageTypes')"
                   variant="outlined"
                 />
               </VCol>
@@ -419,7 +417,7 @@ onBeforeUnmount(() => {
                   :items="messageStatusSelectItems"
                   density="compact"
                   multiple
-                  label="Message Status"
+                  :label="$t('searchMessages.messageStatus')"
                   variant="outlined"
                 />
               </VCol>
@@ -431,7 +429,7 @@ onBeforeUnmount(() => {
                   color="primary"
                   :error="errorMessages.has('query')"
                   :error-messages="errorMessages.get('query')"
-                  label="Search Query"
+                  :label="$t('searchMessages.searchQuery')"
                   variant="outlined"
                   density="compact"
                   clearable
@@ -449,8 +447,7 @@ onBeforeUnmount(() => {
                   @click="fetchMessages(true)"
                 >
                   <VIcon v-if="mdAndUp" start :icon="mdiMagnify" />
-                  <span v-if="smAndDown">SEARCH</span>
-                  <span v-else>Search Messages</span>
+                  <span>{{ $t('searchMessages.search') }}</span>
                 </VBtn>
               </VCol>
             </VRow>
@@ -459,7 +456,7 @@ onBeforeUnmount(() => {
         <VRow>
           <VCol cols="12" class="mt-16 mb-n2 d-flex align-center">
             <h2 class="text-md-headline-large text-headline-medium mb-0 mt-0">
-              Search Results
+              {{ $t('searchMessages.searchResults') }}
             </h2>
             <VDialog v-model="showDeleteDialog" opacity="0.9" max-width="550">
               <template #activator="{ props }">
@@ -472,18 +469,19 @@ onBeforeUnmount(() => {
                   v-bind="props"
                 >
                   <VIcon v-if="mdAndUp" start :icon="mdiDelete" />
-                  <span v-if="smAndDown">DELETE</span>
-                  <span v-else>Delete messages</span>
+                  <span>{{ $t('searchMessages.deleteMessages') }}</span>
                 </VBtn>
               </template>
               <VCard>
                 <VCardTitle>
-                  Delete <v-code>{{ selectedMessages.length }}</v-code> selected
-                  messages?
+                  {{
+                    $t('searchMessages.deleteConfirmTitle', {
+                      count: selectedMessages.length,
+                    })
+                  }}
                 </VCardTitle>
                 <VCardText class="text-medium-emphasis">
-                  The messages will be deleted permanently from the httpSMS
-                  server and cannot be recovered.
+                  {{ $t('searchMessages.deleteConfirmDesc') }}
                 </VCardText>
                 <VCardActions class="pb-4">
                   <VBtn
@@ -492,11 +490,11 @@ onBeforeUnmount(() => {
                     variant="flat"
                     @click="deleteMessages"
                   >
-                    Delete Messages
+                    {{ $t('searchMessages.deleteMessages') }}
                   </VBtn>
                   <VSpacer />
                   <VBtn color="warning" @click="showDeleteDialog = false">
-                    Close
+                    {{ $t('common.close') }}
                   </VBtn>
                 </VCardActions>
               </VCard>
@@ -511,17 +509,19 @@ onBeforeUnmount(() => {
                   v-bind="props"
                 >
                   <VIcon start :icon="mdiRefresh" />
-                  Resend Messages
+                  {{ $t('searchMessages.resendMessages') }}
                 </VBtn>
               </template>
               <VCard>
                 <VCardTitle class="text-headline-medium text-break">
-                  Resend <v-code>{{ selectedMessages.length }}</v-code> selected
-                  messages?
+                  {{
+                    $t('searchMessages.resendConfirmTitle', {
+                      count: selectedMessages.length,
+                    })
+                  }}
                 </VCardTitle>
                 <VCardText class="text-medium-emphasis">
-                  The selected messages will be queued for sending again using
-                  the original sender, recipient, and content.
+                  {{ $t('searchMessages.resendConfirmDesc') }}
                 </VCardText>
                 <VCardActions class="pb-4">
                   <VBtn
@@ -530,11 +530,11 @@ onBeforeUnmount(() => {
                     :loading="loading"
                     @click="resendMessages"
                   >
-                    Resend Messages
+                    {{ $t('searchMessages.resendMessages') }}
                   </VBtn>
                   <VSpacer />
                   <VBtn color="warning" @click="showResendDialog = false">
-                    Close
+                    {{ $t('common.close') }}
                   </VBtn>
                 </VCardActions>
               </VCard>
@@ -548,8 +548,7 @@ onBeforeUnmount(() => {
               @click="exportMessages"
             >
               <VIcon v-if="mdAndUp" start :icon="mdiExport" />
-              <span v-if="smAndDown">EXPORT</span>
-              <span v-else>Export to CSV</span>
+              <span>{{ $t('searchMessages.exportCsv') }}</span>
             </VBtn>
           </VCol>
           <VCol cols="12">
@@ -566,8 +565,8 @@ onBeforeUnmount(() => {
               :items-per-page-options="itemsPerPageOptions"
               :loading="loading"
               show-select
-              loading-text="Loading... Please wait"
-              no-data-text="You don't have any messages yet"
+              :loading-text="$t('searchMessages.loading')"
+              :no-data-text="$t('searchMessages.noData')"
               class="elevation-1"
               @update:options="onUpdateOptions"
             >
@@ -577,15 +576,15 @@ onBeforeUnmount(() => {
               <template #[`item.type`]="{ item }">
                 <span v-if="item.type === 'call/missed'">
                   <VIcon size="small" color="error" :icon="mdiCallMissed" />
-                  missed call
+                  {{ $t('searchMessages.missedCalls') }}
                 </span>
                 <span v-else-if="item.type === 'mobile-originated'">
                   <VIcon size="small" :icon="mdiCallReceived" />
-                  inbound
+                  {{ $t('searchMessages.inbound') }}
                 </span>
                 <span v-else-if="item.type === 'mobile-terminated'">
                   <VIcon size="small" color="secondary" :icon="mdiCallMade" />
-                  outbound
+                  {{ $t('searchMessages.outbound') }}
                 </span>
               </template>
               <template #[`item.status`]="{ item }">
@@ -596,7 +595,7 @@ onBeforeUnmount(() => {
                   variant="outlined"
                 >
                   <VIcon size="small" start :icon="mdiAlert" />
-                  Expired
+                  {{ $t('searchMessages.expired') }}
                 </VChip>
                 <VChip
                   v-else-if="item.status === 'delivered'"
@@ -605,7 +604,7 @@ onBeforeUnmount(() => {
                   variant="outlined"
                 >
                   <VIcon size="small" start :icon="mdiCheckAll" />
-                  Delivered
+                  {{ $t('searchMessages.delivered') }}
                 </VChip>
                 <VChip
                   v-else-if="item.status === 'received'"
@@ -614,15 +613,16 @@ onBeforeUnmount(() => {
                   variant="outlined"
                 >
                   <VIcon size="small" start :icon="mdiCheckAll" />
-                  Received
+                  {{ $t('searchMessages.received') }}
                 </VChip>
                 <VChip
                   v-else-if="item.status === 'sent'"
+                  color="success"
                   size="small"
                   variant="outlined"
                 >
                   <VIcon size="small" start :icon="mdiCheck" />
-                  Sent
+                  {{ $t('searchMessages.sent') }}
                 </VChip>
                 <VChip
                   v-else-if="item.status === 'failed'"
@@ -631,7 +631,7 @@ onBeforeUnmount(() => {
                   variant="outlined"
                 >
                   <VIcon size="small" start :icon="mdiAlert" />
-                  Failed
+                  {{ $t('searchMessages.failed') }}
                 </VChip>
                 <VChip v-else size="small" color="cyan" variant="outlined">
                   <VIcon size="small" start :icon="mdiProgressCheck" />

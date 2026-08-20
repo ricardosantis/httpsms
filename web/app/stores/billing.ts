@@ -37,10 +37,24 @@ export const useBillingStore = defineStore('billing', () => {
   }
 
   async function getSubscriptionUpdateLink(): Promise<string> {
-    const response = await apiFetch<{ data: string }>(
-      '/v1/users/subscription-update-url',
+    const response = await apiFetch<{ data: { url: string } }>(
+      '/v1/stripe/customer-portal',
+      { method: 'POST' },
     )
-    return response.data
+    return response.data.url
+  }
+
+  async function createStripeCheckoutSession(
+    priceId?: string,
+  ): Promise<string> {
+    const response = await apiFetch<{ data: { url: string } }>(
+      '/v1/stripe/checkout-session',
+      {
+        method: 'POST',
+        body: priceId ? { price_id: priceId } : {},
+      },
+    )
+    return response.data.url
   }
 
   async function cancelSubscription(): Promise<string> {
@@ -275,6 +289,7 @@ export const useBillingStore = defineStore('billing', () => {
     loadBillingUsage,
     loadBillingUsageHistory,
     getSubscriptionUpdateLink,
+    createStripeCheckoutSession,
     cancelSubscription,
     indexSubscriptionPayments,
     generateSubscriptionPaymentInvoice,

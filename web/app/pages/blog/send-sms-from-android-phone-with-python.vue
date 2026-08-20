@@ -12,8 +12,7 @@ useSeoMeta({
   ogTitle: 'Send an SMS from your Android phone with Python',
   ogDescription:
     'Configure your Android phone as an SMS gateway to automate sending text messages with the Python programing language.',
-  ogImage:
-    'https://httpsms.com/img/blog/send-sms-from-android-phone-with-python/header.png',
+  ogImage: '/img/blog/send-sms-from-android-phone-with-python/header.png',
   twitterCard: 'summary_large_image',
 })
 </script>
@@ -70,7 +69,7 @@ useSeoMeta({
           <NuxtLink class="text-decoration-none" to="/">httpsms.com</NuxtLink>
           and copy your API key from the settings page
           <NuxtLink class="text-decoration-none" to="/settings"
-            >https://httpsms.com/settings</NuxtLink
+            >{{ useAppStore().appData.url }}/settings</NuxtLink
           >
         </p>
         <VImg
@@ -121,7 +120,7 @@ useSeoMeta({
         ><code class="language-python text-body-medium">import requests
 import json
 
-api_key = "" # Get API Key from https://httpsms.com/settings
+api_key = "" # Get API Key from /settings
 
 url = 'https://api.httpsms.com/v1/messages/send'
 

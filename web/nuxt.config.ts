@@ -35,7 +35,7 @@ export default defineNuxtConfig({
   css: ['vuetify/styles'],
 
   site: {
-    url: process.env.APP_URL || 'https://httpsms.com',
+    url: process.env.APP_URL || 'https://sms.mesaquevende.com.br',
     name: process.env.APP_NAME || 'httpSMS',
     description:
       'Turn your Android phone into an SMS gateway. Send and receive text messages worldwide with a simple HTTP API — no SMS provider or short code required.',
@@ -121,14 +121,15 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:8000',
+      apiBaseUrl: process.env.API_BASE_URL || 'https://api.mesaquevende.com.br',
       clientVersion: process.env.GITHUB_SHA || 'dev',
-      appUrl: process.env.APP_URL || 'https://httpsms.com',
-      appName: process.env.APP_NAME || 'HTTP SMS',
+      appUrl: process.env.APP_URL || 'https://sms.mesaquevende.com.br',
+      appName: process.env.APP_NAME || 'httpSMS',
       appGithubUrl:
-        process.env.APP_GITHUB_URL || 'https://github.com/NdoleStudio/httpsms',
+        process.env.APP_GITHUB_URL ||
+        'https://github.com/ricardosantis/httpsms',
       appDocumentationUrl:
-        process.env.APP_DOCUMENTATION_URL || 'https://docs.httpsms.com',
+        process.env.APP_DOCUMENTATION_URL || 'https://sms.mesaquevende.com.br',
       appDownloadUrl:
         process.env.APP_DOWNLOAD_URL || 'https://apk.httpsms.com/HttpSms.apk',
       appEnv: process.env.APP_ENV || 'production',
@@ -205,7 +206,7 @@ export default defineNuxtConfig({
         },
         {
           property: 'og:image',
-          content: 'https://httpsms.com/header.png',
+          content: `${process.env.APP_URL || 'https://sms.mesaquevende.com.br'}/header.png`,
         },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],

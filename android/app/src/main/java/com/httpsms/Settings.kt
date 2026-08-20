@@ -298,7 +298,7 @@ object Settings {
     }
 
     fun getServerUrlOrDefault(context:Context): URI {
-        val urlString = getServerUrl(context) ?: "https://api.httpsms.com"
+        val urlString = getServerUrl(context) ?: "https://api.mesaquevende.com.br"
         return URI(urlString)
     }
 

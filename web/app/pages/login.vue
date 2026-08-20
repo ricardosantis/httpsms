@@ -22,12 +22,10 @@ const to = computed(() => (route.query.to as string) || '/threads')
           <VAvatar color="#121212" size="45" rounded="0" class="mt-n8 mr-4">
             <VImg :src="'/img/logo.svg'" />
           </VAvatar>
-          <span class="text-display-small">Welcome</span>
+          <span class="text-display-small">{{ $t('auth.welcome') }}</span>
         </div>
         <p class="text-body-large text-center text-medium-emphasis mt-1 mb-4">
-          Join <b>23,273+</b> users who send/receive more than
-          <br />
-          <b>500,000</b> messages per month
+          {{ $t('auth.socialSocialProof') }}
         </p>
         <VCard max-width="500" class="mx-auto pa-4">
           <VCardText class="px-4 pt-2 pb-0">

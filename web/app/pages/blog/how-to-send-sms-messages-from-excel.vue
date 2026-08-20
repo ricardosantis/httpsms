@@ -15,7 +15,7 @@ useSeoMeta({
   ogTitle: 'How to send SMS messages to multiple phone numbers from Excel',
   ogDescription:
     'Send personalized SMS messages to multiple phone numbers for less than $0.002 per SMS message using your Android phone as the SMS gateway.',
-  ogImage: 'https://httpsms.com/header.png',
+  ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
 </script>
@@ -52,7 +52,7 @@ useSeoMeta({
           <NuxtLink class="text-decoration-none" to="/">httpsms.com</NuxtLink>
           and copy your API key from the settings page
           <NuxtLink class="text-decoration-none" to="/settings"
-            >https://httpsms.com/settings</NuxtLink
+            >{{ useAppStore().appData.url }}/settings</NuxtLink
           >
         </p>
         <VImg
@@ -136,7 +136,9 @@ useSeoMeta({
 
         <p class="mt-12">
           Don't hesitate to
-          <a class="text-decoration-none" href="mailto:arnold@httpsms.com"
+          <a
+            class="text-decoration-none"
+            href="mailto:suporte@mesaquevende.com.br"
             >contact us</a
           >
           if you face any issues sending bulk SMS messages from your Excel files

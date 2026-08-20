@@ -38,6 +38,7 @@ type EntitlementService struct {
 	tracer         telemetry.Tracer
 	enabled        bool
 	userRepository repositories.UserRepository
+	appURL         string
 }
 
 // NewEntitlementService creates a new EntitlementService.
@@ -47,12 +48,14 @@ func NewEntitlementService(
 	tracer telemetry.Tracer,
 	enabled bool,
 	userRepository repositories.UserRepository,
+	appURL string,
 ) *EntitlementService {
 	return &EntitlementService{
 		logger:         logger.WithService(fmt.Sprintf("%T", &EntitlementService{})),
 		tracer:         tracer,
 		enabled:        enabled,
 		userRepository: userRepository,
+		appURL:         appURL,
 	}
 }
 
@@ -100,9 +103,10 @@ func (service *EntitlementService) Check(
 		return &EntitlementCheckResult{
 			Allowed: false,
 			Message: fmt.Sprintf(
-				"Upgrade to a paid plan to create more than [%d] %s. Visit https://httpsms.com/pricing for details.",
+				"Upgrade to a paid plan to create more than [%d] %s. Visit %s/#pricing for details.",
 				limit,
 				formatEntityName(entityName, true),
+				service.appURL,
 			),
 		}, nil
 	}

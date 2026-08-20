@@ -13,7 +13,7 @@ definePageMeta({
 })
 
 useHead({
-  title: 'New Message - httpSMS',
+  title: `${useNuxtApp().$i18n.t('newMessage.title')} - httpSMS`,
 })
 
 const router = useRouter()
@@ -116,7 +116,7 @@ onMounted(async () => {
           <VIcon :icon="mdiArrowLeft" />
         </VBtn>
         <VToolbarTitle>
-          New Message
+          {{ $t('newMessage.title') }}
           <template v-if="phonesStore.owner && mdAndUp">
             <VIcon size="12" class="mx-2" color="primary" :icon="mdiCircle" />
             {{ formatPhoneNumber(phonesStore.owner) }}
@@ -127,10 +127,7 @@ onMounted(async () => {
         <VRow>
           <VCol cols="12" md="8" offset-md="2" xl="6" offset-xl="3">
             <p class="mb-8 mt-0">
-              Enter the recipient's phone number and your message below, and
-              we'll deliver a real SMS it through your connected Android phone.
-              You can also text a short code like
-              <v-code>24273</v-code> without entering a full phone number.
+              {{ $t('newMessage.description') }}
             </p>
             <form>
               <v-phone-input
@@ -143,9 +140,9 @@ onMounted(async () => {
                 color="primary"
                 density="compact"
                 persistent-placeholder
-                placeholder="Recipient phone number e.g 18005550199"
-                label="Phone Number"
-                country-label="Country"
+                :placeholder="$t('newMessage.recipientPlaceholder')"
+                :label="$t('newMessage.phoneNumber')"
+                :country-label="$t('newMessage.country')"
               />
               <VTextarea
                 v-model="formContent"
@@ -156,8 +153,8 @@ onMounted(async () => {
                 density="compact"
                 color="primary"
                 persistent-placeholder
-                placeholder="Enter your message here"
-                label="Content"
+                :placeholder="$t('newMessage.contentPlaceholder')"
+                :label="$t('newMessage.content')"
               />
               <loading-button
                 :disabled="sending"
@@ -166,7 +163,7 @@ onMounted(async () => {
                 :icon="mdiSend"
                 @click="sendMessage"
               >
-                Send Message
+                {{ $t('newMessage.sendMessage') }}
               </loading-button>
             </form>
           </VCol>

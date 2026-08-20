@@ -38,6 +38,7 @@ type MessageService struct {
 	repository           repositories.MessageRepository
 	attachmentRepository repositories.AttachmentRepository
 	apiBaseURL           string
+	appURL               string
 }
 
 // NewMessageService creates a new MessageService
@@ -49,6 +50,7 @@ func NewMessageService(
 	phoneService *PhoneService,
 	attachmentRepository repositories.AttachmentRepository,
 	apiBaseURL string,
+	appURL string,
 ) (s *MessageService) {
 	return &MessageService{
 		logger:               logger.WithService(fmt.Sprintf("%T", s)),
@@ -58,6 +60,7 @@ func NewMessageService(
 		eventDispatcher:      eventDispatcher,
 		attachmentRepository: attachmentRepository,
 		apiBaseURL:           apiBaseURL,
+		appURL:               appURL,
 	}
 }
 
@@ -1065,7 +1068,11 @@ func (service *MessageService) storeMissedCallMessage(ctx context.Context, paylo
 
 func (service *MessageService) enrichErrorMessage(message string) string {
 	if strings.Contains(message, "android.permission.SEND_SMS") {
-		return message + " You need to grant the SMS permission to the httpSMS Android app https://httpsms.com/blog/grant-send-and-read-sms-permissions-on-android"
+		appURL := service.appURL
+		if appURL == "" {
+			appURL = "https://sms.mesaquevende.com.br"
+		}
+		return message + fmt.Sprintf(" You need to grant the SMS permission to the Android app %s/blog/grant-send-and-read-sms-permissions-on-android", appURL)
 	}
 	return message
 }

@@ -14,8 +14,7 @@ useSeoMeta({
     'How to forward a text message (SMS) from an android phone into your webhook',
   ogDescription:
     'You can now program your android phone to forward messages received on your phone to your server and trigger powerful automations with tools like Zapier and IFTTT.',
-  ogImage:
-    'https://httpsms.com/img/blog/forward-incoming-sms-from-phone-to-webhook/header.png',
+  ogImage: '/img/blog/forward-incoming-sms-from-phone-to-webhook/header.png',
   twitterCard: 'summary_large_image',
 })
 </script>
@@ -53,7 +52,7 @@ useSeoMeta({
           Create an account on the httpSMS web application and copy your API key
           from the settings page.
           <NuxtLink class="text-decoration-none" to="/settings"
-            >https://httpsms.com/settings</NuxtLink
+            >{{ useAppStore().appData.url }}/settings</NuxtLink
           >
         </p>
         <VImg
@@ -90,7 +89,7 @@ useSeoMeta({
           webhook. You can configure this URL under the settings page in the
           httpSMS application
           <NuxtLink class="text-decoration-none" to="/settings"
-            >https://httpsms.com/settings</NuxtLink
+            >{{ useAppStore().appData.url }}/settings</NuxtLink
           >
         </p>
         <VImg
@@ -108,8 +107,10 @@ useSeoMeta({
         <p>
           You can also trigger the httpSMS application to send an SMS a simple
           API. You can find more information on the documentation page at
-          <a class="text-decoration-none" href="https://docs.httpsms.com"
-            >https://docs.httpsms.com</a
+          <a
+            class="text-decoration-none"
+            :href="useAppStore().appData.documentationUrl"
+            >{{ useAppStore().appData.documentationUrl }}</a
           >
         </p>
         <p>Until the next time✌️</p>

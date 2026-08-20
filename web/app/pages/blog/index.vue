@@ -12,7 +12,7 @@ useSeoMeta({
   ogTitle: 'httpSMS Blog - SMS automation guides & tutorials',
   ogDescription:
     'Learn how to send and receive SMS from your Android phone: bulk messaging, webhooks, encryption, Zapier, Excel, and Python tutorials.',
-  ogImage: 'https://httpsms.com/header.png',
+  ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
 

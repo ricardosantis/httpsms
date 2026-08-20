@@ -21,6 +21,7 @@ import type { EntitiesPhone } from '~~/shared/types/api'
 
 const router = useRouter()
 const route = useRoute()
+const { t } = useI18n()
 const { mdAndDown, lgAndUp } = useDisplay()
 const authStore = useAuthStore()
 const phonesStore = usePhonesStore()
@@ -75,7 +76,7 @@ async function logout() {
   redirectPreferenceStore.resetState()
   notificationsStore.addNotification({
     type: 'info',
-    message: 'You have successfully logged out',
+    message: t('auth.logoutSuccess'),
   })
   router.push({ name: 'index' })
 }
@@ -91,7 +92,7 @@ async function logout() {
             density="compact"
             color="primary"
             :disabled="owners.length === 0"
-            placeholder="Phone Numbers"
+            :placeholder="$t('nav.phoneNumbers')"
             :class="{ 'mb-n5': !phonesStore.owner }"
             :items="owners"
             :model-value="phonesStore.owner"
@@ -137,7 +138,9 @@ async function logout() {
               <v-icon v-else size="x-small" color="success" :icon="mdiCircle" />
             </v-btn>
           </template>
-          <h4 class="font-weight-bold mt-0 mb-0">Last Heartbeat</h4>
+          <h4 class="font-weight-bold mt-0 mb-0">
+            {{ $t('threads.lastHeartbeat') }}
+          </h4>
           {{ humanizeTime(phonesStore.heartbeat.timestamp) }} ago
         </v-tooltip>
       </div>

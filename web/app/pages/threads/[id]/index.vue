@@ -25,8 +25,10 @@ definePageMeta({
   middleware: ['auth'],
 })
 
+const { t } = useI18n()
+
 useHead({
-  title: 'Messages - httpSMS',
+  title: computed(() => `${t('threads.title')} - httpSMS`),
 })
 
 const route = useRoute()
@@ -49,12 +51,9 @@ const selectedMenuItem = ref(-1)
 const messageBody = ref<HTMLElement | null>(null)
 const form = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
 
-const formMessageRules = [
-  (v: string) =>
-    v === '' ||
-    (v && v.length <= 320) ||
-    'Message must be less than 320 characters',
-]
+const formMessageRules = computed(() => [
+  (v: string) => v === '' || (v && v.length <= 320) || t('threads.charLimit'),
+])
 
 let webhookChannel: Channel | null = null
 
@@ -193,7 +192,7 @@ async function deleteMessage(message: EntitiesMessage) {
 async function copyMessageId(message: EntitiesMessage) {
   await navigator.clipboard.writeText(message.id)
   notificationsStore.addNotification({
-    message: 'Message ID copied to clipboard',
+    message: t('threads.messageIdCopied'),
     type: 'success',
   })
   setTimeout(() => {
@@ -230,29 +229,38 @@ async function sendMessage(event: KeyboardEvent | Event) {
 onMounted(async () => {
   await loadData()
 
-  const pusher = new Pusher(config.public.pusherKey as string, {
-    cluster: config.public.pusherCluster as string,
-  })
+  const pusherKey = config.public.pusherKey as string
+  const pusherCluster = config.public.pusherCluster as string
 
-  webhookChannel = pusher.subscribe(authStore.user!.id)
-  webhookChannel.bind('message.phone.sent', () => {
-    if (!loadingMessages.value) loadMessages(false)
-  })
-  webhookChannel.bind('message.send.failed', () => {
-    if (!loadingMessages.value) loadMessages(false)
-  })
-  webhookChannel.bind('message.phone.received', () => {
-    if (!loadingMessages.value) {
-      void markCurrentThreadRead(true)
-      loadMessages(false, false)
+  if (pusherKey && pusherCluster && authStore.user?.id) {
+    try {
+      const pusher = new Pusher(pusherKey, {
+        cluster: pusherCluster,
+      })
+
+      webhookChannel = pusher.subscribe(authStore.user.id)
+      webhookChannel.bind('message.phone.sent', () => {
+        if (!loadingMessages.value) loadMessages(false)
+      })
+      webhookChannel.bind('message.send.failed', () => {
+        if (!loadingMessages.value) loadMessages(false)
+      })
+      webhookChannel.bind('message.phone.received', () => {
+        if (!loadingMessages.value) {
+          void markCurrentThreadRead(true)
+          loadMessages(false, false)
+        }
+      })
+      webhookChannel.bind('message.call.missed', () => {
+        if (!loadingMessages.value) {
+          void markCurrentThreadRead(true)
+          loadMessages(false, false)
+        }
+      })
+    } catch {
+      // Pusher failed to initialize
     }
-  })
-  webhookChannel.bind('message.call.missed', () => {
-    if (!loadingMessages.value) {
-      void markCurrentThreadRead(true)
-      loadMessages(false, false)
-    }
-  })
+  }
 })
 
 onBeforeUnmount(() => {
@@ -270,6 +278,8 @@ onBeforeUnmount(() => {
         <VToolbarTitle v-if="threadsStore.currentThread">
           {{ formatPhoneNumber(threadsStore.currentThread.contact) }}
         </VToolbarTitle>
+        <VSpacer />
+        <LanguageSwitcher class="mr-2" />
         <VMenu>
           <template #activator="{ props }">
             <VBtn icon variant="text" class="mt-2" v-bind="props">
@@ -291,7 +301,7 @@ onBeforeUnmount(() => {
               <template #prepend>
                 <VIcon :icon="mdiPackageDown" />
               </template>
-              <VListItemTitle>Archive</VListItemTitle>
+              <VListItemTitle>{{ $t('threads.archive') }}</VListItemTitle>
             </VListItem>
             <VListItem
               v-if="
@@ -303,7 +313,7 @@ onBeforeUnmount(() => {
               <template #prepend>
                 <VIcon :icon="mdiPackageUp" />
               </template>
-              <VListItemTitle>Unarchive</VListItemTitle>
+              <VListItemTitle>{{ $t('threads.unarchive') }}</VListItemTitle>
             </VListItem>
             <VListItem
               v-if="threadsStore.currentThread"
@@ -312,7 +322,7 @@ onBeforeUnmount(() => {
               <template #prepend>
                 <VIcon :icon="mdiDelete" color="error" />
               </template>
-              <VListItemTitle>Delete Thread</VListItemTitle>
+              <VListItemTitle>{{ $t('threads.deleteThread') }}</VListItemTitle>
             </VListItem>
           </VList>
         </VMenu>
@@ -380,25 +390,25 @@ onBeforeUnmount(() => {
                     <template #prepend
                       ><VIcon size="small" :icon="mdiRefresh"
                     /></template>
-                    <VListItemTitle class="text-body-medium"
-                      >Resend Message</VListItemTitle
-                    >
+                    <VListItemTitle class="text-body-medium">{{
+                      $t('threads.resendMessage')
+                    }}</VListItemTitle>
                   </VListItem>
                   <VListItem @click.prevent="copyMessageId(message)">
                     <template #prepend
                       ><VIcon size="small" :icon="mdiContentCopy"
                     /></template>
-                    <VListItemTitle class="text-body-medium"
-                      >Copy Message ID</VListItemTitle
-                    >
+                    <VListItemTitle class="text-body-medium">{{
+                      $t('threads.copyMessageId')
+                    }}</VListItemTitle>
                   </VListItem>
                   <VListItem @click.prevent="deleteMessage(message)">
                     <template #prepend
                       ><VIcon size="small" :icon="mdiDelete" color="error"
                     /></template>
-                    <VListItemTitle class="text-body-medium"
-                      >Delete Message</VListItemTitle
-                    >
+                    <VListItemTitle class="text-body-medium">{{
+                      $t('threads.deleteMessage')
+                    }}</VListItemTitle>
                   </VListItem>
                 </VList>
               </VMenu>
@@ -417,9 +427,9 @@ onBeforeUnmount(() => {
                     <span v-if="!isMissedCall(message)">{{
                       message.content
                     }}</span>
-                    <span v-else class="text-medium-emphasis"
-                      >Missed phone call</span
-                    >
+                    <span v-else class="text-medium-emphasis">{{
+                      $t('threads.missedCall')
+                    }}</span>
                   </VCardText>
                 </VCard>
                 <VCard
@@ -504,25 +514,25 @@ onBeforeUnmount(() => {
                     <template #prepend
                       ><VIcon size="small" :icon="mdiRefresh"
                     /></template>
-                    <VListItemTitle class="text-body-medium"
-                      >Resend Message</VListItemTitle
-                    >
+                    <VListItemTitle class="text-body-medium">{{
+                      $t('threads.resendMessage')
+                    }}</VListItemTitle>
                   </VListItem>
                   <VListItem @click.prevent="copyMessageId(message)">
                     <template #prepend
                       ><VIcon size="small" :icon="mdiContentCopy"
                     /></template>
-                    <VListItemTitle class="text-body-medium"
-                      >Copy Message ID</VListItemTitle
-                    >
+                    <VListItemTitle class="text-body-medium">{{
+                      $t('threads.copyMessageId')
+                    }}</VListItemTitle>
                   </VListItem>
                   <VListItem @click.prevent="deleteMessage(message)">
                     <template #prepend
                       ><VIcon size="small" :icon="mdiDelete" color="error"
                     /></template>
-                    <VListItemTitle class="text-body-medium"
-                      >Delete Message</VListItemTitle
-                    >
+                    <VListItemTitle class="text-body-medium">{{
+                      $t('threads.deleteMessage')
+                    }}</VListItemTitle>
                   </VListItem>
                 </VList>
               </VMenu>
@@ -539,8 +549,8 @@ onBeforeUnmount(() => {
                 :rules="formMessageRules"
                 :placeholder="
                   contactIsPhoneNumber
-                    ? 'Type your message here'
-                    : 'You cannot send messages to ' + contact
+                    ? $t('threads.typeMessagePlaceholder')
+                    : $t('threads.cannotSendMessage', { contact })
                 "
                 rounded
                 @keydown.enter="sendMessage"

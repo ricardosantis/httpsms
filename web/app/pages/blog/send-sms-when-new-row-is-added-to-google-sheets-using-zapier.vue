@@ -14,7 +14,7 @@ useSeoMeta({
     'Send an SMS message when a new row is added to Google Sheets using Zapier',
   ogDescription:
     "Automate sending personalized SMS messages each time a new row is added to your Google Sheets document using Zapier. You don't need to write any code to make this happen and you can personalize the SMS messages which are sent out.",
-  ogImage: 'https://httpsms.com/header.png',
+  ogImage: '/header.png',
   twitterCard: 'summary_large_image',
 })
 </script>
@@ -119,7 +119,7 @@ useSeoMeta({
           number of the customer who made the purchase. You can use your own
           custom message with your own set of variables according to your
           spreadsheet. Change the <code>from</code> field to the phone number
-          which you registered on httpsms.com.
+          which you registered on httpSMS.
         </VAlert>
         <p class="mt-8">
           On the headers section add a new header called
@@ -130,7 +130,7 @@ useSeoMeta({
           >
           and you can copy your API key from the settings page
           <NuxtLink class="text-decoration-none" to="/settings"
-            >https://httpsms.com/settings</NuxtLink
+            >{{ useAppStore().appData.url }}/settings</NuxtLink
           >.
         </p>
         <p>
@@ -152,7 +152,9 @@ useSeoMeta({
           Publish your zap and you will automatically trigger httpsms to send an
           SMS to your customer when ever you add a new row in the google sheet.
           Don't hesitate to
-          <a class="text-decoration-none" href="mailto:arnold@httpsms.com"
+          <a
+            class="text-decoration-none"
+            href="mailto:suporte@mesaquevende.com.br"
             >contact us</a
           >
           if you face any issues configuring your zap to send SMS messages from

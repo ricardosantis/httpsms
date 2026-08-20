@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 
 export interface AppData {
   url: string
+  apiBaseUrl: string
   name: string
   env: string
   appDownloadUrl: string
@@ -21,11 +22,12 @@ export const useAppStore = defineStore('app', () => {
     }
     return {
       url,
+      apiBaseUrl: publicConfig.apiBaseUrl || 'https://api.mesaquevende.com.br',
       env: publicConfig.appEnv,
       appDownloadUrl: publicConfig.appDownloadUrl,
-      documentationUrl: publicConfig.appDocumentationUrl,
+      documentationUrl: publicConfig.appDocumentationUrl || url,
       githubUrl: publicConfig.appGithubUrl,
-      name: publicConfig.appName,
+      name: publicConfig.appName || 'httpSMS',
     }
   })
 
