@@ -176,7 +176,7 @@ onMounted(async () => {
                   v-if="mdAndUp"
                   variant="plain"
                   color="info"
-                  href="mailto:suporte@mesaquevende.com.br?subject=I'm having trouble with the bulk messages"
+                  href="mailto:contato@mesaquevende.com.br?subject=Ajuda com envio de mensagens em massa"
                 >
                   {{ $t('common.needHelp') }}
                 </VBtn>

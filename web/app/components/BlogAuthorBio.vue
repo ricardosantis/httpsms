@@ -7,16 +7,10 @@ import { mdiTwitter, mdiGithub } from '@mdi/js'
     <v-avatar image="/img/arnold.png" />
     <div class="ml-2 mt-n7">
       <p class="text-title-large mb-n1">Acho Arnold</p>
-      <a
-        class="mb-n4 text-decoration-none text-on-surface"
-        href="https://twitter.com/acho_arnold"
-      >
+      <a class="mb-n4 text-decoration-none text-on-surface" href="#">
         <v-icon color="#1DA1F2" :icon="mdiTwitter" />
       </a>
-      <a
-        class="ml-2 text-decoration-none text-on-surface"
-        href="https://github.com/AchoArnold"
-      >
+      <a class="ml-2 text-decoration-none text-on-surface" href="#">
         <v-icon color="#FFFFFF" :icon="mdiGithub" />
       </a>
     </div>

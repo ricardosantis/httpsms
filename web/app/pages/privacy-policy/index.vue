@@ -141,10 +141,10 @@ useSeoMeta({
           <VBtn
             variant="tonal"
             color="primary"
-            href="mailto:suporte@mesaquevende.com.br"
+            href="mailto:contato@mesaquevende.com.br"
           >
             <VIcon start :icon="mdiEmailOutline" />
-            suporte@mesaquevende.com.br
+            contato@mesaquevende.com.br
           </VBtn>
         </VCard>
       </VCol>

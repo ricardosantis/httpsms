@@ -176,11 +176,6 @@ export default defineNuxtConfig({
       script: [
         { src: '/integrations.js', async: true, defer: true },
         {
-          src: 'https://lmsqueezy.com/affiliate.js',
-          async: true,
-          defer: true,
-        },
-        {
           src: 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit',
         },
       ],

@@ -50,8 +50,7 @@ onMounted(async () => {
           <p class="text-medium-emphasis mt-0">
             {{ $t('threads.discordHelp', { link: '' }).split('{link}')[0] }}
             <a
-              href="https://discord.gg/kGk8HVqeEZ"
-              target="_blank"
+              href="#"
               class="text-decoration-none hover:text-decoration-underline"
               >{{ $t('threads.messageUsOnDiscord') }}</a
             >

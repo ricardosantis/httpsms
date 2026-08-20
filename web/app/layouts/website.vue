@@ -5,7 +5,6 @@ import {
   mdiCircle,
   mdiTwitter,
   mdiHeart,
-  mdiShieldStar,
   mdiLightbulbOn50,
   mdiCreation,
   mdiEyeOffOutline,
@@ -20,7 +19,6 @@ const router = useRouter()
 const route = useRoute()
 const { lgAndUp, mdAndUp } = useDisplay()
 const authStore = useAuthStore()
-const appStore = useAppStore()
 
 function goToPricing() {
   if (route.name === 'index') {
@@ -164,24 +162,19 @@ function goToPricing() {
             </div>
             <p class="mt-n3">
               <v-btn
-                href="https://twitter.com/httpsmsHQ"
+                href="#"
                 color="#1DA1F2"
                 class="ml-n3"
                 variant="text"
                 :icon="mdiTwitter"
               />
               <v-btn
-                :href="appStore.appData.githubUrl"
+                href="#"
                 color="#ffffff"
                 variant="text"
                 :icon="mdiGithub"
               />
-              <v-btn
-                href="https://discord.gg/kGk8HVqeEZ"
-                icon
-                variant="text"
-                color="#5865f2"
-              >
+              <v-btn href="#" icon variant="text" color="#5865f2">
                 <v-img
                   contain
                   height="24"
@@ -190,16 +183,6 @@ function goToPricing() {
                 />
               </v-btn>
             </p>
-            <a
-              href="https://www.saashub.com/httpsms?utm_source=badge&utm_campaign=badge&utm_content=httpsms&badge_variant=color&badge_kind=approved"
-              target="_blank"
-            >
-              <img
-                src="https://cdn-b.saashub.com/img/badges/approved-color.png?v=1"
-                alt="httpSMS badge"
-                style="max-width: 150px"
-              />
-            </a>
           </v-col>
           <v-col cols="12" md="3">
             <h2 class="text-headline-small mb-2">
@@ -214,15 +197,6 @@ function goToPricing() {
                 >
                   {{ $t('website.pricing') }}
                   <v-icon size="small" :icon="mdiCreditCardOutline" />
-                </a>
-              </li>
-              <li class="mb-2">
-                <a
-                  href="https://httpsms.lemonsqueezy.com/affiliates"
-                  class="text-white text-decoration-none footer-link"
-                >
-                  {{ $t('website.affiliates') }}
-                  <v-icon color="warning" size="small" :icon="mdiShieldStar" />
                 </a>
               </li>
               <li class="mb-2">
@@ -260,10 +234,7 @@ function goToPricing() {
                 </NuxtLink>
               </li>
               <li class="mb-2">
-                <a
-                  :href="appStore.appData.githubUrl"
-                  class="text-white text-decoration-none footer-link"
-                >
+                <a href="#" class="text-white text-decoration-none footer-link">
                   Github <v-icon size="small" :icon="mdiGithub" />
                 </a>
               </li>
@@ -315,7 +286,7 @@ function goToPricing() {
               <li class="mt-2">
                 <a
                   class="text-white text-decoration-none footer-link"
-                  href="mailto:suporte@mesaquevende.com.br"
+                  href="mailto:contato@mesaquevende.com.br"
                 >
                   {{ $t('website.contactSupport') }}
                   <v-icon size="small" :icon="mdiEmailOutline" />

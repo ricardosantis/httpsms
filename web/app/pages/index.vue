@@ -33,7 +33,7 @@ definePageMeta({
 const { t } = useI18n()
 const config = useRuntimeConfig()
 const appStore = useAppStore()
-const { lgAndUp, mdAndUp, mdAndDown, md, smAndDown, xl } = useDisplay()
+const { lgAndUp, mdAndUp, mdAndDown, md, smAndDown } = useDisplay()
 
 useSeoMeta({
   title: computed(() => t('landing.seo.title')),
@@ -123,15 +123,6 @@ const planYearlyMonthlyPrice = computed(
             {{ $t('landing.hero.freeToUse') }}
             <VIcon class="ml-4" color="success" :icon="mdiCheckCircle" />
             {{ $t('landing.hero.openSource') }}
-          </div>
-          <div v-if="xl" class="mt-4">
-            <a href="https://www.uneed.best/tool/httpsmscom">
-              <img
-                src="https://www.uneed.best/POTD1A.png"
-                style="width: 250px"
-                alt="Uneed POTD1 Badge"
-              />
-            </a>
           </div>
           <VDivider
             v-if="mdAndDown"
@@ -1092,7 +1083,7 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
             {{
               $t('landing.faq.subtitle', { email: '' }).split('{emailLink}')[0]
             }}
-            <a href="mailto:suporte@mesaquevende.com.br">{{
+            <a href="mailto:contato@mesaquevende.com.br">{{
               $t('landing.faq.sendEmail')
             }}</a>
             {{
