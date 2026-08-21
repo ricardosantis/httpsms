@@ -31,31 +31,31 @@ func NewHermesNotificationEmailFactory(config *HermesGeneratorConfig) Notificati
 func (factory *hermesNotificationEmailFactory) DiscordSendFailed(user *entities.User, payload *events.DiscordSendFailedPayload) (*Email, error) {
 	email := hermes.Email{
 		Body: hermes.Body{
-			Title: "Hello",
+			Title: "Olá",
 			Intros: []string{
-				fmt.Sprintf("We ran into an error while fowarding an incoming SMS to your discord server at %s", user.UserTimeString(time.Now())),
+				fmt.Sprintf("Encontramos um erro ao encaminhar um SMS recebido para o seu servidor Discord em %s", user.UserTimeString(time.Now())),
 			},
 			Dictionary: []hermes.Entry{
-				{Key: "Discord Channel ID", Value: payload.DiscordChannelID},
-				{Key: "Event Name", Value: payload.EventType},
-				{Key: "Phone Number", Value: factory.formatPhoneNumber(payload.Owner)},
-				{Key: "HTTP Response Code", Value: factory.formatHTTPResponseCode(payload.HTTPResponseStatusCode)},
-				{Key: "Error Message / HTTP Response", Value: payload.ErrorMessage},
+				{Key: "ID do Canal Discord", Value: payload.DiscordChannelID},
+				{Key: "Nome do Evento", Value: payload.EventType},
+				{Key: "Número de Telefone", Value: factory.formatPhoneNumber(payload.Owner)},
+				{Key: "Código de Resposta HTTP", Value: factory.formatHTTPResponseCode(payload.HTTPResponseStatusCode)},
+				{Key: "Mensagem de Erro / Resposta HTTP", Value: payload.ErrorMessage},
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "Usually this error happens because you have revoked permissions for the httpSMS discord app on your discord channel. You can always grant httpSMS permission to post to your discord channel under the settings page.",
+					Instructions: "Geralmente este erro ocorre porque as permissões do aplicativo httpSMS foram revogadas no seu canal do Discord. Você pode conceder permissão para o httpSMS na página de configurações.",
 					Button: hermes.Button{
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
-						Text:      "DISCORD SETTINGS",
+						Text:      "CONFIGURAÇÕES DO DISCORD",
 						Link:      fmt.Sprintf("%s/settings/#discord-settings", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
-			Signature: "Cheers",
+			Signature: "Atenciosamente",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
+				fmt.Sprintf("Se tiver dúvidas, responda a este e-mail. Você pode desativar esta notificação por e-mail em %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
@@ -72,7 +72,7 @@ func (factory *hermesNotificationEmailFactory) DiscordSendFailed(user *entities.
 
 	return &Email{
 		ToEmail: user.Email,
-		Subject: "📢 We could not forward an incoming message to your discord server",
+		Subject: "📢 Não foi possível encaminhar a mensagem recebida para o seu servidor Discord",
 		HTML:    html,
 		Text:    text,
 	}, nil
@@ -83,37 +83,37 @@ func (factory *hermesNotificationEmailFactory) WebhookSendFailed(user *entities.
 
 	email := hermes.Email{
 		Body: hermes.Body{
-			Title: "Hello",
+			Title: "Olá",
 			Intros: []string{
-				fmt.Sprintf("We ran into an error while fowarding a webhook event from httpSMS to your webserver at %s", user.UserTimeString(time.Now())),
+				fmt.Sprintf("Encontramos um erro ao encaminhar um evento de webhook do httpSMS para o seu servidor em %s", user.UserTimeString(time.Now())),
 			},
 			Dictionary: []hermes.Entry{
-				{Key: "Server URL", Value: payload.WebhookURL},
-				{Key: "Event Name", Value: payload.EventType},
-				{Key: "Event ID", Value: payload.EventID},
-				{Key: "Phone Number", Value: factory.formatPhoneNumber(payload.Owner)},
-				{Key: "HTTP Response Code", Value: factory.formatHTTPResponseCode(payload.HTTPResponseStatusCode)},
-				{Key: "Error Message / HTTP Response", Value: payload.ErrorMessage},
+				{Key: "URL do Servidor", Value: payload.WebhookURL},
+				{Key: "Nome do Evento", Value: payload.EventType},
+				{Key: "ID do Evento", Value: payload.EventID},
+				{Key: "Número de Telefone", Value: factory.formatPhoneNumber(payload.Owner)},
+				{Key: "Código de Resposta HTTP", Value: factory.formatHTTPResponseCode(payload.HTTPResponseStatusCode)},
+				{Key: "Mensagem de Erro / Resposta HTTP", Value: payload.ErrorMessage},
 				{
-					Key:         "Event Payload",
+					Key:         "Payload do Evento",
 					Value:       webhookSendFailedEventPayloadPlaceholder,
 					UnsafeValue: formattedPayloadHTML,
 				},
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "Usually this error happens because your webserver is either offline or inaccessible, you can always configure the webhook endpoint on the httpSMS website under the settings page.",
+					Instructions: "Geralmente este erro ocorre porque o seu servidor está offline ou inacessível. Você pode reconfigurar o endpoint do webhook na página de configurações do httpSMS.",
 					Button: hermes.Button{
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
-						Text:      "WEBHOOK SETTINGS",
+						Text:      "CONFIGURAÇÕES DO WEBHOOK",
 						Link:      fmt.Sprintf("%s/settings/#webhook-settings", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
-			Signature: "Cheers",
+			Signature: "Atenciosamente",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
+				fmt.Sprintf("Se tiver dúvidas, responda a este e-mail. Você pode desativar esta notificação por e-mail em %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
@@ -134,7 +134,7 @@ func (factory *hermesNotificationEmailFactory) WebhookSendFailed(user *entities.
 
 	return &Email{
 		ToEmail: user.Email,
-		Subject: "📢 We could not forward a webhook event to your server",
+		Subject: "📢 Não foi possível encaminhar um evento de webhook para o seu servidor",
 		HTML:    html,
 		Text:    text,
 	}, nil
@@ -167,31 +167,31 @@ func replaceWebhookSendFailedEventPayloadPlaceholder(text string, formattedPaylo
 func (factory *hermesNotificationEmailFactory) MessageExpired(user *entities.User, payload *events.MessageSendExpiredPayload) (*Email, error) {
 	email := hermes.Email{
 		Body: hermes.Body{
-			Title: "Hello",
+			Title: "Olá",
 			Intros: []string{
-				fmt.Sprintf("The SMS message which you sent to %s has expired at %s and you will need to resend this message.", factory.formatPhoneNumber(payload.Contact), user.UserTimeString(time.Now())),
+				fmt.Sprintf("A mensagem SMS que você enviou para %s expirou em %s e você precisará reenviá-la.", factory.formatPhoneNumber(payload.Contact), user.UserTimeString(time.Now())),
 			},
 			Dictionary: []hermes.Entry{
 				{Key: "ID", Value: payload.MessageID.String()},
-				{Key: "From", Value: factory.formatPhoneNumber(payload.Owner)},
-				{Key: "To", Value: factory.formatPhoneNumber(payload.Contact)},
-				{Key: "Message", Value: payload.Content},
-				{Key: "Encrypted", Value: factory.formatBool(payload.Encrypted)},
+				{Key: "De", Value: factory.formatPhoneNumber(payload.Owner)},
+				{Key: "Para", Value: factory.formatPhoneNumber(payload.Contact)},
+				{Key: "Mensagem", Value: payload.Content},
+				{Key: "Criptografado", Value: factory.formatBool(payload.Encrypted)},
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "Messages usually expire because we couldn't connect with your mobile phone to send the outgoing SMS. You can fix this by making sure your phone is connected to the internet and also connect your phone to the charger all the time since Android may kill the httpSMS app if it has been active for a very long time so save phone battery.",
+					Instructions: "As mensagens normalmente expiram porque não conseguimos conectar com o seu celular Android para enviar o SMS. Verifique se o celular está conectado à internet e mantenha-o conectado ao carregador, pois o Android pode encerrar o aplicativo httpSMS se estiver ativo por muito tempo para economizar bateria.",
 					Button: hermes.Button{
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
-						Text:      "VIEW MESSAGES",
+						Text:      "VER MENSAGENS",
 						Link:      fmt.Sprintf("%s/threads", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
-			Signature: "Cheers",
+			Signature: "Atenciosamente",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
+				fmt.Sprintf("Se tiver dúvidas, responda a este e-mail. Você pode desativar esta notificação por e-mail em %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
@@ -208,7 +208,7 @@ func (factory *hermesNotificationEmailFactory) MessageExpired(user *entities.Use
 
 	return &Email{
 		ToEmail: user.Email,
-		Subject: "📢 Your SMS message has expired on httpSMS",
+		Subject: "📢 Sua mensagem SMS expirou no httpSMS",
 		HTML:    html,
 		Text:    text,
 	}, nil
@@ -217,32 +217,32 @@ func (factory *hermesNotificationEmailFactory) MessageExpired(user *entities.Use
 func (factory *hermesNotificationEmailFactory) MessageFailed(user *entities.User, payload *events.MessageSendFailedPayload) (*Email, error) {
 	email := hermes.Email{
 		Body: hermes.Body{
-			Title: "Hello",
+			Title: "Olá",
 			Intros: []string{
-				fmt.Sprintf("The SMS message which you sent to %s has failed at %s and you will need to resend this message.", factory.formatPhoneNumber(payload.Contact), user.UserTimeString(time.Now())),
+				fmt.Sprintf("A mensagem SMS que você enviou para %s falhou em %s e você precisará reenviá-la.", factory.formatPhoneNumber(payload.Contact), user.UserTimeString(time.Now())),
 			},
 			Dictionary: []hermes.Entry{
 				{Key: "ID", Value: payload.ID.String()},
-				{Key: "From", Value: factory.formatPhoneNumber(payload.Owner)},
-				{Key: "To", Value: factory.formatPhoneNumber(payload.Contact)},
-				{Key: "Message", Value: payload.Content},
-				{Key: "Encrypted", Value: factory.formatBool(payload.Encrypted)},
-				{Key: "Failure Reason", Value: payload.ErrorMessage},
+				{Key: "De", Value: factory.formatPhoneNumber(payload.Owner)},
+				{Key: "Para", Value: factory.formatPhoneNumber(payload.Contact)},
+				{Key: "Mensagem", Value: payload.Content},
+				{Key: "Criptografado", Value: factory.formatBool(payload.Encrypted)},
+				{Key: "Motivo da Falha", Value: payload.ErrorMessage},
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "Check the default SMS messaging app on your phone to find out the exact reason why the message failed. Usually messages fail because the httpSMS app phone has been un-installed or it is not active. Logout and login again on the mobile app on your Android phone and retry sending the SMS.",
+					Instructions: "Verifique o aplicativo padrão de mensagens SMS do seu celular para entender o motivo exato da falha. Geralmente o envio falha se o app httpSMS foi desinstalado ou está inativo. Faça logout e login novamente no aplicativo Android e tente reenviar o SMS.",
 					Button: hermes.Button{
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
-						Text:      "VIEW MESSAGES",
+						Text:      "VER MENSAGENS",
 						Link:      fmt.Sprintf("%s/threads", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
-			Signature: "Cheers",
+			Signature: "Atenciosamente",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
+				fmt.Sprintf("Se tiver dúvidas, responda a este e-mail. Você pode desativar esta notificação por e-mail em %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
@@ -259,7 +259,7 @@ func (factory *hermesNotificationEmailFactory) MessageFailed(user *entities.User
 
 	return &Email{
 		ToEmail: user.Email,
-		Subject: "📢 Your SMS message has failed on httpSMS",
+		Subject: "📢 Seu envio de mensagem SMS falhou no httpSMS",
 		HTML:    html,
 		Text:    text,
 	}, nil

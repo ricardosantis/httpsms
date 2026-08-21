@@ -41,7 +41,7 @@ func TestWebhookSendFailedFormatsOnlyEventPayload(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.Equal(t, "name@email.com", email.ToEmail)
-	assert.Equal(t, "📢 We could not forward a webhook event to your server", email.Subject)
+	assert.Equal(t, "📢 Não foi possível encaminhar um evento de webhook para o seu servidor", email.Subject)
 	assert.Contains(t, email.HTML, `<pre style=`)
 	assert.Equal(t, 1, strings.Count(email.HTML, `<pre style=`))
 	assert.Contains(t, email.HTML, `&#34;message&#34;`)

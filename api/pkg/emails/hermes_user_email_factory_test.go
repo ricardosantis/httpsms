@@ -50,12 +50,12 @@ func TestUsageLimitExceeded_IncludesBreakdownAndBillingPeriod(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, "name@email.com", email.ToEmail)
-	assert.Equal(t, "⚠️ You have exceeded your plan limit", email.Subject)
-	assert.Contains(t, email.Text, "limit of 5,000 messages")
-	assert.Contains(t, email.Text, "Between 19 June 2026 and 18 July 2026")
-	assert.Contains(t, email.Text, "you sent 3,000 messages and received 2,000")
-	assert.Contains(t, email.Text, "for a total of 5,000")
-	assert.Contains(t, email.HTML, "you sent 3,000 messages and received 2,000")
+	assert.Equal(t, "⚠️ Você excedeu o limite do seu plano", email.Subject)
+	assert.Contains(t, email.Text, "limite de 5,000 mensagens")
+	assert.Contains(t, email.Text, "Entre 19 June 2026 e 18 July 2026")
+	assert.Contains(t, email.Text, "você enviou 3,000 mensagens e recebeu 2,000")
+	assert.Contains(t, email.Text, "totalizando 5,000")
+	assert.Contains(t, email.HTML, "você enviou 3,000 mensagens e recebeu 2,000")
 }
 
 func TestUsageLimitAlert_IncludesPercentBreakdownAndLimit(t *testing.T) {
@@ -76,10 +76,10 @@ func TestUsageLimitAlert_IncludesPercentBreakdownAndLimit(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, "name@email.com", email.ToEmail)
-	assert.Equal(t, "⚠️ 90% Usage Limit Alert", email.Subject)
-	assert.Contains(t, email.Text, "used 90% of your monthly SMS limit")
-	assert.Contains(t, email.Text, "Between 19 June 2026 and 18 July 2026")
-	assert.Contains(t, email.Text, "you sent 11,357 messages and received 6,643")
-	assert.Contains(t, email.Text, "for a total of 18,000 out of your 20,000 message limit")
-	assert.Contains(t, email.HTML, "for a total of 18,000 out of your 20,000 message limit")
+	assert.Equal(t, "⚠️ Alerta de Uso: 90% do Limite Atingido", email.Subject)
+	assert.Contains(t, email.Text, "utilizou 90% do seu limite mensal")
+	assert.Contains(t, email.Text, "Entre 19 June 2026 e 18 July 2026")
+	assert.Contains(t, email.Text, "você enviou 11,357 mensagens e recebeu 6,643")
+	assert.Contains(t, email.Text, "totalizando 18,000 do limite de 20,000 mensagens")
+	assert.Contains(t, email.HTML, "totalizando 18,000 do limite de 20,000 mensagens")
 }

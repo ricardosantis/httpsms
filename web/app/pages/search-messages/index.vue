@@ -574,6 +574,8 @@ onBeforeUnmount(() => {
               :items="messages"
               :items-length="totalMessages"
               :items-per-page-options="itemsPerPageOptions"
+              :items-per-page-text="$t('common.itemsPerPage')"
+              :page-text="`{0}-{1} ${$t('common.of')} {2}`"
               :loading="loading"
               show-select
               :loading-text="$t('searchMessages.loading')"

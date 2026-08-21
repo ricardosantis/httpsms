@@ -30,23 +30,23 @@ func (factory *hermesUserEmailFactory) APIKeyRotated(emailAddress string, timest
 	email := hermes.Email{
 		Body: hermes.Body{
 			Intros: []string{
-				fmt.Sprintf("This is a confirmation email that your httpSMS API Key has been successfully rotated at %s.", timestamp.In(location).Format(time.RFC1123)),
+				fmt.Sprintf("Este é um e-mail de confirmação informando que sua Chave de API do httpSMS foi rotacionada com sucesso em %s.", timestamp.In(location).Format(time.RFC1123)),
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "You can see your new API key in the httpSMS settings page.",
+					Instructions: "Você pode visualizar sua nova chave de API na página de configurações do httpSMS.",
 					Button: hermes.Button{
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
-						Text:      "httpSMS Settings",
+						Text:      "Configurações do httpSMS",
 						Link:      fmt.Sprintf("%s/settings/", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
-			Title:     "Hey,",
-			Signature: "Cheers",
+			Title:     "Olá,",
+			Signature: "Atenciosamente",
 			Outros: []string{
-				fmt.Sprintf("If you did not trigger this API key rotation please contact us immediately by replying to this email."),
+				"Se você não solicitou a rotação desta chave de API, entre em contato conosco imediatamente respondendo a este e-mail.",
 			},
 		},
 	}
@@ -63,7 +63,7 @@ func (factory *hermesUserEmailFactory) APIKeyRotated(emailAddress string, timest
 
 	return &Email{
 		ToEmail: emailAddress,
-		Subject: "Your httpSMS API Key has been rotated successfully",
+		Subject: "Sua Chave de API do httpSMS foi rotacionada com sucesso",
 		HTML:    html,
 		Text:    text,
 	}, nil
@@ -74,24 +74,24 @@ func (factory *hermesUserEmailFactory) UsageLimitExceeded(user *entities.User, u
 	email := hermes.Email{
 		Body: hermes.Body{
 			Intros: []string{
-				fmt.Sprintf("You've reached your limit of %s messages on the %s plan, so new messages will not be processed until your usage resets.", factory.formatQuantity(user.SubscriptionName.Limit()), user.SubscriptionName),
-				fmt.Sprintf("Between %s and %s you sent %s messages and received %s, for a total of %s.", formatBillingDate(usage.StartTimestamp, user.Location()), formatBillingDate(usage.EndTimestamp, user.Location()), factory.formatQuantity(usage.SentMessages), factory.formatQuantity(usage.ReceivedMessages), factory.formatQuantity(usage.TotalMessages())),
+				fmt.Sprintf("Você atingiu o seu limite de %s mensagens no plano %s. Por isso, novas mensagens não serão processadas até que seu uso seja reiniciado.", factory.formatQuantity(user.SubscriptionName.Limit()), user.SubscriptionName),
+				fmt.Sprintf("Entre %s e %s você enviou %s mensagens e recebeu %s, totalizando %s.", formatBillingDate(usage.StartTimestamp, user.Location()), formatBillingDate(usage.EndTimestamp, user.Location()), factory.formatQuantity(usage.SentMessages), factory.formatQuantity(usage.ReceivedMessages), factory.formatQuantity(usage.TotalMessages())),
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "Click the button below to upgrade your plan and continue sending more messages",
+					Instructions: "Clique no botão abaixo para atualizar seu plano e continuar enviando mensagens.",
 					Button: hermes.Button{
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
-						Text:      "UPGRADE YOUR PLAN",
+						Text:      "FAZER UPGRADE DO PLANO",
 						Link:      fmt.Sprintf("%s/billing", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
-			Title:     "Hey,",
-			Signature: "Cheers",
+			Title:     "Olá,",
+			Signature: "Atenciosamente",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email."),
+				"Se tiver qualquer dúvida, responda a este e-mail.",
 			},
 		},
 	}
@@ -108,7 +108,7 @@ func (factory *hermesUserEmailFactory) UsageLimitExceeded(user *entities.User, u
 
 	return &Email{
 		ToEmail: user.Email,
-		Subject: "⚠️ You have exceeded your plan limit",
+		Subject: "⚠️ Você excedeu o limite do seu plano",
 		HTML:    html,
 		Text:    text,
 	}, nil
@@ -120,24 +120,24 @@ func (factory *hermesUserEmailFactory) UsageLimitAlert(user *entities.User, usag
 	email := hermes.Email{
 		Body: hermes.Body{
 			Intros: []string{
-				fmt.Sprintf("This is a friendly heads-up that you've used %d%% of your monthly SMS limit on the %s plan.", percent, user.SubscriptionName),
-				fmt.Sprintf("Between %s and %s you sent %s messages and received %s, for a total of %s out of your %s message limit.", formatBillingDate(usage.StartTimestamp, user.Location()), formatBillingDate(usage.EndTimestamp, user.Location()), factory.formatQuantity(usage.SentMessages), factory.formatQuantity(usage.ReceivedMessages), factory.formatQuantity(usage.TotalMessages()), factory.formatQuantity(user.SubscriptionName.Limit())),
+				fmt.Sprintf("Aviso importante: você já utilizou %d%% do seu limite mensal de SMS no plano %s.", percent, user.SubscriptionName),
+				fmt.Sprintf("Entre %s e %s você enviou %s mensagens e recebeu %s, totalizando %s do limite de %s mensagens.", formatBillingDate(usage.StartTimestamp, user.Location()), formatBillingDate(usage.EndTimestamp, user.Location()), factory.formatQuantity(usage.SentMessages), factory.formatQuantity(usage.ReceivedMessages), factory.formatQuantity(usage.TotalMessages()), factory.formatQuantity(user.SubscriptionName.Limit())),
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "Click the button below to upgrade your plan so you can continue without any disruptions",
+					Instructions: "Clique no botão abaixo para atualizar seu plano e evitar interrupções no envio de mensagens.",
 					Button: hermes.Button{
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
-						Text:      "UPGRADE YOUR PLAN",
+						Text:      "FAZER UPGRADE DO PLANO",
 						Link:      fmt.Sprintf("%s/billing", strings.TrimSuffix(factory.config.AppURL, "/")),
 					},
 				},
 			},
-			Title:     "Hey,",
-			Signature: "Cheers",
+			Title:     "Olá,",
+			Signature: "Atenciosamente",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email."),
+				"Se tiver qualquer dúvida, responda a este e-mail.",
 			},
 		},
 	}
@@ -154,7 +154,7 @@ func (factory *hermesUserEmailFactory) UsageLimitAlert(user *entities.User, usag
 
 	return &Email{
 		ToEmail: user.Email,
-		Subject: fmt.Sprintf("⚠️ %d%% Usage Limit Alert", percent),
+		Subject: fmt.Sprintf("⚠️ Alerta de Uso: %d%% do Limite Atingido", percent),
 		HTML:    html,
 		Text:    text,
 	}, nil
@@ -178,12 +178,12 @@ func (factory *hermesUserEmailFactory) PhoneDead(user *entities.User, lastHeartb
 	email := hermes.Email{
 		Body: hermes.Body{
 			Intros: []string{
-				fmt.Sprintf("We haven't received any heartbeat event from android  phone %s since %s.", factory.formatPhoneNumber(owner), lastHeartbeatTimestamp.In(location).Format(time.RFC1123)),
-				fmt.Sprintf("Check if the mobile phone is powered on and if it has stable internet connection."),
+				fmt.Sprintf("Não recebemos nenhum sinal (heartbeat) do celular Android %s desde %s.", factory.formatPhoneNumber(owner), lastHeartbeatTimestamp.In(location).Format(time.RFC1123)),
+				"Verifique se o aparelho celular está ligado e com uma conexão estável à internet.",
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "Check your heartbeat events on httpSMS",
+					Instructions: "Verifique os eventos de heartbeat no httpSMS",
 					Button: hermes.Button{
 						Color:     "#329ef4",
 						TextColor: "#FFFFFF",
@@ -192,10 +192,10 @@ func (factory *hermesUserEmailFactory) PhoneDead(user *entities.User, lastHeartb
 					},
 				},
 			},
-			Title:     "Hey,",
-			Signature: "Cheers",
+			Title:     "Olá,",
+			Signature: "Atenciosamente",
 			Outros: []string{
-				fmt.Sprintf("Don't hesitate to contact us by replying to this email. You can disable this email notification on %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
+				fmt.Sprintf("Se tiver dúvidas, responda a este e-mail. Você pode desativar esta notificação por e-mail em %s/settings/#email-notifications", strings.TrimSuffix(factory.config.AppURL, "/")),
 			},
 		},
 	}
@@ -212,7 +212,7 @@ func (factory *hermesUserEmailFactory) PhoneDead(user *entities.User, lastHeartb
 
 	return &Email{
 		ToEmail: user.Email,
-		Subject: fmt.Sprintf("⚠️ No heartbeat from android phone [%s]", factory.formatPhoneNumber(owner)),
+		Subject: fmt.Sprintf("⚠️ Sem sinal do celular Android [%s]", factory.formatPhoneNumber(owner)),
 		HTML:    html,
 		Text:    text,
 	}, nil
