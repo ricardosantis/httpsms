@@ -2,12 +2,20 @@
 import { mdiTranslate } from '@mdi/js'
 
 const { locale, locales, setLocale } = useI18n()
+const authStore = useAuthStore()
 
 const currentLocale = computed(() => locale.value)
 const availableLocales = computed(() => locales.value)
 
-function switchLocale(code: string) {
+async function switchLocale(code: string) {
   setLocale(code)
+  if (authStore.user) {
+    try {
+      await authStore.updateUser({ locale: code })
+    } catch {
+      // ignore sync errors if offline or unauthorized
+    }
+  }
 }
 </script>
 

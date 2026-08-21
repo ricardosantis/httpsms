@@ -309,6 +309,8 @@ export interface EntitiesUser {
   subscription_status?: string;
   /** @example "Europe/Helsinki" */
   timezone: string;
+  /** @example "pt-BR" */
+  locale?: string;
   /** @example "2022-06-05T14:26:10.303278+03:00" */
   updated_at: string;
 }

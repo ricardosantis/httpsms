@@ -50,9 +50,17 @@ export const useAuthStore = defineStore('auth', () => {
   async function loadUser() {
     const response = await apiFetch<{ data: EntitiesUser }>('/v1/users/me')
     user.value = response.data
+    if (user.value?.locale) {
+      const { setLocale } = useI18n()
+      setLocale(user.value.locale)
+    }
   }
 
-  async function updateUser(payload: { owner?: string; timezone?: string }) {
+  async function updateUser(payload: {
+    owner?: string
+    timezone?: string
+    locale?: string
+  }) {
     const phonesStore = usePhonesStore()
     if (payload.owner) {
       phonesStore.setOwner(payload.owner)
@@ -65,7 +73,11 @@ export const useAuthStore = defineStore('auth', () => {
         ? phonesStore.phones.find((p) => p.phone_number === payload.owner)?.id
         : user.value?.active_phone_id)
 
-    const body: { active_phone_id?: string; timezone?: string } = {}
+    const body: {
+      active_phone_id?: string
+      timezone?: string
+      locale?: string
+    } = {}
     if (activePhoneId) {
       body.active_phone_id = activePhoneId
     }
@@ -73,6 +85,11 @@ export const useAuthStore = defineStore('auth', () => {
       body.timezone = payload.timezone
     } else if (user.value?.timezone) {
       body.timezone = user.value.timezone
+    }
+    if (payload.locale) {
+      body.locale = payload.locale
+    } else if (user.value?.locale) {
+      body.locale = user.value.locale
     }
 
     const response = await apiFetch<{ data: EntitiesUser }>('/v1/users/me', {

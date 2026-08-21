@@ -13,6 +13,7 @@ import (
 type UserUpdate struct {
 	request
 	Timezone      string `json:"timezone" example:"Europe/Helsinki"`
+	Locale        string `json:"locale" example:"pt-BR"`
 	ActivePhoneID string `json:"active_phone_id" example:"32343a19-da5e-4b1b-a767-3298a73703cb"`
 }
 
@@ -20,6 +21,7 @@ type UserUpdate struct {
 func (input *UserUpdate) Sanitize() UserUpdate {
 	input.ActivePhoneID = strings.TrimSpace(input.ActivePhoneID)
 	input.Timezone = strings.TrimSpace(input.Timezone)
+	input.Locale = strings.TrimSpace(input.Locale)
 	return *input
 }
 
@@ -39,5 +41,6 @@ func (input *UserUpdate) ToUpdateParams() services.UserUpdateParams {
 	return services.UserUpdateParams{
 		ActivePhoneID: activePhoneID,
 		Timezone:      location,
+		Locale:        input.Locale,
 	}
 }

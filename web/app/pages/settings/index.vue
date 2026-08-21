@@ -36,7 +36,7 @@ definePageMeta({
   middleware: ['auth'],
 })
 
-const { t } = useI18n()
+const { t, setLocale } = useI18n()
 
 useHead({
   title: computed(() => `${t('settings.title')} - httpSMS`),
@@ -257,7 +257,7 @@ function generateQrCode() {
 }
 
 // ---------------------------------------------------------------------------
-// Timezone
+// Timezone & Language
 // ---------------------------------------------------------------------------
 async function updateTimezone(timezone: string) {
   try {
@@ -271,6 +271,19 @@ async function updateTimezone(timezone: string) {
       message: t('settings.timezoneFailed'),
       type: 'error',
     })
+  }
+}
+
+async function updateLocale(localeCode: string) {
+  try {
+    setLocale(localeCode)
+    await authStore.updateUser({ locale: localeCode })
+    notificationsStore.addNotification({
+      message: t('common.savedSuccessfully') || 'Preferences saved',
+      type: 'success',
+    })
+  } catch {
+    // silently catch or notify
   }
 }
 
@@ -973,6 +986,20 @@ onMounted(() => {
                 :label="$t('settings.timezone')"
                 :items="timezones"
                 @update:model-value="updateTimezone"
+              />
+              <VSelect
+                v-if="authStore.user"
+                density="compact"
+                variant="outlined"
+                :model-value="authStore.user.locale || 'pt-BR'"
+                class="mx-auto mt-2"
+                style="max-width: 250px"
+                label="Idioma / Language"
+                :items="[
+                  { title: 'Português (Brasil)', value: 'pt-BR' },
+                  { title: 'English', value: 'en' },
+                ]"
+                @update:model-value="updateLocale"
               />
             </div>
 

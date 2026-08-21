@@ -178,6 +178,7 @@ func (service *UserService) GetByID(ctx context.Context, userID entities.UserID)
 // UserUpdateParams are parameters for updating an entities.User
 type UserUpdateParams struct {
 	Timezone      *time.Location
+	Locale        string
 	ActivePhoneID *uuid.UUID
 }
 
@@ -198,6 +199,9 @@ func (service *UserService) Update(ctx context.Context, source string, authUser 
 	}
 
 	user.Timezone = params.Timezone.String()
+	if params.Locale != "" {
+		user.Locale = params.Locale
+	}
 	user.ActivePhoneID = params.ActivePhoneID
 
 	if err = service.repository.Update(ctx, user); err != nil {
