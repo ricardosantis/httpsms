@@ -45,6 +45,11 @@ func (h *StripeHandler) RegisterRoutes(app *fiber.App, middlewares ...fiber.Hand
 	h.register(router, fiber.MethodPost, "/webhook", nil, h.Webhook)
 	h.register(router, fiber.MethodPost, "/checkout-session", middlewares, h.CreateCheckoutSession)
 	h.register(router, fiber.MethodPost, "/customer-portal", middlewares, h.CreateCustomerPortalSession)
+
+	v1Router := app.Group("v1/stripe")
+	h.register(v1Router, fiber.MethodPost, "/webhook", nil, h.Webhook)
+	h.register(v1Router, fiber.MethodPost, "/checkout-session", middlewares, h.CreateCheckoutSession)
+	h.register(v1Router, fiber.MethodPost, "/customer-portal", middlewares, h.CreateCustomerPortalSession)
 }
 
 // StripeCheckoutRequest request payload for checkout session

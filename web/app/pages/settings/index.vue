@@ -999,17 +999,18 @@ onMounted(() => {
                 indeterminate
               />
             </div>
-            <VTextField
-              v-else
-              :append-inner-icon="apiKeyShow ? mdiEye : mdiEyeOff"
-              :type="apiKeyShow ? 'text' : 'password'"
-              :model-value="apiKey"
-              readonly
-              name="api-key"
-              variant="outlined"
-              class="mb-n2"
-              @click:append-inner="apiKeyShow = !apiKeyShow"
-            />
+            <form v-else autocomplete="off" @submit.prevent>
+              <VTextField
+                :append-inner-icon="apiKeyShow ? mdiEye : mdiEyeOff"
+                :type="apiKeyShow ? 'text' : 'password'"
+                :model-value="apiKey"
+                readonly
+                name="api-key"
+                variant="outlined"
+                class="mb-n2"
+                @click:append-inner="apiKeyShow = !apiKeyShow"
+              />
+            </form>
             <div class="d-flex flex-wrap">
               <CopyButton
                 :value="apiKey"
