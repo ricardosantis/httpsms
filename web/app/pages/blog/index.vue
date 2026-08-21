@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
 const { mdAndUp, smAndDown } = useDisplay()
 const { t, locale } = useI18n()
 

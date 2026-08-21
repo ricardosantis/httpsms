@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
 import { mdiArrowLeft, mdiMicrosoftExcel, mdiSendCheck } from '@mdi/js'
 import { ErrorMessages } from '~/utils/errors'
 import { toApiError } from '~/utils/api-error'

@@ -18,6 +18,8 @@ hljs.registerLanguage('bash', bash)
 hljs.registerLanguage('csharp', csharp)
 hljs.registerLanguage('json', json)
 
+hljs.configure({ ignoreUnescapedHTML: true })
+
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('highlight', {
     mounted(el: HTMLElement) {

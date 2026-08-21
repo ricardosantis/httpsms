@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
 import { mdiArrowLeft, mdiSend, mdiCircle } from '@mdi/js'
 import {
   isValidPhoneNumber,

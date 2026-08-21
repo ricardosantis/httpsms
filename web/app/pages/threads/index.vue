@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
 definePageMeta({
   middleware: ['auth'],
 })

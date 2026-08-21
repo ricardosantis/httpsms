@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
 import { mdiArrowLeft, mdiCircle } from '@mdi/js'
 import {
   formatDuration as formatDurationFns,
