@@ -49,17 +49,6 @@ onMounted(async () => {
           <h3 class="text-headline-medium mt-4 mb-0">
             {{ $t('threads.selectMessage') }}
           </h3>
-          <p class="text-medium-emphasis mt-0">
-            {{ $t('threads.discordHelp', { link: '' }).split('{link}')[0] }}
-            <a
-              href="#"
-              class="text-decoration-none hover:text-decoration-underline"
-              >{{ $t('threads.messageUsOnDiscord') }}</a
-            >
-            {{
-              $t('threads.discordHelp', { link: '' }).split('{link}')[1] || ''
-            }}
-          </p>
         </div>
       </div>
     </VRow>

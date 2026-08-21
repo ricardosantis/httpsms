@@ -45,13 +45,17 @@ export const useBillingStore = defineStore('billing', () => {
   }
 
   async function createStripeCheckoutSession(
+    planId: string = 'pro-monthly',
     priceId?: string,
   ): Promise<string> {
     const response = await apiFetch<{ data: { url: string } }>(
       '/v1/stripe/checkout-session',
       {
         method: 'POST',
-        body: priceId ? { price_id: priceId } : {},
+        body: {
+          plan_id: planId,
+          ...(priceId ? { price_id: priceId } : {}),
+        },
       },
     )
     return response.data.url

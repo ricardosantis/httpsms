@@ -198,7 +198,8 @@ async function handleUpgrade(planType: 'pro' | 'enterprise' = 'pro') {
 
   loadingCheckout.value = true
   try {
-    const url = await billingStore.createStripeCheckoutSession(planType)
+    const planId = planType === 'enterprise' ? '50k-monthly' : 'pro-monthly'
+    const url = await billingStore.createStripeCheckoutSession(planId)
     if (url) {
       window.location.href = url
       return
