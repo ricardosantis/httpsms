@@ -558,8 +558,8 @@ const client = new HttpSms('' /* Get API Key from {{ appStore.appData.url }}/set
 
 client.messages.postSend({
     content:   'This is a sample text message',
-    from:      '+18005550199', // Put the correct phone number here
-    to:        '+18005550100', // Put the correct phone number here
+    from:      '+5511999999999', // Put the correct phone number here
+    to:        '+5511988888888', // Put the correct phone number here
 })
 .then((message) => {
     console.log(message.id); // log the ID of the sent message
@@ -576,8 +576,8 @@ $options = array(
     'method'  => 'POST',
     'content' => json_encode( [
         'content' => 'This is a sample text message',
-        'from'    => "+18005550199",
-        'to'      => "+18005550100"
+        'from'    => "+5511999999999",
+        'to'      => "+5511988888888"
     ]),
     'header'=>  "Content-Type: application/json\r\n" .
                 "Accept: application/json\r\n" .
@@ -608,8 +608,8 @@ headers = {
 
 payload = {
     "content": "This is a sample text message",
-    "from": "+18005550199",
-    "to": "+18005550100"
+    "from": "+5511999999999",
+    "to": "+5511988888888"
 }
 
 response = requests.post(url, headers=headers, data=json.dumps(payload))
@@ -625,8 +625,8 @@ client := htpsms.New(htpsms.WithAPIKey(/* API Key from {{ appStore.appData.url }
 
 client.Messages.Send(context.Background(), &amp;httpsms.MessageSendParams{
     Content: "This is a sample text message",
-    From:    "+18005550199",
-    To:      "+18005550100",
+    From:    "+5511999999999",
+    To:      "+5511988888888",
 })</code></pre>
                   </VTabsWindowItem>
                   <VTabsWindowItem value="java">
@@ -638,8 +638,8 @@ var apiKey = "Get API Key from {{ appStore.appData.url }}/settings";
 var payload = """
         {
             "content": "This is a sample text message",
-            "from": "+18005550199",
-            "to": "+18005550100"
+            "from": "+5511999999999",
+            "to": "+5511988888888"
         }
         """;
 
@@ -661,8 +661,8 @@ System.out.println(response.body());</code></pre>
 --header 'x-api-key: Get API Key from {{ appStore.appData.url }}/settings' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "from": "+18005550199",
-    "to": "+18005550100",
+    "from": "+5511999999999",
+    "to": "+5511988888888",
     "content": "This is a sample text message"
 }'</code></pre>
                   </VTabsWindowItem>
@@ -676,8 +676,8 @@ var response = await client.PostAsync(
     "{{ appStore.appData.apiBaseUrl }}/v1/messages/send",
     new StringContent(
         JsonSerializer.Serialize(new {
-            from = "+18005550199",
-            To = "+18005550100",
+            from = "+5511999999999",
+            To = "+5511988888888",
             Content = "This is a sample text message",
         }),
         Encoding.UTF8,
