@@ -355,33 +355,33 @@ onMounted(async () => {
                         !subscriptionIsCancelled
                       "
                       class="text-medium-emphasis mt-1"
-                      v-html="
+                    >
+                      {{
                         $t('billing.nextBillOn', {
                           price: plan.price,
                           date: formatDateSafe(
                             authStore.user.subscription_renews_at,
                           ),
                         })
-                      "
-                    ></p>
-                    <p
-                      v-if="isOnLifetimePlan"
-                      class="text-medium-emphasis"
-                      v-html="
+                      }}
+                    </p>
+                    <p v-if="isOnLifetimePlan" class="text-medium-emphasis">
+                      {{
                         $t('billing.lifetimePlanCost', { price: plan.price })
-                      "
-                    ></p>
+                      }}
+                    </p>
                     <p
                       v-else-if="subscriptionIsCancelled"
                       class="text-medium-emphasis"
-                      v-html="
+                    >
+                      {{
                         $t('billing.downgradedToFreeOn', {
                           date: formatDateSafe(
                             authStore.user.subscription_ends_at,
                           ),
                         })
-                      "
-                    ></p>
+                      }}
+                    </p>
                     <p v-else class="text-medium-emphasis mt-1">
                       {{
                         $t('billing.messagesUsage', {
@@ -437,16 +437,15 @@ onMounted(async () => {
                           <h2 class="text-headline-medium mt-0 mb-2">
                             {{ $t('billing.cancelModal.title') }}
                           </h2>
-                          <p
-                            class="text-medium-emphasis"
-                            v-html="
+                          <p class="text-medium-emphasis">
+                            {{
                               $t('billing.cancelModal.body', {
                                 date: new Date(
                                   authStore.user.subscription_renews_at!,
                                 ).toLocaleDateString(),
                               })
-                            "
-                          ></p>
+                            }}
+                          </p>
                         </VCardText>
                         <VCardActions class="mt-n6 px-6 pb-6">
                           <VBtn
@@ -531,19 +530,26 @@ onMounted(async () => {
             <h4 class="text-headline-large mb-3 mt-8">
               {{ $t('billing.overview') }}
             </h4>
-            <p
-              class="text-medium-emphasis"
-              v-html="
+            <!-- Overview -->
+            <h4 class="text-headline-large mb-3 mt-8">
+              {{ $t('billing.overview') }}
+            </h4>
+            <p class="text-medium-emphasis">
+              {{
                 $t('billing.overviewDesc', {
                   startDate: billingStore.billingUsage
-                    ? `<code class='font-weight-bold'>${new Date(billingStore.billingUsage.start_timestamp).toLocaleDateString()}</code>`
+                    ? new Date(
+                        billingStore.billingUsage.start_timestamp,
+                      ).toLocaleDateString()
                     : '',
                   endDate: billingStore.billingUsage
-                    ? `<code class='font-weight-bold'>${new Date(billingStore.billingUsage.end_timestamp).toLocaleDateString()}</code>`
+                    ? new Date(
+                        billingStore.billingUsage.end_timestamp,
+                      ).toLocaleDateString()
                     : '',
                 })
-              "
-            ></p>
+              }}
+            </p>
             <VRow v-if="billingStore.billingUsage">
               <VCol cols="12" md="6">
                 <VAlert
@@ -584,10 +590,9 @@ onMounted(async () => {
               <h4 class="text-headline-large mb-3 mt-8">
                 {{ $t('billing.subscriptionPayments') }}
               </h4>
-              <p
-                class="text-medium-emphasis"
-                v-html="$t('billing.subscriptionPaymentsDesc')"
-              ></p>
+              <p class="text-medium-emphasis">
+                {{ $t('billing.subscriptionPaymentsDesc') }}
+              </p>
               <VProgressCircular
                 v-if="payments == null && loadingSubscriptionPayments"
                 :size="20"
@@ -723,16 +728,16 @@ onMounted(async () => {
           {{ $t('billing.invoiceModal.title') }}
         </VCardTitle>
         <VCardSubtitle class="mt-n1">
-          <span
-            v-html="
+          <span>
+            {{
               $t('billing.invoiceModal.subtitle', {
                 total: selectedPayment?.attributes.total_formatted,
                 date: formatTimestamp(
                   selectedPayment?.attributes.created_at ?? '',
                 ),
               })
-            "
-          />
+            }}
+          </span>
         </VCardSubtitle>
         <VCardText class="pb-0">
           <VContainer>

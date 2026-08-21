@@ -109,6 +109,9 @@ export default defineNuxtConfig({
   },
 
   vuetify: {
+    moduleOptions: {
+      prefixComposables: true,
+    },
     vuetifyOptions: {
       theme: {
         defaultTheme: 'dark',
@@ -131,7 +134,8 @@ export default defineNuxtConfig({
       appDocumentationUrl:
         process.env.APP_DOCUMENTATION_URL || 'https://sms.mesaquevende.com.br',
       appDownloadUrl:
-        process.env.APP_DOWNLOAD_URL || 'https://apk.httpsms.com/HttpSms.apk',
+        process.env.APP_DOWNLOAD_URL ||
+        'https://sms.mesaquevende.com.br/downloads/HttpSms.apk',
       appEnv: process.env.APP_ENV || 'production',
       checkoutUrl: process.env.CHECKOUT_URL || '',
       enterpriseCheckoutUrl: process.env.ENTERPRISE_CHECKOUT_URL || '',
