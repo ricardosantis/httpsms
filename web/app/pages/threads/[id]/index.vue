@@ -67,7 +67,6 @@ const contactIsPhoneNumber = computed(() => {
 const messageVisibility = computed(() =>
   hideMessages.value ? 'hidden' : 'visible',
 )
-const contact = computed(() => threadsStore.currentThread?.contact ?? '')
 
 function isMT(message: EntitiesMessage): boolean {
   return message.type === 'mobile-terminated'
@@ -555,7 +554,9 @@ onBeforeUnmount(() => {
                 :placeholder="
                   contactIsPhoneNumber
                     ? $t('threads.typeMessagePlaceholder')
-                    : $t('threads.cannotSendMessage', { contact })
+                    : $t('threads.cannotSendMessage', {
+                        contact: threadsStore.currentThread?.contact ?? '',
+                      })
                 "
                 rounded
                 @keydown.enter="sendMessage"
