@@ -18,11 +18,9 @@ const threadsStore = useThreadsStore()
 
 onMounted(async () => {
   try {
-    await Promise.allSettled([
-      authStore.loadUser(),
-      phonesStore.loadPhones(),
-      threadsStore.loadThreads(),
-    ])
+    await authStore.loadUser()
+    await phonesStore.loadPhones()
+    await threadsStore.loadThreads()
   } catch {
     // ignore
   }
