@@ -32,26 +32,29 @@ export const useThreadsStore = defineStore('threads', () => {
   }
 
   async function loadThreads() {
-    const phonesStore = usePhonesStore()
-    if (phonesStore.owner === null && phonesStore.phones.length === 0) {
-      loadingThreads.value = false
-      return
-    }
+    loadingThreads.value = true
+    try {
+      const phonesStore = usePhonesStore()
+      if (phonesStore.owner === null && phonesStore.phones.length === 0) {
+        return
+      }
 
-    const response = await apiFetch<{ data: EntitiesMessageThread[] }>(
-      '/v1/message-threads',
-      {
-        params: {
-          owner: phonesStore.owner ?? phonesStore.phones[0]?.phone_number,
-          limit: 100,
-          is_archived: archivedThreads.value,
+      const response = await apiFetch<{ data: EntitiesMessageThread[] }>(
+        '/v1/message-threads',
+        {
+          params: {
+            owner: phonesStore.owner ?? phonesStore.phones[0]?.phone_number,
+            limit: 100,
+            is_archived: archivedThreads.value,
+          },
         },
-      },
-    )
+      )
 
-    phonesStore.getHeartbeat().catch(console.error)
-    threads.value = [...response.data]
-    loadingThreads.value = false
+      phonesStore.getHeartbeat().catch(console.error)
+      threads.value = [...response.data]
+    } finally {
+      loadingThreads.value = false
+    }
   }
 
   async function loadThreadMessages(

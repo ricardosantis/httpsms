@@ -18,8 +18,8 @@ const threadsStore = useThreadsStore()
 
 onMounted(async () => {
   try {
-    await authStore.loadUser()
-    await phonesStore.loadPhones()
+    await authStore.loadUser().catch(() => {})
+    await phonesStore.loadPhones().catch(() => {})
     await threadsStore.loadThreads()
   } catch {
     // ignore

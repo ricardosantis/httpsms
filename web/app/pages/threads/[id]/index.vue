@@ -141,8 +141,8 @@ function loadMessages(hide = true, markRead = true) {
 }
 
 async function loadData() {
-  await authStore.loadUser()
-  await phonesStore.loadPhones()
+  await authStore.loadUser().catch(() => {})
+  await phonesStore.loadPhones().catch(() => {})
   await threadsStore.loadThreads()
 
   if (!threadsStore.hasThreadId(route.params.id as string)) {
