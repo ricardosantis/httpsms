@@ -87,6 +87,7 @@ Async event processing (Cloud Tasks → `POST /v1/events`) requires a row in `us
 - **Cloudflare global API key** (`cfk_…`): use `X-Auth-Email` + `X-Auth-Key` headers (NOT `Authorization: Bearer`, which returns 9109). Wrangler OAuth scopes do NOT include DNS write, so zone record changes must go through the API v4 (`zones/{id}/dns_records`).
 - **Firebase Auth initialize**: `POST https://identitytoolkit.googleapis.com/v2/projects/{p}/identityPlatform:initializeAuth` (empty body, `X-Goog-User-Project` header). Enable email/password via `PATCH …/admin/v2/projects/{p}/config?updateMask=signIn.email`. Authorized domains must be patched at the **root level** (`authorizedDomains`), not under `signIn`.
 - **gh auth accounts**: the CLI has 3 accounts (ricardosantisinc active, webtechnegocios, ricardosantis). Use `gh auth switch --user ricardosantis` before `gh secret set` on this fork's repo.
+- **Cloud Tasks Queue IAM permissions & Project ID**: When using `EVENTS_QUEUE_TYPE=cloud-task`, `EVENTS_QUEUE_NAME` must use the GCP **Project ID** (`projects/httpsms-prod/locations/us-east1/queues/httpsms-events`) rather than the numeric project number to prevent IAM verification mismatches. Additionally, the service account running Cloud Run (`httpsms-api-sa@httpsms-prod.iam.gserviceaccount.com`) must have `roles/cloudtasks.enqueuer` granted, and the system user matching `EVENTS_QUEUE_USER_ID` and `EVENTS_QUEUE_USER_API_KEY` must exist in the database `users` table so `POST /v1/events` doesn't 401.
 
 ## Pre-Deploy Build & Validation Rule (MANDATORY)
 
