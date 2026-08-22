@@ -20,29 +20,45 @@ export const usePhonesStore = defineStore('phones', () => {
   async function loadPhones(force: boolean = false) {
     if (phones.value.length > 0 && !force) return
 
-    const response = await apiFetch<{ data: EntitiesPhone[] }>('/v1/phones', {
-      params: { limit: 100 },
-    })
-    phones.value = response.data
+    try {
+      const response = await apiFetch<{ data: EntitiesPhone[] }>('/v1/phones', {
+        params: { limit: 100 },
+      })
+      phones.value = response.data
 
-    const authStore = useAuthStore()
-    if (authStore.user?.active_phone_id) {
-      const phone = response.data.find(
-        (x) => x.id === authStore.user?.active_phone_id,
-      )
-      if (phone) {
-        owner.value = phone.phone_number
+      const authStore = useAuthStore()
+      if (authStore.user?.active_phone_id) {
+        const phone = response.data.find(
+          (x) => x.id === authStore.user?.active_phone_id,
+        )
+        if (phone) {
+          owner.value = phone.phone_number
+        }
       }
-    }
 
-    if (!owner.value && phones.value.length > 0) {
-      owner.value = phones.value[0]!.phone_number
+      if (!owner.value && phones.value.length > 0) {
+        owner.value = phones.value[0]!.phone_number
+      }
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error loading phones'),
+        type: 'error',
+      })
+      throw error
     }
   }
 
   async function deletePhone(phoneID: string) {
-    await apiFetch(`/v1/phones/${phoneID}`, { method: 'DELETE' })
-    await loadPhones(true)
+    try {
+      await apiFetch(`/v1/phones/${phoneID}`, { method: 'DELETE' })
+      await loadPhones(true)
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error deleting phone'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   async function updatePhone(phone: EntitiesPhone) {
@@ -78,18 +94,27 @@ export const usePhonesStore = defineStore('phones', () => {
   }
 
   async function getHeartbeat(limit = 1): Promise<EntitiesHeartbeat[]> {
-    const response = await apiFetch<{ data: EntitiesHeartbeat[] }>(
-      '/v1/heartbeats',
-      {
-        query: { limit, owner: owner.value },
-      },
-    )
-    if (response.data.length > 0) {
-      heartbeat.value = response.data[0]!
-    } else {
+    try {
+      const response = await apiFetch<{ data: EntitiesHeartbeat[] }>(
+        '/v1/heartbeats',
+        {
+          query: { limit, owner: owner.value },
+        },
+      )
+      if (response.data.length > 0) {
+        heartbeat.value = response.data[0]!
+      } else {
+        heartbeat.value = null
+      }
+      return response.data
+    } catch (error: unknown) {
       heartbeat.value = null
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error loading heartbeat'),
+        type: 'error',
+      })
+      throw error
     }
-    return response.data
   }
 
   function resetState() {

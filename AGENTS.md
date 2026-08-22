@@ -2,6 +2,10 @@
 
 httpSMS turns an Android phone into an SMS gateway via a Go HTTP API. This is a fork of `NdoleStudio/httpsms` with an added integration-test suite and Render self-hosting blueprint.
 
+## Codebase Orientation & Graphify (MANDATORY)
+
+For codebase exploration, architecture analysis, or understanding component relationships, load the `graphify` skill (`use_skill("graphify")`) or run `/graphify` at the beginning of the session. When `graphify-out/` exists, leverage `graphify_*` tools to query the knowledge graph and navigate the codebase efficiently.
+
 ## Layout
 
 - `api/` — Go API. Module `github.com/NdoleStudio/httpsms` (Go 1.25), Fiber v2, GORM (Postgres/CockroachDB) + Redis. Entrypoint `api/main.go`; all logic under `api/pkg/` (handlers, services, repositories, entities, events, listeners, di). Deps wired in `api/pkg/di`; OpenAPI comments are inline swagger annotations.

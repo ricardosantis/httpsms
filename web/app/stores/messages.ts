@@ -30,59 +30,95 @@ export const useMessagesStore = defineStore('messages', () => {
         message: response.message,
         type: 'success',
       })
+      const threadsStore = useThreadsStore()
+      await threadsStore.loadThreads()
     } catch (e: unknown) {
       notificationsStore.addNotification({
         message: getApiErrorMessage(e, 'Error while sending message'),
         type: 'error',
       })
+      throw e
     }
-    const threadsStore = useThreadsStore()
-    await threadsStore.loadThreads()
   }
 
   async function deleteMessage(messageId: string) {
-    await apiFetch(`/v1/messages/${messageId}`, { method: 'DELETE' })
-    notificationsStore.addNotification({
-      message: 'The message has been deleted successfully',
-      type: 'success',
-    })
+    try {
+      await apiFetch(`/v1/messages/${messageId}`, { method: 'DELETE' })
+      notificationsStore.addNotification({
+        message: 'The message has been deleted successfully',
+        type: 'success',
+      })
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error deleting message'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   async function searchMessages(
     payload: SearchMessagesRequest,
   ): Promise<EntitiesMessage[]> {
-    const token = payload.token
-    const params = { ...payload }
-    delete params.token
+    try {
+      const token = payload.token
+      const params = { ...payload }
+      delete params.token
 
-    const response = await apiFetch<{ data: EntitiesMessage[] }>(
-      '/v1/messages/search',
-      {
-        params,
-        headers: token ? { token } : undefined,
-      },
-    )
-    return response.data
+      const response = await apiFetch<{ data: EntitiesMessage[] }>(
+        '/v1/messages/search',
+        {
+          params,
+          headers: token ? { token } : undefined,
+        },
+      )
+      return response.data
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error searching messages'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   async function sendBulkMessages(document: File): Promise<void> {
-    const formData = new FormData()
-    formData.append('document', document)
-    const response = await apiFetch<{ message?: string }>('/v1/bulk-messages', {
-      method: 'POST',
-      body: formData,
-    })
-    notificationsStore.addNotification({
-      message: response.message ?? 'Bulk messages sent successfully',
-      type: 'success',
-    })
+    try {
+      const formData = new FormData()
+      formData.append('document', document)
+      const response = await apiFetch<{ message?: string }>(
+        '/v1/bulk-messages',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+      notificationsStore.addNotification({
+        message: response.message ?? 'Bulk messages sent successfully',
+        type: 'success',
+      })
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error sending bulk messages'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   async function fetchBulkMessageOrders(): Promise<EntitiesBulkMessage[]> {
-    const response = await apiFetch<{ data: EntitiesBulkMessage[] }>(
-      '/v1/bulk-messages',
-    )
-    return response.data ?? []
+    try {
+      const response = await apiFetch<{ data: EntitiesBulkMessage[] }>(
+        '/v1/bulk-messages',
+      )
+      return response.data ?? []
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error loading bulk message orders'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   return {

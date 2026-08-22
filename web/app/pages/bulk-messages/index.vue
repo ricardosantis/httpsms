@@ -104,7 +104,11 @@ async function sendBulkMessages() {
 }
 
 onMounted(async () => {
-  await authStore.loadUser()
+  try {
+    await authStore.loadUser()
+  } catch {
+    // user load failed — continue with cached state
+  }
   loading.value = false
   fetchBulkOrders()
 })

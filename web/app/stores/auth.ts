@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { User as FirebaseUser } from 'firebase/auth'
 import { setAuthHeader, setApiKey } from '~/composables/useApi'
 import type { EntitiesUser } from '~~/shared/types/api'
+import { getApiErrorMessage } from '~/utils/api-error'
 
 export interface AuthUser {
   email: string | null
@@ -14,6 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
   const authUser = ref<AuthUser | null>(null)
   const user = ref<EntitiesUser | null>(null)
   const { apiFetch } = useApi()
+  const notificationsStore = useNotificationsStore()
 
   async function setAuthUserAction(newUser: AuthUser | null | undefined) {
     const userChanged = newUser?.id !== authUser.value?.id
@@ -48,11 +50,19 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function loadUser() {
-    const response = await apiFetch<{ data: EntitiesUser }>('/v1/users/me')
-    user.value = response.data
-    if (user.value?.locale) {
-      const { setLocale } = useI18n()
-      setLocale(user.value.locale)
+    try {
+      const response = await apiFetch<{ data: EntitiesUser }>('/v1/users/me')
+      user.value = response.data
+      if (user.value?.locale) {
+        const { setLocale } = useI18n()
+        setLocale(user.value.locale)
+      }
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error loading user profile'),
+        type: 'error',
+      })
+      throw error
     }
   }
 
@@ -102,22 +112,38 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function deleteUserAccount(): Promise<string> {
-    await apiFetch<{ message: string }>('/v1/users/me', {
-      method: 'DELETE',
-    })
-    return 'Your account has been deleted successfully'
+    try {
+      await apiFetch<{ message: string }>('/v1/users/me', {
+        method: 'DELETE',
+      })
+      return 'Your account has been deleted successfully'
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error deleting account'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   async function rotateApiKey(userId: string): Promise<EntitiesUser> {
-    const response = await apiFetch<{ data: EntitiesUser }>(
-      `/v1/users/${userId}/api-keys`,
-      {
-        method: 'DELETE',
-      },
-    )
-    user.value = response.data
-    setApiKey(response.data.api_key)
-    return response.data
+    try {
+      const response = await apiFetch<{ data: EntitiesUser }>(
+        `/v1/users/${userId}/api-keys`,
+        {
+          method: 'DELETE',
+        },
+      )
+      user.value = response.data
+      setApiKey(response.data.api_key)
+      return response.data
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error rotating API key'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   function resetState() {

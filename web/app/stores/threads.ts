@@ -3,6 +3,7 @@ import type {
   EntitiesMessageThread,
   EntitiesMessage,
 } from '~~/shared/types/api'
+import { getApiErrorMessage } from '~/utils/api-error'
 
 export const useThreadsStore = defineStore('threads', () => {
   const threads = ref<EntitiesMessageThread[]>([])
@@ -64,17 +65,25 @@ export const useThreadsStore = defineStore('threads', () => {
     const thread = currentThread.value
     if (!thread) throw new Error(`Cannot find thread with id ${id}`)
 
-    const response = await apiFetch<{ data: EntitiesMessage[] }>(
-      '/v1/messages',
-      {
-        params: {
-          contact: thread.contact,
-          owner: thread.owner,
-          limit: 50,
+    try {
+      const response = await apiFetch<{ data: EntitiesMessage[] }>(
+        '/v1/messages',
+        {
+          params: {
+            contact: thread.contact,
+            owner: thread.owner,
+            limit: 50,
+          },
         },
-      },
-    )
-    return response.data
+      )
+      return response.data
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error loading messages'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   function setThreadId(id: string | null) {
@@ -89,18 +98,26 @@ export const useThreadsStore = defineStore('threads', () => {
     threadId: string
     isArchived: boolean
   }) {
-    await apiFetch(`/v1/message-threads/${payload.threadId}`, {
-      method: 'PUT',
-      body: { is_archived: payload.isArchived },
-    })
-    threads.value = threads.value.filter(
-      (thread) => thread.id !== payload.threadId,
-    )
-    threadId.value = null
-    notificationsStore.addNotification({
-      message: payload.isArchived ? 'Archived' : 'Unarchived',
-      type: 'success',
-    })
+    try {
+      await apiFetch(`/v1/message-threads/${payload.threadId}`, {
+        method: 'PUT',
+        body: { is_archived: payload.isArchived },
+      })
+      threads.value = threads.value.filter(
+        (thread) => thread.id !== payload.threadId,
+      )
+      threadId.value = null
+      notificationsStore.addNotification({
+        message: payload.isArchived ? 'Archived' : 'Unarchived',
+        type: 'success',
+      })
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error updating thread'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   async function markThreadRead(threadId: string, force = false) {
@@ -136,12 +153,20 @@ export const useThreadsStore = defineStore('threads', () => {
   }
 
   async function deleteThread(id: string) {
-    await apiFetch(`/v1/message-threads/${id}`, { method: 'DELETE' })
-    threadId.value = null
-    notificationsStore.addNotification({
-      message: 'The message thread has been deleted successfully',
-      type: 'success',
-    })
+    try {
+      await apiFetch(`/v1/message-threads/${id}`, { method: 'DELETE' })
+      threadId.value = null
+      notificationsStore.addNotification({
+        message: 'The message thread has been deleted successfully',
+        type: 'success',
+      })
+    } catch (error: unknown) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Error deleting thread'),
+        type: 'error',
+      })
+      throw error
+    }
   }
 
   function resetState() {

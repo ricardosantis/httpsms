@@ -83,6 +83,8 @@ const itemsPerPageOptions = [
   { value: 200, title: '200' },
 ]
 
+const pageText = computed(() => `{0}-{1} ${t('common.of')} {2}`)
+
 const headers = computed(() => [
   { title: t('searchMessages.createdAt'), key: 'created_at' },
   { title: t('searchMessages.owner'), key: 'owner' },
@@ -337,8 +339,16 @@ async function resendMessages() {
 }
 
 onMounted(async () => {
-  await authStore.loadUser()
-  await phonesStore.loadPhones()
+  try {
+    await authStore.loadUser()
+  } catch {
+    // user load failed — continue with cached state
+  }
+  try {
+    await phonesStore.loadPhones()
+  } catch {
+    // phones load failed — continue
+  }
 
   const queryParam = route.query.query
   if (queryParam && typeof queryParam === 'string') {
@@ -583,7 +593,7 @@ onBeforeUnmount(() => {
               :items-length="totalMessages"
               :items-per-page-options="itemsPerPageOptions"
               :items-per-page-text="$t('common.itemsPerPage')"
-              :page-text="`{0}-{1} ${$t('common.of')} {2}`"
+              :page-text="pageText"
               :loading="loading"
               show-select
               :loading-text="$t('searchMessages.loading')"

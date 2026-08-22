@@ -104,13 +104,15 @@ func (service *StripeService) CreateCheckoutSession(ctx context.Context, params 
 		},
 	}
 
-	if priceID != "" {
-		sessionParams.LineItems = []*stripe.CheckoutSessionLineItemParams{
-			{
-				Price:    stripe.String(priceID),
-				Quantity: stripe.Int64(1),
-			},
-		}
+	if priceID == "" {
+		return "", stacktrace.NewError("no stripe price ID configured for plan [%s]", params.PlanID)
+	}
+
+	sessionParams.LineItems = []*stripe.CheckoutSessionLineItemParams{
+		{
+			Price:    stripe.String(priceID),
+			Quantity: stripe.Int64(1),
+		},
 	}
 
 	sess, err := checkoutSession.New(sessionParams)
