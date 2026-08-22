@@ -134,12 +134,13 @@ function getCaptcha(): Promise<string> {
   if (!siteKey) {
     return Promise.resolve('')
   }
-  return new Promise<string>((resolve, reject) => {
+  return new Promise<string>((resolve) => {
     const turnstile = (window as unknown as { turnstile?: Turnstile })
       ?.turnstile
     if (!turnstile) {
       return resolve('')
     }
+    const timer = setTimeout(() => resolve(''), 3000)
     try {
       turnstile.ready(() => {
         if (turnstileWidgetId) {
@@ -151,11 +152,18 @@ function getCaptcha(): Promise<string> {
           turnstile.render('#cloudflare-turnstile', {
             sitekey: siteKey,
             action: 'search_messages',
-            callback: (token) => resolve(token),
-            'error-callback': (error: string) => reject(error),
+            callback: (token) => {
+              clearTimeout(timer)
+              resolve(token)
+            },
+            'error-callback': () => {
+              clearTimeout(timer)
+              resolve('')
+            },
           }) ?? null
       })
     } catch {
+      clearTimeout(timer)
       resolve('')
     }
   })
@@ -575,10 +583,7 @@ onBeforeUnmount(() => {
               :items-length="totalMessages"
               :items-per-page-options="itemsPerPageOptions"
               :items-per-page-text="$t('common.itemsPerPage')"
-              :page-text="
-                ({ page, itemsPerPage, itemsLength }: any) =>
-                  `${itemsLength ? (page - 1) * itemsPerPage + 1 : 0}-${Math.min(page * itemsPerPage, itemsLength)} ${$t('common.of')} ${itemsLength}`
-              "
+              :page-text="`{0}-{1} ${$t('common.of')} {2}`"
               :loading="loading"
               show-select
               :loading-text="$t('searchMessages.loading')"
