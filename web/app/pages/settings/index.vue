@@ -1033,6 +1033,7 @@ onMounted(() => {
                 :model-value="apiKey"
                 readonly
                 name="api-key"
+                autocomplete="new-password"
                 variant="outlined"
                 class="mb-n2"
                 @click:append-inner="apiKeyShow = !apiKeyShow"
