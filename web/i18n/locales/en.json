@@ -56,10 +56,20 @@
     "userDisabled": "This account has been disabled",
     "tooManyRequests": "Too many failed attempts. Please try again later",
     "networkError": "Unable to connect to the server. Please check your internet connection",
-    "unexpectedError": "An unexpected error occurred"
+    "unexpectedError": "An unexpected error occurred",
+    "accountDisabled": "This account has been disabled",
+    "enterPassword": "Please enter your password",
+    "enterValidEmail": "Please enter a valid email address",
+    "incorrectPassword": "Incorrect password",
+    "noAccountFound": "No account found with this email address",
+    "passwordMinLength": "Password should be at least 6 characters",
+    "provideEmail": "Please provide an email address",
+    "provideName": "Please provide your name",
+    "resetPasswordInstructions": "Password reset instructions have been sent to your email"
   },
   "common": {
     "save": "Save",
+    "savedSuccessfully": "Saved successfully!",
     "cancel": "Cancel",
     "delete": "Delete",
     "loading": "Loading...",
@@ -115,6 +125,7 @@
     "cannotSendMessageTo": "You cannot send messages to {contact}",
     "cannotSendMessage": "You cannot send messages to {contact}",
     "messageLengthError": "Message must be less than 320 characters",
+    "charLimit": "Message must be less than 320 characters",
     "messageIdCopied": "Message ID copied to clipboard",
     "downloadingApp": "Downloading the httpSMS Android App",
     "ago": "ago"
@@ -231,7 +242,12 @@
     "removePhoneSuccess": "Phone removed successfully",
     "removePhoneFailed": "Failed to remove phone",
     "qrFailed": "Failed to generate Phone API key QR code",
-    "apiKeyCopied": "Phone API Key copied to clipboard"
+    "apiKeyCopied": "Phone API Key copied to clipboard",
+    "copySuccess": "API Key copied to clipboard!",
+    "phoneNotFound": "Phone not found",
+    "removePhoneConfirmTitle": "Remove Phone from API Key",
+    "removePhoneConfirmDesc": "Are you sure you want to remove this phone from the API Key? This action will unlink the device.",
+    "removePhoneFromKey": "Remove Phone"
   },
   "billing": {
     "title": "Usage & Billing",
@@ -458,14 +474,19 @@
   },
   "heartbeats": {
     "title": "Heartbeats",
+    "id": "Heartbeat ID",
     "heartbeatId": "HEARTBEAT ID",
     "phoneNumber": "PHONE NUMBER",
     "receivedAt": "RECEIVED AT",
     "timeInterval": "TIME INTERVAL",
     "zeroSeconds": "0 seconds",
-    "chartTitle": "Heartbeat Intervals (>10min)"
+    "chartTitle": "Heartbeat Intervals (>10min)",
+    "description1": "To ensure background SMS sending, make sure battery optimization for the Android app is disabled. Learn more at",
+    "description2": "Heartbeat monitors the communication status of your device with httpSMS servers.",
+    "tableDescription": "History of pings and heartbeats received from the device."
   },
   "popover": {
+    "skipPage": "Skip directly to dashboard",
     "skipNextTime": "Skip this page next time?",
     "alwaysOpenDashboard": "Always open dashboard",
     "dismiss": "Dismiss"

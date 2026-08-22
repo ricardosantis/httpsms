@@ -56,10 +56,20 @@
     "userDisabled": "Esta conta foi desativada",
     "tooManyRequests": "Muitas tentativas sem sucesso. Tente novamente mais tarde",
     "networkError": "Não foi possível conectar ao servidor. Verifique sua conexão com a internet",
-    "unexpectedError": "Ocorreu um erro inesperado"
+    "unexpectedError": "Ocorreu um erro inesperado",
+    "accountDisabled": "Esta conta foi desativada",
+    "enterPassword": "Por favor, digite sua senha",
+    "enterValidEmail": "Por favor, digite um e-mail válido",
+    "incorrectPassword": "Senha incorreta",
+    "noAccountFound": "Nenhuma conta encontrada com este e-mail",
+    "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
+    "provideEmail": "Por favor, informe seu e-mail",
+    "provideName": "Por favor, informe seu nome",
+    "resetPasswordInstructions": "Instruções para redefinir sua senha foram enviadas para seu e-mail"
   },
   "common": {
     "save": "Salvar",
+    "savedSuccessfully": "Salvo com sucesso!",
     "cancel": "Cancelar",
     "delete": "Excluir",
     "loading": "Carregando...",
@@ -115,6 +125,7 @@
     "cannotSendMessageTo": "Não é possível enviar mensagens para {contact}",
     "cannotSendMessage": "Não é possível enviar mensagens para {contact}",
     "messageLengthError": "A mensagem deve ter menos de 320 caracteres",
+    "charLimit": "A mensagem deve ter menos de 320 caracteres",
     "messageIdCopied": "ID da mensagem copiado para a área de transferência",
     "downloadingApp": "Baixando o aplicativo Android httpSMS",
     "ago": "atrás"
@@ -231,7 +242,12 @@
     "removePhoneSuccess": "Telefone removido com sucesso",
     "removePhoneFailed": "Falha ao remover telefone",
     "qrFailed": "Falha ao gerar QR Code da Chave de API",
-    "apiKeyCopied": "Chave de API do telefone copiada para a área de transferência"
+    "apiKeyCopied": "Chave de API do telefone copiada para a área de transferência",
+    "copySuccess": "API Key copiada para a área de transferência!",
+    "phoneNotFound": "Telefone não encontrado",
+    "removePhoneConfirmTitle": "Remover Telefone da API Key",
+    "removePhoneConfirmDesc": "Tem certeza de que deseja remover este telefone da API Key? Esta ação desvinculará o dispositivo.",
+    "removePhoneFromKey": "Remover Telefone"
   },
   "billing": {
     "title": "Uso e Faturamento",
@@ -458,14 +474,19 @@
   },
   "heartbeats": {
     "title": "Sinais de Vida",
+    "id": "ID do Sinal",
     "heartbeatId": "ID DO SINAL",
     "phoneNumber": "NÚMERO DE TELEFONE",
     "receivedAt": "RECEBIDO EM",
     "timeInterval": "INTERVALO DE TEMPO",
     "zeroSeconds": "0 segundos",
-    "chartTitle": "Intervalos de Sinal de Vida (>10min)"
+    "chartTitle": "Intervalos de Sinal de Vida (>10min)",
+    "description1": "Para garantir o envio de SMS em segundo plano, certifique-se de que a otimização de bateria do aplicativo Android esteja desativada. Saiba mais em",
+    "description2": "O heartbeat monitora o status de comunicação do dispositivo com os servidores do httpSMS.",
+    "tableDescription": "Histórico de pings e sinal de vida recebidos do dispositivo."
   },
   "popover": {
+    "skipPage": "Ir direto para o painel",
     "skipNextTime": "Pular esta página da próxima vez?",
     "alwaysOpenDashboard": "Sempre abrir o painel",
     "dismiss": "Fechar"
