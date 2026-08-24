@@ -62,6 +62,7 @@ import (
 
 	"github.com/gofiber/fiber/v3/middleware/compress"
 	"github.com/gofiber/fiber/v3/middleware/cors"
+	"github.com/gofiber/fiber/v3/middleware/recover"
 
 	"github.com/NdoleStudio/httpsms/pkg/entities"
 	"github.com/NdoleStudio/httpsms/pkg/listeners"
@@ -175,6 +176,9 @@ func (container *Container) App() (app *fiber.App) {
 	container.logger.Debug(fmt.Sprintf("creating %T", app))
 
 	app = fiber.New()
+
+	// Recover from panics so a single bad request can't crash the instance
+	app.Use(recover.New())
 
 	// Health check endpoint registered before middleware for reliable Docker health checks
 	app.Get("/health", func(c fiber.Ctx) error {

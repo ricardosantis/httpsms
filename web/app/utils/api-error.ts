@@ -17,5 +17,10 @@ export function toApiError(error: unknown): ApiError {
 }
 
 export function getApiErrorMessage(error: unknown, fallback: string): string {
-  return toApiError(error).data?.message ?? fallback
+  const apiError = toApiError(error)
+  const message = apiError.data?.message
+  if (message) {
+    return apiError.status ? `${message} (HTTP ${apiError.status})` : message
+  }
+  return apiError.status ? `${fallback} (HTTP ${apiError.status})` : fallback
 }
