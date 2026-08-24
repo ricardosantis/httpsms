@@ -71,7 +71,7 @@ Key prod env vars for the Cloud Run service (all on the service, secrets via Sec
 
 ### System user (events queue)
 
-Async event processing (Cloud Tasks → `POST /v1/events`) requires a row in `users` whose `id` == `EVENTS_QUEUE_USER_ID` and `api_key` == `EVENTS_QUEUE_USER_API_KEY`. The events handler 403s unless `userIDFromContext(c) == EVENTS_QUEUE_USER_ID`. Upstream has **no auto-seed** — insert manually after first deploy (GORM migrations create the tables). Note the `users` column is `notification_webhook_enabled` (not `webhook_enabled`). Current system user: id `1c07f822b4ab1731`, api key `6f6d88d038754b5a1e6eba477f7576d120726cd0a15db591` (also in Secret Manager). Local psql admin access requires temporarily re-enabling the public IP + authorized network, or a compute VM inside the VPC.
+Async event processing (Cloud Tasks → `POST /v1/events`) requires a row in `users` whose `id` == `EVENTS_QUEUE_USER_ID` and `api_key` == `EVENTS_QUEUE_USER_API_KEY`. The events handler 403s unless `userIDFromContext(c) == EVENTS_QUEUE_USER_ID`. Upstream has **no auto-seed** — insert manually after first deploy (GORM migrations create the tables). Note the `users` column is `notification_webhook_enabled` (not `webhook_enabled`). **Never commit the system-user id/api key here** — both live in Secret Manager (`EVENTS_QUEUE_USER_ID`, `EVENTS_QUEUE_USER_API_KEY`; key rotated 2026-08-24 after accidental disclosure) and locally in the git-ignored `.env.prod-secrets`. Local psql admin access requires temporarily re-enabling the public IP + authorized network, or a compute VM inside the VPC.
 
 ### Local-only fixes in this fork (diff vs upstream)
 
