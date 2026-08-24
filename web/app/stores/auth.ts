@@ -54,8 +54,19 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await apiFetch<{ data: EntitiesUser }>('/v1/users/me')
       user.value = response.data
       if (user.value?.locale) {
-        const { setLocale } = useI18n()
-        setLocale(user.value.locale)
+        const { setLocale, locales } = useI18n()
+        const availableLocales = locales.value.map((l) =>
+          typeof l === 'string' ? l : l.code,
+        )
+        const requested = user.value.locale
+        const matchedLocale =
+          availableLocales.find((code) => code === requested) ??
+          availableLocales.find((code) =>
+            requested.toLowerCase().startsWith(`${code.toLowerCase()}-`),
+          )
+        if (matchedLocale) {
+          setLocale(matchedLocale)
+        }
       }
     } catch (error: unknown) {
       notificationsStore.addNotification({
