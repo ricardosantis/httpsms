@@ -32,4 +32,24 @@
     <string name="enable_debug_logs">Enable debug logs</string>
     <string name="enable_incoming_call_events_sim1">Enable SIM1 missed call events</string>
     <string name="enable_sim2_incoming_call_events">Enable SIM2 missed call events</string>
+    <string name="heartbeat_sent_success">Heartbeat sent successfully</string>
+    <string name="heartbeat_failed_no_internet">Could not send heartbeat. Make sure the phone is connected to the internet</string>
+    <string name="fcm_token_missing">Cannot find FCM token. Make sure you have Google Play Services installed</string>
+    <string name="qr_scan_result">Scanned: %s</string>
+    <string name="qr_scan_cancelled">Scan cancelled</string>
+    <string name="qr_scan_prompt">Scan a QR code</string>
+    <string name="logout_dialog_title">Confirm</string>
+    <string name="logout_dialog_message">Are you sure you want to log out of the httpSMS app?</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_logout">Log out</string>
+    <string name="back">Back</string>
+    <string name="sticky_notification_title">httpSMS Listener</string>
+    <string name="sticky_notification_text">httpSMS is listening for sent and received SMS messages in the background.</string>
+    <string name="service_destroyed_toast">Service stopped</string>
+    <string name="api_key_invalid_error">Cannot validate the API key. Check if it is correct and try again.</string>
+    <string name="login_server_error">Cannot log in to the server. Make sure the phone number is in international format e.g +18005550100</string>
+    <string name="invalid_phone_e164">Enter an international phone number in the E.164 format</string>
+    <string name="server_url_invalid">Server URL [%s] is invalid</string>
+    <string name="server_url_not_https">Server URL [%s] must be HTTPS</string>
+    <string name="unexpected_error">An unexpected error occurred: %s</string>
 </resources>

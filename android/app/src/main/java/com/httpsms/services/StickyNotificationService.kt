@@ -31,7 +31,7 @@ class StickyNotificationService: Service() {
     override fun onDestroy() {
         super.onDestroy()
         Timber.d("The service has been destroyed")
-        Toast.makeText(this, "Service destroyed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.service_destroyed_toast, Toast.LENGTH_SHORT).show()
     }
 
 
@@ -65,8 +65,8 @@ class StickyNotificationService: Service() {
         )
 
         return builder
-            .setContentTitle("httpSMS Listener")
-            .setContentText("httpSMS is listening for sent and received SMS messages in the background.")
+            .setContentTitle(getString(R.string.sticky_notification_title))
+            .setContentText(getString(R.string.sticky_notification_text))
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .setSmallIcon(R.drawable.ic_stat_name)

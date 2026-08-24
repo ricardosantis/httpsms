@@ -44,10 +44,10 @@ class SettingsActivity : AppCompatActivity() {
     private fun onLogoutClick() {
         Timber.d("logout button clicked")
         MaterialAlertDialogBuilder(this)
-            .setTitle("Confirm")
-            .setMessage("Are you sure you want to logout of the httpSMS App?")
-            .setNeutralButton("Cancel"){ _, _ -> Timber.d("logout dialog canceled") }
-            .setPositiveButton("Logout"){_, _ ->
+            .setTitle(R.string.logout_dialog_title)
+            .setMessage(R.string.logout_dialog_message)
+            .setNeutralButton(R.string.dialog_cancel){ _, _ -> Timber.d("logout dialog canceled") }
+            .setPositiveButton(R.string.dialog_logout){_, _ ->
                 Timber.d("logging out user")
                 viewModel.logout(this) {
                     redirectToLogin()

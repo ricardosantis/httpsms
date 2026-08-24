@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                                 onFcmTokenMissing = {
                                     Toast.makeText(
                                         this@LoginActivity,
-                                        "Cannot find FCM token. Make sure you have Google Play Services installed",
+                                        R.string.fcm_token_missing,
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
@@ -77,15 +77,15 @@ class LoginActivity : AppCompatActivity() {
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents != null) {
             viewModel.onApiKeyChange(result.contents)
-            Toast.makeText(this, "Scanned: ${result.contents}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.qr_scan_result, result.contents), Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(this, "Scan cancelled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.qr_scan_cancelled, Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun startQrCodeScan() {
         val options = ScanOptions()
-        options.setPrompt("Scan a QR code")
+        options.setPrompt(getString(R.string.qr_scan_prompt))
         options.setBeepEnabled(true)
         options.setOrientationLocked(false)
         options.setCameraId(0)

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.httpsms.Constants
 import com.httpsms.HttpSmsApiService
+import com.httpsms.R
 import com.httpsms.Settings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -97,7 +98,7 @@ class MainViewModel : ViewModel() {
                     }
                     val isStored = HttpSmsApiService.create(context).storeHeartbeat(phoneNumbers.toTypedArray(), charging)
                     if (!isStored) {
-                        "Could not send heartbeat make sure the phone is connected to the internet"
+                        context.getString(R.string.heartbeat_failed_no_internet)
                     } else {
                         Settings.setHeartbeatTimestampAsync(context, System.currentTimeMillis())
                         null

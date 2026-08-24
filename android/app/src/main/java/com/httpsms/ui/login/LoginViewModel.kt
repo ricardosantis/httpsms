@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.httpsms.Constants
 import com.httpsms.HttpSmsApiService
+import com.httpsms.R
 import com.httpsms.Settings
 import com.httpsms.SmsManagerService
 import com.httpsms.validators.PhoneNumberValidator
@@ -142,7 +143,7 @@ class LoginViewModel : ViewModel() {
             if (!PhoneNumberValidator.isValidPhoneNumber(phone1, countryCode)) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
-                    phoneNumberSIM1Error = "Enter an international phone number in the E.164 format"
+                    phoneNumberSIM1Error = context.getString(R.string.invalid_phone_e164)
                 )
                 return@launch
             }
@@ -150,7 +151,7 @@ class LoginViewModel : ViewModel() {
             if (currentState.isDualSim && !PhoneNumberValidator.isValidPhoneNumber(phone2, countryCode)) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
-                    phoneNumberSIM2Error = "Enter an international phone number in the E.164 format"
+                    phoneNumberSIM2Error = context.getString(R.string.invalid_phone_e164)
                 )
                 return@launch
             }
@@ -158,7 +159,7 @@ class LoginViewModel : ViewModel() {
             if (!URLUtil.isValidUrl(serverUrl)) {
                  _uiState.value = _uiState.value.copy(
                     isLoading = false,
-                    serverUrlError = "Server URL [$serverUrl] is invalid"
+                    serverUrlError = context.getString(R.string.server_url_invalid, serverUrl)
                 )
                 return@launch
             }
@@ -166,7 +167,7 @@ class LoginViewModel : ViewModel() {
             if (!URLUtil.isHttpsUrl(serverUrl)) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
-                    serverUrlError = "Server URL [$serverUrl] must be HTTPS"
+                    serverUrlError = context.getString(R.string.server_url_not_https, serverUrl)
                 )
                 return@launch
             }
@@ -175,7 +176,7 @@ class LoginViewModel : ViewModel() {
                 withContext(Dispatchers.IO) {
                     val service = HttpSmsApiService(apiKey, URI(serverUrl))
                     val e164Phone1 = PhoneNumberValidator.formatE164(phone1, countryCode)
-                    val response1 = service.updateFcmToken(e164Phone1, Constants.SIM1, Settings.getFcmToken(context) ?: "")
+                    val response1 = service.updateFcmToken(context, e164Phone1, Constants.SIM1, Settings.getFcmToken(context) ?: "")
                     
                     if (response1.second != null || response1.third != null) {
                         return@withContext Pair(response1.second, response1.third)
@@ -183,7 +184,7 @@ class LoginViewModel : ViewModel() {
 
                     if (currentState.isDualSim) {
                         val e164Phone2 = PhoneNumberValidator.formatE164(phone2, countryCode)
-                        val response2 = service.updateFcmToken(e164Phone2, Constants.SIM2, Settings.getFcmToken(context) ?: "")
+                        val response2 = service.updateFcmToken(context, e164Phone2, Constants.SIM2, Settings.getFcmToken(context) ?: "")
                         return@withContext Pair(response2.second, response2.third)
                     }
 
@@ -191,10 +192,10 @@ class LoginViewModel : ViewModel() {
                 }
             } catch (e: URISyntaxException) {
                 Timber.e(e, "Invalid URI: $serverUrl")
-                Pair(null, "Server URL [$serverUrl] is invalid")
+                Pair(null, context.getString(R.string.server_url_invalid, serverUrl))
             } catch (e: Exception) {
                 Timber.e(e, "Login error")
-                Pair(null, "An unexpected error occurred: ${e.message}")
+                Pair(null, context.getString(R.string.unexpected_error, e.message ?: ""))
             }
 
             if (authResult.first != null) {

@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                                 Timber.w("heartbeat sending failed with [$error]")
                                 Toast.makeText(this, error, Toast.LENGTH_LONG).show()
                             } else {
-                                Toast.makeText(this, "Heartbeat sent successfully", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.heartbeat_sent_success), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -191,7 +191,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun sendFCMToken(timestamp: Long, context:Context, phoneNumber: String, sim: String) {
         Thread {
-            val response = HttpSmsApiService.create(context).updateFcmToken(phoneNumber, sim,Settings.getFcmToken(context) ?: "")
+            val response = HttpSmsApiService.create(context).updateFcmToken(context, phoneNumber, sim,Settings.getFcmToken(context) ?: "")
             if (response.first != null) {
                 Settings.setUserID(context, response.first!!.userID)
                 Settings.setFcmTokenLastUpdateTimestampAsync(context, timestamp)

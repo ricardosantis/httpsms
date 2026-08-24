@@ -107,7 +107,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         if (Settings.isLoggedIn(this)) {
             Timber.d("updating SIM1 phone with new fcm token")
-            val response = HttpSmsApiService.create(this).updateFcmToken(Settings.getSIM1PhoneNumber(this), Constants.SIM1, token)
+            val response = HttpSmsApiService.create(this).updateFcmToken(this, Settings.getSIM1PhoneNumber(this), Constants.SIM1, token)
             if (response.first != null) {
                 Settings.setUserID(this, response.first!!.userID)
             }
@@ -115,7 +115,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         if(Settings.isDualSIM(this)) {
             Timber.d("updating SIM2 phone with new fcm token")
-            HttpSmsApiService.create(this).updateFcmToken(Settings.getSIM2PhoneNumber(this), Constants.SIM2, token)
+            HttpSmsApiService.create(this).updateFcmToken(this, Settings.getSIM2PhoneNumber(this), Constants.SIM2, token)
         }
     }
 

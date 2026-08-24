@@ -257,7 +257,7 @@ class HttpSmsApiService(private val apiKey: String, private val baseURL: URI) {
         return true
     }
 
-    fun updateFcmToken(phoneNumber: String, sim: String, fcmToken: String): Triple<Phone?, String?, String?> {
+    fun updateFcmToken(context: Context, phoneNumber: String, sim: String, fcmToken: String): Triple<Phone?, String?, String?> {
         val body = """
             {
               "fcm_token": "$fcmToken",
@@ -280,9 +280,9 @@ class HttpSmsApiService(private val apiKey: String, private val baseURL: URI) {
                 response.close()
                 if (response.code == 401) {
                     Timber.e("invalid API key [$apiKey]")
-                    return Triple(null, "Cannot validate the API key. Check if it is correct and try again.", null)
+                    return Triple(null, context.getString(R.string.api_key_invalid_error), null)
                 }
-                return Triple(null,null, "Cannot login to the server, Make sure the phone number is in international format e.g +18005550100")
+                return Triple(null,null, context.getString(R.string.login_server_error))
             }
 
             Timber.i("FCM token submitted correctly with API key [$apiKey] and server url [$baseURL]" )

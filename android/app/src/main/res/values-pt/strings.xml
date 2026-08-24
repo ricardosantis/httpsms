@@ -32,4 +32,24 @@
     <string name="enable_debug_logs">Ativar logs de depuração</string>
     <string name="enable_incoming_call_events_sim1">Ativar eventos de chamadas perdidas no SIM1</string>
     <string name="enable_sim2_incoming_call_events">Ativar eventos de chamadas perdidas no SIM2</string>
+    <string name="heartbeat_sent_success">Heartbeat enviado com sucesso</string>
+    <string name="heartbeat_failed_no_internet">Não foi possível enviar o heartbeat. Verifique se o celular está conectado à internet</string>
+    <string name="fcm_token_missing">Não foi possível obter o token FCM. Verifique se o Google Play Services está instalado</string>
+    <string name="qr_scan_result">Lido: %s</string>
+    <string name="qr_scan_cancelled">Leitura cancelada</string>
+    <string name="qr_scan_prompt">Aponte a câmera para um código QR</string>
+    <string name="logout_dialog_title">Confirmar</string>
+    <string name="logout_dialog_message">Tem certeza de que deseja sair do app httpSMS?</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_logout">Sair</string>
+    <string name="back">Voltar</string>
+    <string name="sticky_notification_title">httpSMS em escuta</string>
+    <string name="sticky_notification_text">O httpSMS está monitorando as mensagens SMS enviadas e recebidas em segundo plano.</string>
+    <string name="service_destroyed_toast">Serviço encerrado</string>
+    <string name="api_key_invalid_error">Não foi possível validar a chave de API. Verifique se ela está correta e tente novamente.</string>
+    <string name="login_server_error">Não foi possível entrar no servidor. Verifique se o número está no formato internacional, ex.: +5511999998888</string>
+    <string name="invalid_phone_e164">Informe um número de telefone internacional no formato E.164</string>
+    <string name="server_url_invalid">URL do servidor [%s] é inválida</string>
+    <string name="server_url_not_https">A URL do servidor [%s] deve usar HTTPS</string>
+    <string name="unexpected_error">Ocorreu um erro inesperado: %s</string>
 </resources>
