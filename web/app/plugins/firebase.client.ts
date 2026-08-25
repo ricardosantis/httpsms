@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app'
 import type { FirebaseApp } from 'firebase/app'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, onIdTokenChanged } from 'firebase/auth'
 import { useAuthStore } from '../stores/auth'
 
 export default defineNuxtPlugin(() => {
@@ -36,6 +36,11 @@ export default defineNuxtPlugin(() => {
   const authStore = useAuthStore()
   onAuthStateChanged(auth, (user) => {
     authStore.onAuthStateChanged(user)
+  })
+
+  // Listen for ID token changes (e.g. token refresh) and update the auth store
+  onIdTokenChanged(auth, (user) => {
+    authStore.onIdTokenChanged(user)
   })
 
   return {

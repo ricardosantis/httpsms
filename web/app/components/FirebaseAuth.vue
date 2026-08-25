@@ -101,7 +101,7 @@ async function signInWithGoogle() {
   try {
     const auth = getAuth()
     const result = await signInWithPopup(auth, new GoogleAuthProvider())
-    onSuccess(result.user, 'google')
+    await onSuccess(result.user, 'google')
   } catch (error: unknown) {
     handleError(error, true)
   } finally {
@@ -114,7 +114,7 @@ async function signInWithGithub() {
   try {
     const auth = getAuth()
     const result = await signInWithPopup(auth, new GithubAuthProvider())
-    onSuccess(result.user, 'github')
+    await onSuccess(result.user, 'github')
   } catch (error: unknown) {
     handleError(error, true)
   } finally {
@@ -153,7 +153,7 @@ async function submitEmail() {
         password.value,
       )
     }
-    onSuccess(result.user, 'email')
+    await onSuccess(result.user, 'email')
   } catch (error: unknown) {
     handleError(error)
   } finally {
@@ -192,7 +192,7 @@ function toggleAuthMode() {
   isSignUp.value = !isSignUp.value
 }
 
-function onSuccess(user: FirebaseUser, method: LoginMethod) {
+async function onSuccess(user: FirebaseUser, method: LoginMethod) {
   try {
     localStorage.setItem(LAST_LOGIN_METHOD_KEY, method)
   } catch (error) {
@@ -202,7 +202,7 @@ function onSuccess(user: FirebaseUser, method: LoginMethod) {
     message: t('auth.loginSuccess'),
     type: 'success',
   })
-  authStore.onAuthStateChanged(user)
+  await authStore.onAuthStateChanged(user)
   router.push({ path: props.to })
 }
 
