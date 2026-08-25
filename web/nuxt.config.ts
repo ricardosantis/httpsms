@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     defaultLocale: 'pt',
     strategy: 'no_prefix',
     lazy: true,
+    detectBrowserLanguage: false,
   },
 
   googleFonts: {
@@ -39,7 +40,7 @@ export default defineNuxtConfig({
     name: process.env.APP_NAME || 'httpSMS',
     description:
       'Turn your Android phone into an SMS gateway. Send and receive text messages worldwide with a simple HTTP API — no SMS provider or short code required.',
-    defaultLocale: 'en',
+    defaultLocale: 'pt',
   },
 
   // Authenticated app routes that should never appear in search engines or the
