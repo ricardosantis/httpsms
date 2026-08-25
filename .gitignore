@@ -41,4 +41,7 @@ AGENTS.md
 .mcp.json
 .github/copilot-instructions.md
 .opencode/
+opencode.json
 graphify-out/
+.gemini/
+.playwright-mcp/

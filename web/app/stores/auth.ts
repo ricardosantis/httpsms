@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
       setApiKey('')
       return
     }
-    setAuthHeader(await firebaseUser.getIdToken())
+    setAuthHeader(await firebaseUser.getIdToken(true))
     const { uid, email, displayName } = firebaseUser
     authUser.value = { id: uid, email, displayName }
     authStateChanged.value = true
@@ -46,7 +46,7 @@ export const useAuthStore = defineStore('auth', () => {
       setApiKey('')
       return
     }
-    setAuthHeader(await firebaseUser.getIdToken())
+    setAuthHeader(await firebaseUser.getIdToken(true))
   }
 
   async function loadUser() {
