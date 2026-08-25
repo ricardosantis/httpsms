@@ -50,22 +50,37 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function loadUser() {
+    let setLocale: ((locale: string) => void) | undefined
+    let locales: globalThis.Ref<Array<string | { code: string }>> | undefined
+    try {
+      const i18n = useI18n()
+      setLocale = i18n.setLocale
+      locales = i18n.locales as unknown as globalThis.Ref<
+        Array<string | { code: string }>
+      >
+    } catch {
+      // Ignore if called outside Nuxt context
+    }
+
     try {
       const response = await apiFetch<{ data: EntitiesUser }>('/v1/users/me')
       user.value = response.data
-      if (user.value?.locale) {
-        const { setLocale, locales } = useI18n()
-        const availableLocales = locales.value.map((l) =>
-          typeof l === 'string' ? l : l.code,
-        )
-        const requested = user.value.locale
-        const matchedLocale =
-          availableLocales.find((code) => code === requested) ??
-          availableLocales.find((code) =>
-            requested.toLowerCase().startsWith(`${code.toLowerCase()}-`),
+      if (user.value?.locale && setLocale && locales) {
+        try {
+          const availableLocales = locales.value.map((l) =>
+            typeof l === 'string' ? l : l.code,
           )
-        if (matchedLocale) {
-          setLocale(matchedLocale)
+          const requested = user.value.locale
+          const matchedLocale =
+            availableLocales.find((code: string) => code === requested) ??
+            availableLocales.find((code: string) =>
+              requested.toLowerCase().startsWith(`${code.toLowerCase()}-`),
+            )
+          if (matchedLocale) {
+            setLocale(matchedLocale)
+          }
+        } catch (e) {
+          console.error('Failed to set locale in loadUser:', e)
         }
       }
     } catch (error: unknown) {
