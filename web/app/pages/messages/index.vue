@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
 import { mdiArrowLeft, mdiSend, mdiCircle } from '@mdi/js'
 import {
   isValidPhoneNumber,
@@ -18,7 +17,7 @@ useHead({
 })
 
 const router = useRouter()
-const { mdAndDown, mdAndUp } = useDisplay()
+const { mdAndDown, mdAndUp } = useVDisplay()
 const notificationsStore = useNotificationsStore()
 const phonesStore = usePhonesStore()
 const { useApi } = useApiComposable()

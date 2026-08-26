@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
 import {
   mdiArrowLeft,
   mdiAccountCircle,
@@ -45,7 +44,7 @@ useHead({
 const config = useRuntimeConfig()
 const route = useRoute()
 const router = useRouter()
-const { mdAndDown, mdAndUp, lgAndUp, xlAndUp, smAndUp } = useDisplay()
+const { mdAndDown, mdAndUp, lgAndUp, xlAndUp, smAndUp } = useVDisplay()
 const authStore = useAuthStore()
 const appStore = useAppStore()
 const phonesStore = usePhonesStore()

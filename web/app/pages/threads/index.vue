@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
-
 definePageMeta({
   middleware: ['auth'],
 })
@@ -11,7 +9,7 @@ useHead({
   title: computed(() => `${t('threads.title')} - httpSMS`),
 })
 
-const { lgAndUp } = useDisplay()
+const { lgAndUp } = useVDisplay()
 const authStore = useAuthStore()
 const phonesStore = usePhonesStore()
 const threadsStore = useThreadsStore()

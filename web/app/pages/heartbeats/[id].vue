@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
 import { mdiArrowLeft, mdiCircle } from '@mdi/js'
 import {
   formatDuration as formatDurationFns,
@@ -20,7 +19,7 @@ useHead({
 })
 
 const route = useRoute()
-const { mdAndDown, mdAndUp, lgAndUp } = useDisplay()
+const { mdAndDown, mdAndUp, lgAndUp } = useVDisplay()
 const authStore = useAuthStore()
 const phonesStore = usePhonesStore()
 const { formatPhoneNumber, formatTimestamp } = useFilters()

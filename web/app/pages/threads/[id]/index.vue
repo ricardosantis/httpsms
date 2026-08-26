@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
 import {
   mdiSend,
   mdiDotsVertical,
@@ -15,12 +14,14 @@ import {
   mdiAccount,
   mdiRefresh,
   mdiContentCopy,
+  mdiAccountPlus,
+  mdiSquareEditOutline,
 } from '@mdi/js'
 import Pusher from 'pusher-js'
 import type { Channel } from 'pusher-js'
 import { isValidPhoneNumber } from 'libphonenumber-js'
+import { storeToRefs } from 'pinia'
 import type { EntitiesMessage } from '~~/shared/types/api'
-import { startsWithLetter } from '~/utils/filters'
 
 definePageMeta({
   middleware: ['auth'],
@@ -35,13 +36,14 @@ useHead({
 const route = useRoute()
 const router = useRouter()
 const config = useRuntimeConfig()
-const { lgAndUp, mdAndDown, mdAndUp } = useDisplay()
-const { formatPhoneNumber } = useFilters()
+const { lgAndUp, mdAndDown, mdAndUp } = useVDisplay()
+const { formatPhoneNumber, startsWithLetter } = useFilters()
 const notificationsStore = useNotificationsStore()
 const authStore = useAuthStore()
 const phonesStore = usePhonesStore()
 const threadsStore = useThreadsStore()
 const messagesStore = useMessagesStore()
+const { currentThread } = storeToRefs(threadsStore)
 
 const formMessage = ref('')
 const submitting = ref(false)
@@ -49,6 +51,7 @@ const loadingMessages = ref(false)
 const hideMessages = ref(true)
 const messages = ref<EntitiesMessage[]>([])
 const selectedMenuItem = ref(-1)
+const contactDialog = ref(false)
 const messageBody = ref<HTMLElement | null>(null)
 const form = ref<{ validate: () => Promise<{ valid: boolean }> } | null>(null)
 
@@ -59,7 +62,7 @@ const formMessageRules = computed(() => [
 let webhookChannel: Channel | null = null
 
 const contactIsPhoneNumber = computed(() => {
-  const thread = threadsStore.currentThread
+  const thread = currentThread.value
   if (!thread) return false
   return isValidPhoneNumber(thread.contact) || !isNaN(Number(thread.contact))
 })
@@ -101,6 +104,18 @@ function formatAttachmentName(url: string): string {
   const parts = url.split('/')
   if (parts.length >= 2) return '/' + parts.slice(-2).join('/')
   return url
+}
+
+function currentThreadContactTitle(): string {
+  const thread = currentThread.value
+  if (!thread) return ''
+  return (
+    thread.contact_details?.name?.trim() || formatPhoneNumber(thread.contact)
+  )
+}
+
+async function refreshThreadContact() {
+  await threadsStore.loadThreads()
 }
 
 function scrollToElement() {
@@ -154,7 +169,7 @@ async function loadData() {
 
 async function archiveThread() {
   await threadsStore.updateThread({
-    threadId: threadsStore.currentThread!.id,
+    threadId: currentThread.value!.id,
     isArchived: true,
   })
   await router.push('/threads')
@@ -162,7 +177,7 @@ async function archiveThread() {
 
 async function unArchiveThread() {
   await threadsStore.updateThread({
-    threadId: threadsStore.currentThread!.id,
+    threadId: currentThread.value!.id,
     isArchived: false,
   })
   await router.push('/threads')
@@ -217,7 +232,7 @@ async function sendMessage(event: KeyboardEvent | Event) {
   submitting.value = true
   await messagesStore.sendMessage({
     from: phonesStore.owner!,
-    to: threadsStore.currentThread!.contact,
+    to: currentThread.value!.contact,
     content: formMessage.value,
     sim: 'DEFAULT',
   })
@@ -279,8 +294,17 @@ onBeforeUnmount(() => {
         <VBtn v-if="mdAndDown" icon to="/threads">
           <VIcon :icon="mdiArrowLeft" />
         </VBtn>
-        <VToolbarTitle v-if="threadsStore.currentThread">
-          {{ formatPhoneNumber(threadsStore.currentThread.contact) }}
+        <VToolbarTitle v-if="currentThread">
+          <VTooltip
+            v-if="currentThread.contact_details?.name?.trim()"
+            :text="formatPhoneNumber(currentThread.contact)"
+            location="bottom"
+          >
+            <template #activator="{ props }">
+              <span v-bind="props">{{ currentThreadContactTitle() }}</span>
+            </template>
+          </VTooltip>
+          <template v-else>{{ currentThreadContactTitle() }}</template>
         </VToolbarTitle>
         <VSpacer />
         <LanguageSwitcher class="mr-2" />
@@ -296,10 +320,25 @@ onBeforeUnmount(() => {
             :density="mdAndDown ? 'compact' : 'default'"
           >
             <VListItem
-              v-if="
-                threadsStore.currentThread &&
-                !threadsStore.currentThread.is_archived
-              "
+              v-if="currentThread?.contact_details"
+              @click="contactDialog = true"
+            >
+              <template #prepend>
+                <VIcon :icon="mdiSquareEditOutline" />
+              </template>
+              <VListItemTitle>Edit Contact</VListItemTitle>
+            </VListItem>
+            <VListItem
+              v-else-if="contactIsPhoneNumber"
+              @click="contactDialog = true"
+            >
+              <template #prepend>
+                <VIcon :icon="mdiAccountPlus" />
+              </template>
+              <VListItemTitle>Add Contact</VListItemTitle>
+            </VListItem>
+            <VListItem
+              v-if="currentThread && !currentThread.is_archived"
               @click.prevent="archiveThread"
             >
               <template #prepend>
@@ -308,10 +347,7 @@ onBeforeUnmount(() => {
               <VListItemTitle>{{ $t('threads.archive') }}</VListItemTitle>
             </VListItem>
             <VListItem
-              v-if="
-                threadsStore.currentThread &&
-                threadsStore.currentThread.is_archived
-              "
+              v-if="currentThread && currentThread.is_archived"
               @click.prevent="unArchiveThread"
             >
               <template #prepend>
@@ -320,8 +356,8 @@ onBeforeUnmount(() => {
               <VListItemTitle>{{ $t('threads.unarchive') }}</VListItemTitle>
             </VListItem>
             <VListItem
-              v-if="threadsStore.currentThread"
-              @click.prevent="deleteThread(threadsStore.currentThread.id)"
+              v-if="currentThread"
+              @click.prevent="deleteThread(currentThread.id)"
             >
               <template #prepend>
                 <VIcon :icon="mdiDelete" color="error" />
@@ -337,7 +373,7 @@ onBeforeUnmount(() => {
         color="primary"
         indeterminate
       />
-      <VContainer v-if="threadsStore.currentThread" class="pa-0">
+      <VContainer v-if="currentThread" class="pa-0">
         <div
           ref="messageBody"
           class="messages-body no-scrollbar w-100 pl-2"
@@ -364,7 +400,7 @@ onBeforeUnmount(() => {
                   'ml-2': !mdAndUp,
                   'ml-4': mdAndUp,
                 }"
-                :color="threadsStore.currentThread!.color"
+                :color="currentThread.color"
                 size="40"
               >
                 <v-icon
@@ -584,6 +620,13 @@ onBeforeUnmount(() => {
         </VFooter>
       </VContainer>
     </div>
+    <ContactDialog
+      v-model="contactDialog"
+      :contact="currentThread?.contact_details"
+      :initial-phone-number="currentThread?.contact ?? ''"
+      :refresh-contacts="false"
+      @saved="refreshThreadContact"
+    />
   </VContainer>
 </template>
 

@@ -7,12 +7,13 @@ import {
   mdiAlert,
   mdiAccount,
 } from '@mdi/js'
-import { formatPhoneNumber, startsWithLetter } from '~/utils/filters'
+import type { EntitiesMessageThread } from '~~/shared/types/api'
 
 const threadsStore = useThreadsStore()
 const phonesStore = usePhonesStore()
 const appStore = useAppStore()
 const notificationsStore = useNotificationsStore()
+const { formatPhoneNumber, startsWithLetter } = useFilters()
 
 function threadDate(date: string): string {
   return new Date(date).toLocaleString(undefined, {
@@ -26,6 +27,21 @@ function onInstallApp() {
     type: 'info',
     message: 'Downloading the httpSMS Android App',
   })
+}
+
+function threadContactName(thread: EntitiesMessageThread): string {
+  return thread.contact_details?.name?.trim() ?? ''
+}
+
+function threadContactTitle(thread: EntitiesMessageThread): string {
+  return threadContactName(thread) || formatPhoneNumber(thread.contact)
+}
+
+function threadAvatarInitial(thread: EntitiesMessageThread): string {
+  const contactName = threadContactName(thread)
+  if (contactName) return contactName.substring(0, 1)
+
+  return startsWithLetter(thread.contact) ? thread.contact.substring(0, 1) : ''
 }
 </script>
 
@@ -96,16 +112,16 @@ function onInstallApp() {
             size="40"
             :badge="thread.is_read ? false : { color: 'primary', dotSize: 12 }"
           >
-            <v-icon v-if="!startsWithLetter(thread.contact)" color="white">{{
+            <v-icon v-if="!threadAvatarInitial(thread)" color="white">{{
               mdiAccount
             }}</v-icon>
             <span v-else class="text-white text-headline-small">{{
-              thread.contact.substring(0, 1)
+              threadAvatarInitial(thread)
             }}</span>
           </v-avatar>
         </template>
         <v-list-item-title :class="{ 'font-weight-bold': !thread.is_read }">{{
-          formatPhoneNumber(thread.contact)
+          threadContactTitle(thread)
         }}</v-list-item-title>
         <v-list-item-subtitle
           class="text-truncate mt-1"
@@ -119,37 +135,42 @@ function onInstallApp() {
             <span class="text-body-small text-medium-emphasis">
               {{ threadDate(thread.order_timestamp) }}
             </span>
-            <div class="mt-1">
-              <v-icon
-                v-if="thread.status === 'expired'"
-                color="warning"
-                size="x-small"
-                :icon="mdiAlert"
-              />
-              <v-icon
-                v-else-if="thread.status === 'delivered'"
-                color="primary"
-                size="x-small"
-                :icon="mdiCheckAll"
-              />
-              <v-icon
-                v-else-if="thread.status === 'received'"
-                color="success"
-                size="x-small"
-                :icon="mdiCheckAll"
-              />
-              <v-icon
-                v-else-if="thread.status === 'sent'"
-                size="x-small"
-                :icon="mdiCheck"
-              />
-              <v-icon
-                v-else-if="thread.status === 'failed'"
-                color="error"
-                size="x-small"
-                :icon="mdiAlert"
-              />
-            </div>
+            <VTooltip location="bottom">
+              <template #activator="{ props }">
+                <div v-bind="props" class="mt-1">
+                  <v-icon
+                    v-if="thread.status === 'expired'"
+                    color="warning"
+                    size="x-small"
+                    :icon="mdiAlert"
+                  />
+                  <v-icon
+                    v-else-if="thread.status === 'delivered'"
+                    color="primary"
+                    size="x-small"
+                    :icon="mdiCheckAll"
+                  />
+                  <v-icon
+                    v-else-if="thread.status === 'received'"
+                    color="success"
+                    size="x-small"
+                    :icon="mdiCheckAll"
+                  />
+                  <v-icon
+                    v-else-if="thread.status === 'sent'"
+                    size="x-small"
+                    :icon="mdiCheck"
+                  />
+                  <v-icon
+                    v-else-if="thread.status === 'failed'"
+                    color="error"
+                    size="x-small"
+                    :icon="mdiAlert"
+                  />
+                </div>
+              </template>
+              <span>{{ thread.status }}</span>
+            </VTooltip>
           </div>
         </template>
       </v-list-item>

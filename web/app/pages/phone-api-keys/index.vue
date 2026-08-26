@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
 import { mdiArrowLeft, mdiPlus, mdiDelete, mdiEye } from '@mdi/js'
 import QRCode from 'qrcode'
 import Pusher from 'pusher-js'
@@ -19,7 +18,7 @@ useHead({
 })
 
 const config = useRuntimeConfig()
-const { lgAndUp } = useDisplay()
+const { lgAndUp } = useVDisplay()
 const authStore = useAuthStore()
 const appStore = useAppStore()
 const phonesStore = usePhonesStore()

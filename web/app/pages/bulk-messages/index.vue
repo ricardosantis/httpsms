@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
 import { mdiArrowLeft, mdiMicrosoftExcel, mdiSendCheck } from '@mdi/js'
 import { ErrorMessages } from '~/utils/errors'
 import { toApiError } from '~/utils/api-error'
@@ -15,7 +14,7 @@ useHead({
 })
 
 const router = useRouter()
-const { mdAndUp } = useDisplay()
+const { mdAndUp } = useVDisplay()
 const authStore = useAuthStore()
 const notificationsStore = useNotificationsStore()
 const { formatTimestamp } = useFilters()

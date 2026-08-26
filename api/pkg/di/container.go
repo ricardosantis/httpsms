@@ -85,18 +85,20 @@ import (
 
 // Container is used to resolve services at runtime
 type Container struct {
-	projectID            string
-	db                   *gorm.DB
-	dedicatedDB          *gorm.DB
-	mongoDB              *mongoDriver.Database
-	version              string
-	app                  *fiber.App
-	eventDispatcher      *services.EventDispatcher
-	logger               telemetry.Logger
-	attachmentRepository repositories.AttachmentRepository
-	userRistrettoCache   *ristretto.Cache[string, entities.AuthContext]
-	phoneRistrettoCache  *ristretto.Cache[string, *entities.Phone]
-	inMemoryCache        cache.Cache
+	projectID             string
+	db                    *gorm.DB
+	dedicatedDB           *gorm.DB
+	mongoDB               *mongoDriver.Database
+	version               string
+	app                   *fiber.App
+	eventDispatcher       *services.EventDispatcher
+	logger                telemetry.Logger
+	attachmentRepository  repositories.AttachmentRepository
+	contactService        *services.ContactService
+	userRistrettoCache    *ristretto.Cache[string, entities.AuthContext]
+	phoneRistrettoCache   *ristretto.Cache[string, *entities.Phone]
+	contactRistrettoCache *ristretto.Cache[string, services.ContactCacheEntry]
+	inMemoryCache         cache.Cache
 }
 
 // NewLiteContainer creates a Container without any routes or listeners
@@ -123,6 +125,9 @@ func NewContainer(projectID string, version string) (container *Container) {
 
 	container.RegisterMessageThreadRoutes()
 	container.RegisterMessageThreadListeners()
+
+	container.RegisterContactRoutes()
+	container.RegisterContactListeners()
 
 	container.RegisterHeartbeatRoutes()
 	container.RegisterHeartbeatListeners()
@@ -420,6 +425,10 @@ ALTER TABLE discords ADD CONSTRAINT IF NOT EXISTS uni_discords_server_id CHECK (
 		container.logger.Fatal(stacktrace.Propagatef(err, "cannot migrate %T", &entities.PhoneAPIKey{}))
 	}
 
+	if err = db.AutoMigrate(&entities.Contact{}); err != nil {
+		container.logger.Fatal(stacktrace.Propagatef(err, "cannot migrate %T", &entities.Contact{}))
+	}
+
 	return container.db
 }
 
@@ -585,7 +594,6 @@ func (container *Container) MessageHandlerValidator() (validator *validators.Mes
 		container.Tracer(),
 		container.PhoneService(),
 		container.TurnstileTokenValidator(),
-		container.Cache(),
 	)
 }
 
@@ -608,7 +616,6 @@ func (container *Container) BulkMessageHandlerValidator() (validator *validators
 		container.Tracer(),
 		container.PhoneService(),
 		container.UserService(),
-		container.Cache(),
 	)
 }
 
@@ -700,6 +707,27 @@ func (container *Container) MessageThreadHandlerValidator() (validator *validato
 	return validators.NewMessageThreadHandlerValidator(
 		container.Logger(),
 		container.Tracer(),
+	)
+}
+
+// ContactHandlerValidator creates a new instance of validators.ContactHandlerValidator
+func (container *Container) ContactHandlerValidator() (validator *validators.ContactHandlerValidator) {
+	container.logger.Debug(fmt.Sprintf("creating %T", validator))
+	return validators.NewContactHandlerValidator(
+		container.Logger(),
+		container.Tracer(),
+	)
+}
+
+// ContactHandler creates a new instance of handlers.ContactHandler
+func (container *Container) ContactHandler() (h *handlers.ContactHandler) {
+	container.logger.Debug(fmt.Sprintf("creating %T", h))
+	return handlers.NewContactHandler(
+		container.Logger(),
+		container.Tracer(),
+		container.ContactHandlerValidator(),
+		container.ContactService(),
+		container.EntitlementService(),
 	)
 }
 
@@ -900,6 +928,26 @@ func (container *Container) MessageThreadRepository() (repository repositories.M
 		container.Tracer(),
 		container.DB(),
 	)
+}
+
+// ContactRepository creates a new instance of repositories.ContactRepository
+func (container *Container) ContactRepository() (repository repositories.ContactRepository) {
+	switch os.Getenv("CONTACT_DB_BACKEND") {
+	case "mongodb":
+		container.logger.Debug("creating MongoDB repositories.ContactRepository")
+		return repositories.NewMongoContactRepository(
+			container.Logger(),
+			container.Tracer(),
+			container.MongoDB(),
+		)
+	default:
+		container.logger.Debug("creating GORM repositories.ContactRepository")
+		return repositories.NewGormContactRepository(
+			container.Logger(),
+			container.Tracer(),
+			container.DB(),
+		)
+	}
 }
 
 // HeartbeatMonitorRepository creates a new instance of repositories.HeartbeatMonitorRepository
@@ -1121,7 +1169,23 @@ func (container *Container) MessageThreadService() (service *services.MessageThr
 		container.MessageThreadRepository(),
 		container.PhoneRepository(),
 		container.EventDispatcher(),
+		container.ContactService(),
 	)
+}
+
+// ContactService creates a new instance of services.ContactService
+func (container *Container) ContactService() (service *services.ContactService) {
+	if container.contactService != nil {
+		return container.contactService
+	}
+	container.logger.Debug(fmt.Sprintf("creating %T", service))
+	container.contactService = services.NewContactService(
+		container.Logger(),
+		container.Tracer(),
+		container.ContactRepository(),
+		container.ContactRistrettoCache(),
+	)
+	return container.contactService
 }
 
 // EmailNotificationService creates a new instance of services.EmailNotificationService
@@ -1453,6 +1517,20 @@ func (container *Container) RegisterMessageThreadListeners() {
 	}
 }
 
+// RegisterContactListeners registers event listeners for listeners.ContactListener.
+func (container *Container) RegisterContactListeners() {
+	container.logger.Debug(fmt.Sprintf("registering listeners for %T", listeners.ContactListener{}))
+	_, routes := listeners.NewContactListener(
+		container.Logger(),
+		container.Tracer(),
+		container.ContactService(),
+	)
+
+	for event, handler := range routes {
+		container.EventDispatcher().Subscribe(event, handler)
+	}
+}
+
 // RegisterEmailNotificationListeners registers event listeners for listeners.EmailNotificationListener
 func (container *Container) RegisterEmailNotificationListeners() {
 	container.logger.Debug(fmt.Sprintf("registering listners for %T", listeners.EmailNotificationListener{}))
@@ -1774,6 +1852,12 @@ func (container *Container) RegisterMessageThreadRoutes() {
 	container.MessageThreadHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
 }
 
+// RegisterContactRoutes registers routes for the /contacts prefix
+func (container *Container) RegisterContactRoutes() {
+	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.ContactHandler{}))
+	container.ContactHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
+}
+
 // RegisterHeartbeatRoutes registers routes for the /heartbeats prefix
 func (container *Container) RegisterHeartbeatRoutes() {
 	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.HeartbeatHandler{}))
@@ -1887,6 +1971,24 @@ func (container *Container) PhoneRistrettoCache() *ristretto.Cache[string, *enti
 	}
 	container.phoneRistrettoCache = ristrettoCache
 	return container.phoneRistrettoCache
+}
+
+// ContactRistrettoCache creates an in-memory cache keyed by user and phone number.
+func (container *Container) ContactRistrettoCache() *ristretto.Cache[string, services.ContactCacheEntry] {
+	if container.contactRistrettoCache != nil {
+		return container.contactRistrettoCache
+	}
+	container.logger.Debug(fmt.Sprintf("creating %T", container.contactRistrettoCache))
+	ristrettoCache, err := ristretto.NewCache[string, services.ContactCacheEntry](&ristretto.Config[string, services.ContactCacheEntry]{
+		MaxCost:     5000,
+		NumCounters: 5000 * 10,
+		BufferItems: 64,
+	})
+	if err != nil {
+		container.logger.Fatal(stacktrace.Propagatef(err, "cannot create contact ristretto cache"))
+	}
+	container.contactRistrettoCache = ristrettoCache
+	return container.contactRistrettoCache
 }
 
 // UserRistrettoCache creates an in-memory *ristretto.Cache[string, entities.AuthContext]
