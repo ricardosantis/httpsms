@@ -13,6 +13,14 @@ export const useThreadsStore = defineStore('threads', () => {
   const { apiFetch } = useApi()
   const notificationsStore = useNotificationsStore()
 
+  function t(key: string, fallback: string): string {
+    try {
+      return useNuxtApp().$i18n.t(key)
+    } catch {
+      return fallback
+    }
+  }
+
   const currentThread = computed<EntitiesMessageThread | null>(() => {
     return threads.value.find((x) => x.id === threadId.value) ?? null
   })
@@ -79,7 +87,10 @@ export const useThreadsStore = defineStore('threads', () => {
       return response.data
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error loading messages'),
+        message: getApiErrorMessage(
+          error,
+          t('threads.errorLoading', 'Error loading messages'),
+        ),
         type: 'error',
       })
       throw error
@@ -108,12 +119,17 @@ export const useThreadsStore = defineStore('threads', () => {
       )
       threadId.value = null
       notificationsStore.addNotification({
-        message: payload.isArchived ? 'Archived' : 'Unarchived',
+        message: payload.isArchived
+          ? t('threads.archivedSuccess', 'Archived')
+          : t('threads.unarchivedSuccess', 'Unarchived'),
         type: 'success',
       })
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error updating thread'),
+        message: getApiErrorMessage(
+          error,
+          t('threads.errorUpdating', 'Error updating thread'),
+        ),
         type: 'error',
       })
       throw error
@@ -136,7 +152,10 @@ export const useThreadsStore = defineStore('threads', () => {
       replaceThread(response.data)
     } catch (error) {
       notificationsStore.addNotification({
-        message: 'The message thread could not be marked as read',
+        message: t(
+          'threads.errorMarkingRead',
+          'The message thread could not be marked as read',
+        ),
         type: 'error',
       })
       try {
@@ -144,7 +163,10 @@ export const useThreadsStore = defineStore('threads', () => {
       } catch (reloadError) {
         throw new AggregateError(
           [error, reloadError],
-          'Could not mark the message thread as read or reload threads',
+          t(
+            'threads.errorMarkReadOrReload',
+            'Could not mark the message thread as read or reload threads',
+          ),
           { cause: reloadError },
         )
       }
@@ -157,12 +179,18 @@ export const useThreadsStore = defineStore('threads', () => {
       await apiFetch(`/v1/message-threads/${id}`, { method: 'DELETE' })
       threadId.value = null
       notificationsStore.addNotification({
-        message: 'The message thread has been deleted successfully',
+        message: t(
+          'threads.deletedSuccess',
+          'The message thread has been deleted successfully',
+        ),
         type: 'success',
       })
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error deleting thread'),
+        message: getApiErrorMessage(
+          error,
+          t('threads.errorDeleting', 'Error deleting thread'),
+        ),
         type: 'error',
       })
       throw error
