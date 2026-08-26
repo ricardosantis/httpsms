@@ -88,7 +88,7 @@ func (service *BillingService) handleLimitExceeded(ctx context.Context, user *en
 
 	appURL := service.appURL
 	if appURL == "" {
-		appURL = "https://sms.mesaquevende.com.br"
+		appURL = "https://smsandroid.com.br"
 	}
 	message := fmt.Sprintf(
 		"You have exceeded your limit of [%d] messages on your [%s] plan. Upgrade to send more messages on %s/billing",

@@ -1014,7 +1014,7 @@ onMounted(() => {
                   endpoint:
                     appStore.appData.apiBaseUrl ||
                     config.public.apiBaseUrl ||
-                    'https://api.mesaquevende.com.br',
+                    'https://api.smsandroid.com.br',
                 })
               }}
             </p>

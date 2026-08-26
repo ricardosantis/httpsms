@@ -286,7 +286,7 @@ function goToPricing() {
               <li class="mt-2">
                 <a
                   class="text-white text-decoration-none footer-link"
-                  href="mailto:contato@mesaquevende.com.br"
+                  href="mailto:contato@smsandroid.com.br"
                 >
                   {{ $t('website.contactSupport') }}
                   <v-icon size="small" :icon="mdiEmailOutline" />

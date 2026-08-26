@@ -22,7 +22,7 @@ export const useAppStore = defineStore('app', () => {
     }
     return {
       url,
-      apiBaseUrl: publicConfig.apiBaseUrl || 'https://api.mesaquevende.com.br',
+      apiBaseUrl: publicConfig.apiBaseUrl || 'https://api.smsandroid.com.br',
       env: publicConfig.appEnv,
       appDownloadUrl: publicConfig.appDownloadUrl,
       documentationUrl: publicConfig.appDocumentationUrl || url,

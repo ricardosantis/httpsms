@@ -73,13 +73,13 @@ fun LoginScreen(
 
         val annotatedString = buildAnnotatedString {
             val text = stringResource(id = R.string.get_your_api_key)
-            val linkText = "sms.mesaquevende.com.br/settings"
+            val linkText = "smsandroid.com.br/settings"
             val startIndex = text.indexOf(linkText)
 
             if (startIndex >= 0) {
                 append(text.substring(0, startIndex))
 
-                pushStringAnnotation(tag = "URL", annotation = "https://sms.mesaquevende.com.br/settings")
+                pushStringAnnotation(tag = "URL", annotation = "https://smsandroid.com.br/settings")
                 withStyle(style = SpanStyle(color = Blue500, fontWeight = FontWeight.Bold)) {
                     append(linkText)
                 }

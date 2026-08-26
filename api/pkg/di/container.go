@@ -1652,7 +1652,7 @@ func (container *Container) AttachmentRepository() repositories.AttachmentReposi
 func (container *Container) AppURL() string {
 	url := os.Getenv("APP_URL")
 	if url == "" {
-		url = "https://sms.mesaquevende.com.br"
+		url = "https://smsandroid.com.br"
 	}
 	return strings.TrimSuffix(url, "/")
 }
@@ -1670,7 +1670,7 @@ func (container *Container) AppName() string {
 func (container *Container) SwaggerHost() string {
 	host := os.Getenv("SWAGGER_HOST")
 	if host == "" {
-		host = "api.mesaquevende.com.br"
+		host = "api.smsandroid.com.br"
 	}
 	return host
 }
@@ -1679,7 +1679,7 @@ func (container *Container) SwaggerHost() string {
 func (container *Container) APIBaseURL() string {
 	endpoint := os.Getenv("EVENTS_QUEUE_ENDPOINT")
 	if endpoint == "" {
-		return "https://api.mesaquevende.com.br"
+		return "https://api.smsandroid.com.br"
 	}
 	return strings.TrimSuffix(endpoint, "/v1/events")
 }

@@ -68,7 +68,7 @@ func (service *StripeService) CreateCheckoutSession(ctx context.Context, params 
 
 	appURL := os.Getenv("APP_URL")
 	if appURL == "" {
-		appURL = "https://sms.mesaquevende.com.br"
+		appURL = "https://smsandroid.com.br"
 	}
 
 	successURL := params.SuccessURL
@@ -161,7 +161,7 @@ func (service *StripeService) CreateCustomerPortalSession(ctx context.Context, u
 
 	appURL := os.Getenv("APP_URL")
 	if appURL == "" {
-		appURL = "https://sms.mesaquevende.com.br"
+		appURL = "https://smsandroid.com.br"
 	}
 	if returnURL == "" {
 		returnURL = appURL + "/billing"

@@ -7,14 +7,14 @@
     <string name="sign_in_button">Entrar com Chave de API</string>
     <string name="text_area_api_key">Chave de API</string>
     <string name="img_http_sms_logo">Logo HTTP SMS</string>
-    <string name="get_your_api_key">Obtenha sua Chave de API em\nsms.mesaquevende.com.br/settings</string>
+    <string name="get_your_api_key">Obtenha sua Chave de API em\nsmsandroid.com.br/settings</string>
     <string name="main_log_out">Sair</string>
     <string name="login_phone_number_hint">ex: +5511999998888 (formato internacional)</string>
-    <string name="login_server_url_hint">ex: https://api.mesaquevende.com.br</string>
+    <string name="login_server_url_hint">ex: https://api.smsandroid.com.br</string>
     <string name="phone_number">Número de Telefone</string>
     <string name="send_heartbeat">Enviar Heartbeat</string>
     <string name="server_url">URL do Servidor</string>
-    <string name="default_server_url">https://api.mesaquevende.com.br</string>
+    <string name="default_server_url">https://api.smsandroid.com.br</string>
     <string name="app_version">httpSMS - %s</string>
     <string name="disable_battery_optimization">Desativar Otimização de Bateria</string>
     <string name="enable_sms_permission">Permitir Envio de SMS</string>

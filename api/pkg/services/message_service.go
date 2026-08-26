@@ -1070,7 +1070,7 @@ func (service *MessageService) enrichErrorMessage(message string) string {
 	if strings.Contains(message, "android.permission.SEND_SMS") {
 		appURL := service.appURL
 		if appURL == "" {
-			appURL = "https://sms.mesaquevende.com.br"
+			appURL = "https://smsandroid.com.br"
 		}
 		return message + fmt.Sprintf(" You need to grant the SMS permission to the Android app %s/blog/grant-send-and-read-sms-permissions-on-android", appURL)
 	}

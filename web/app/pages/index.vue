@@ -41,7 +41,7 @@ useSeoMeta({
   description: computed(() => t('landing.seo.description')),
   ogTitle: computed(() => t('landing.seo.ogTitle')),
   ogDescription: computed(() => t('landing.seo.ogDescription')),
-  ogImage: `${config.public.appUrl || 'https://sms.mesaquevende.com.br'}/header.png`,
+  ogImage: `${config.public.appUrl || 'https://smsandroid.com.br'}/header.png`,
   twitterCard: 'summary_large_image',
 })
 
@@ -1084,7 +1084,7 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
             {{
               $t('landing.faq.subtitle', { email: '' }).split('{emailLink}')[0]
             }}
-            <a href="mailto:contato@mesaquevende.com.br">{{
+            <a href="mailto:contato@smsandroid.com.br">{{
               $t('landing.faq.sendEmail')
             }}</a>
             {{
