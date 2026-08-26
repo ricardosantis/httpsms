@@ -695,10 +695,6 @@ onMounted(async () => {
             <h4 class="text-headline-large mb-3 mt-8">
               {{ $t('billing.overview') }}
             </h4>
-            <!-- Overview -->
-            <h4 class="text-headline-large mb-3 mt-8">
-              {{ $t('billing.overview') }}
-            </h4>
             <p class="text-medium-emphasis">
               {{
                 $t('billing.overviewDesc', {
