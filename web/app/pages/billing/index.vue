@@ -47,7 +47,50 @@ const invoiceFormState = ref('')
 const invoiceFormZipCode = ref('')
 const invoiceFormCountry = ref('')
 const invoiceFormNotes = ref('')
+
 const errorMessages = ref(new Map<string, string>())
+
+const yearlyPricing = ref(false)
+const pricing = ref(0)
+const pricingLabels = ['10K', '20K', '50K', '100K', '200K']
+const pricingLabelsFull = ['10.000', '20.000', '50.000', '100.000', '200.000']
+
+const planMessages = computed(() =>
+  pricingLabels[pricing.value].replace('K', '.000'),
+)
+const planMonthlyPrice = computed(
+  () => ['115', '199', '499', '990', '1.990'][pricing.value],
+)
+const planYearlyPrice = computed(
+  () => ['1.150', '1.990', '4.990', '9.900', '19.900'][pricing.value],
+)
+const planYearlyMonthlyPrice = computed(
+  () => ['95,83', '165,83', '415,83', '825,00', '1.658,33'][pricing.value],
+)
+
+const currentCustomPlanId = computed(() => {
+  const idsMonthly = [
+    'ultra-monthly',
+    '20k-monthly',
+    '50k-monthly',
+    '100k-monthly',
+    '200k-monthly',
+  ]
+  const idsYearly = [
+    'ultra-yearly',
+    '20k-yearly',
+    '50k-yearly',
+    '100k-yearly',
+    '200k-yearly',
+  ]
+  return yearlyPricing.value
+    ? idsYearly[pricing.value]
+    : idsMonthly[pricing.value]
+})
+
+const currentProPlanId = computed(() =>
+  yearlyPricing.value ? 'pro-yearly' : 'pro-monthly',
+)
 
 type PaymentPlan = {
   name: string
@@ -99,6 +142,24 @@ const plans: PaymentPlan[] = [
     id: '50k-monthly',
     messagesPerMonth: 50000,
     price: 499,
+  },
+  {
+    name: '50k - Anual',
+    id: '50k-yearly',
+    messagesPerMonth: 50000,
+    price: 4990,
+  },
+  {
+    name: '100k - Anual',
+    id: '100k-yearly',
+    messagesPerMonth: 100000,
+    price: 9900,
+  },
+  {
+    name: '200k - Anual',
+    id: '200k-yearly',
+    messagesPerMonth: 200000,
+    price: 19900,
   },
   {
     name: '100k - Mensal',
@@ -410,7 +471,7 @@ onMounted(async () => {
                       v-else-if="!isOnLifetimePlan"
                       color="primary"
                       :loading="loadingCheckout"
-                      @click="handleUpgrade('pro')"
+                      @click="handleUpgrade(currentProPlanId)"
                     >
                       {{ $t('billing.upgradePlan') }}
                     </VBtn>
@@ -480,48 +541,150 @@ onMounted(async () => {
               <h2 class="text-headline-large mt-4 mb-2">
                 {{ $t('billing.upgradePlanHeader') }}
               </h2>
+
+              <!-- Pricing Toggle -->
+              <VRow class="mb-4 mt-2 justify-center">
+                <VCol
+                  cols="12"
+                  md="8"
+                  class="d-flex justify-center align-center"
+                >
+                  <div class="d-flex align-center">
+                    <p
+                      class="text-headline-small mr-3 mt-3"
+                      :class="{ 'text-medium-emphasis': yearlyPricing }"
+                    >
+                      Mensal
+                    </p>
+                    <VSwitch
+                      v-model="yearlyPricing"
+                      color="primary"
+                      class="mt-n2"
+                      hide-details
+                    />
+                    <p
+                      class="text-headline-small ml-3 mt-3"
+                      :class="{ 'text-medium-emphasis': !yearlyPricing }"
+                    >
+                      Anual
+                      <VChip color="primary" size="small">
+                        <VIcon start :icon="mdiGift" size="small" />
+                        2 meses grátis
+                      </VChip>
+                    </p>
+                  </div>
+                </VCol>
+              </VRow>
+
+              <!-- Slider for Custom Plans -->
               <VRow>
+                <VCol cols="12">
+                  <VSlider
+                    v-model="pricing"
+                    :tick-labels="lgAndUp ? pricingLabelsFull : pricingLabels"
+                    :max="4"
+                    step="1"
+                    color="primary"
+                    thumb-color="primary"
+                    thumb-label="always"
+                    thumb-size="16"
+                    tick-size="8"
+                    show-ticks="always"
+                  >
+                    <template #thumb-label>
+                      {{ pricingLabels[pricing] }}
+                    </template>
+                  </VSlider>
+                </VCol>
+              </VRow>
+
+              <VRow>
+                <!-- Pro Plan -->
                 <VCol cols="12" md="6">
-                  <VCard link @click="handleUpgrade('pro')">
-                    <VCardText>
-                      <VRow align="center">
-                        <VCol class="flex-grow-1 flex-shrink-1">
-                          <h1
-                            class="text-title-large font-weight-bold text-uppercase mt-3"
-                          >
-                            Pro Plan
-                          </h1>
-                          <p class="text-medium-emphasis">
-                            {{ $t('billing.proPlanDesc') }}
-                          </p>
-                        </VCol>
-                        <VCol class="flex-grow-0 flex-shrink-0 text-center">
-                          <span class="text-headline-medium">R$ 59</span
-                          >{{ $t('billing.perMonth') }}
-                        </VCol>
-                      </VRow>
+                  <VCard elevation="4" color="#000000">
+                    <VCardText class="py-6">
+                      <h1
+                        class="text-center text-display-medium mt-0 mb-4 text-primary"
+                      >
+                        Pro
+                      </h1>
+                      <p
+                        class="text-body-large text-center mt-0 text-medium-emphasis"
+                      >
+                        Para quem precisa de mais desempenho e suporte
+                      </p>
+                      <p v-if="!yearlyPricing" class="text-center">
+                        <span class="text-display-small">R$ 59</span> /mês
+                      </p>
+                      <p v-else class="text-center">
+                        <span class="text-display-small">R$ 570</span> /ano
+                      </p>
+                      <p
+                        v-if="!yearlyPricing"
+                        class="text-center mt-n3 text-medium-emphasis"
+                      >
+                        ou R$ 570 no plano anual
+                      </p>
+                      <p v-else class="text-center mt-n3 text-medium-emphasis">
+                        ou R$ 47,50 por mês
+                      </p>
+                      <VBtn
+                        block
+                        color="primary"
+                        class="mt-4"
+                        size="large"
+                        :loading="loadingCheckout"
+                        @click="handleUpgrade(currentProPlanId)"
+                      >
+                        Fazer Upgrade
+                      </VBtn>
                     </VCardText>
                   </VCard>
                 </VCol>
+
+                <!-- Custom Plan -->
                 <VCol cols="12" md="6">
-                  <VCard link @click="handleUpgrade('enterprise')">
-                    <VCardText>
-                      <VRow align="center">
-                        <VCol class="flex-grow-1 flex-shrink-1">
-                          <h1
-                            class="text-title-large font-weight-bold text-uppercase mt-3"
-                          >
-                            Enterprise Plan
-                          </h1>
-                          <p class="text-medium-emphasis">
-                            {{ $t('billing.enterprisePlanDesc') }}
-                          </p>
-                        </VCol>
-                        <VCol class="flex-grow-0 flex-shrink-0 text-center">
-                          <span class="text-headline-medium">R$ 499</span
-                          >{{ $t('billing.perMonth') }}
-                        </VCol>
-                      </VRow>
+                  <VCard elevation="4" color="#121212">
+                    <VCardText class="py-6">
+                      <h1 class="text-center text-display-medium mt-0 mb-4">
+                        Enterprise
+                      </h1>
+                      <p
+                        class="text-body-large text-center mt-0 text-medium-emphasis"
+                      >
+                        Até {{ planMessages }} mensagens
+                      </p>
+                      <p v-if="!yearlyPricing" class="text-center">
+                        <span class="text-display-small"
+                          >R$ {{ planMonthlyPrice }}</span
+                        >
+                        /mês
+                      </p>
+                      <p v-else class="text-center">
+                        <span class="text-display-small"
+                          >R$ {{ planYearlyPrice }}</span
+                        >
+                        /ano
+                      </p>
+                      <p
+                        v-if="!yearlyPricing"
+                        class="text-center mt-n3 text-medium-emphasis"
+                      >
+                        ou R$ {{ planYearlyPrice }} no plano anual
+                      </p>
+                      <p v-else class="text-center mt-n3 text-medium-emphasis">
+                        ou R$ {{ planYearlyMonthlyPrice }} por mês
+                      </p>
+                      <VBtn
+                        block
+                        variant="tonal"
+                        class="mt-4"
+                        size="large"
+                        :loading="loadingCheckout"
+                        @click="handleUpgrade(currentCustomPlanId)"
+                      >
+                        Fazer Upgrade
+                      </VBtn>
                     </VCardText>
                   </VCard>
                 </VCol>
