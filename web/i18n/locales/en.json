@@ -627,7 +627,7 @@
       "tryFree": "Try For Free",
       "getStarted": "Get Started",
       "features": {
-        "sendReceiveLimit": "Send or receive up to {limit} SMS/month",
+        "sendReceiveLimit": "Send or receive up to {limit} SMS/{frequency}",
         "offlineNotifications": "Offline notifications for your phone",
         "forwardWebhooks": "Forward received messages via webhook",
         "basicSupport": "Basic email support",

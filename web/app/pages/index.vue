@@ -800,7 +800,8 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                   />
                   {{
                     $t('landing.pricing.features.sendReceiveLimit', {
-                      limit: '200',
+                      limit: yearlyPricing ? '2.400' : '200',
+                      frequency: planMessagesFrequency,
                     })
                   }}
                 </p>
@@ -877,7 +878,8 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                   />
                   {{
                     $t('landing.pricing.features.sendReceiveLimit', {
-                      limit: '5.000',
+                      limit: yearlyPricing ? '60.000' : '5.000',
+                      frequency: planMessagesFrequency,
                     })
                   }}
                 </p>
@@ -971,7 +973,8 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
                   />
                   {{
                     $t('landing.pricing.features.sendReceiveLimit', {
-                      limit: pricingLabels[pricing],
+                      limit: planMessages,
+                      frequency: planMessagesFrequency,
                     })
                   }}
                 </p>
