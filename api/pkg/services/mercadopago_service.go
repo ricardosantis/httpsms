@@ -93,13 +93,23 @@ func (service *MercadopagoService) CreateCheckoutSession(ctx context.Context, pa
 	// For plans that exceed MP subscription limits (> 4000 BRL), we use Checkout Pro Preference (one-off payment).
 	isHighTierYearly := params.PlanID == "50k-yearly" || params.PlanID == "100k-yearly" || params.PlanID == "200k-yearly"
 	
+	priceMap := map[string]float64{
+		"pro-monthly": 59,
+		"pro-yearly": 570,
+		"ultra-monthly": 115,
+		"ultra-yearly": 1150,
+		"20k-monthly": 199,
+		"20k-yearly": 1990,
+		"50k-monthly": 499,
+		"50k-yearly": 4990,
+		"100k-monthly": 990,
+		"100k-yearly": 9900,
+		"200k-monthly": 1990,
+		"200k-yearly": 19900,
+		"pro-lifetime": 4990,
+	}
+
 	if isHighTierYearly {
-		priceMap := map[string]float64{
-			"50k-yearly": 4990,
-			"100k-yearly": 9900,
-			"200k-yearly": 19900,
-		}
-		
 		req := preference.Request{
 			Items: []preference.ItemRequest{
 				{
@@ -133,18 +143,34 @@ func (service *MercadopagoService) CreateCheckoutSession(ctx context.Context, pa
 		planID = os.Getenv("MERCADOPAGO_PLAN_" + strings.ToUpper(strings.ReplaceAll(params.PlanID, "-", "_")))
 	}
 
-	if planID == "" {
-		return "", stacktrace.NewError("no mercadopago plan ID configured for plan [%s]", params.PlanID)
-	}
-
 	// Create the Preapproval request
 	req := preapproval.Request{
-		PreapprovalPlanID: planID,
 		PayerEmail:        user.Email,
 		BackURL:           successURL,
 		Reason:            "Assinatura " + params.PlanID,
 		ExternalReference: string(user.ID) + "|" + params.PlanID,
 		Status:            "pending",
+	}
+
+	if planID != "" {
+		req.PreapprovalPlanID = planID
+	} else {
+		freq := 1
+		if strings.HasSuffix(params.PlanID, "-yearly") {
+			freq = 12
+		}
+
+		price, ok := priceMap[params.PlanID]
+		if !ok {
+			return "", stacktrace.NewError("unknown plan [%s]", params.PlanID)
+		}
+
+		req.AutoRecurring = &preapproval.AutoRecurringRequest{
+			CurrencyID:        "BRL",
+			TransactionAmount: price,
+			Frequency:         freq,
+			FrequencyType:     "months",
+		}
 	}
 
 	res, err := service.mpClient.Create(ctx, req)
