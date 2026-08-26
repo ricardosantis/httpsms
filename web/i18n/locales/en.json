@@ -643,7 +643,7 @@
       },
       "custom": {
         "title": "{tier} Plan",
-        "desc": "Send and receive up to {limit} SMS messages like a power user."
+        "desc": "Send and receive up to {limit} SMS messages per {frequency} like a power user."
       },
       "customContact": "Feel free to {contactLink} if you need a bigger plan, or if you want us to install the httpSMS API on your dedicated server. If you would still like to support us, please donate via {sponsorLink} 💖",
       "contactUs": "contact us",

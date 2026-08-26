@@ -54,8 +54,20 @@ const pricing = ref(0)
 const pricingLabels = ['10K', '20K', '50K', '100K', '200K']
 const pricingLabelsFull = ['10.000', '20.000', '50.000', '100.000', '200.000']
 
-const planMessages = computed(() =>
-  pricingLabels[pricing.value].replace('K', '.000'),
+const planMessages = computed(() => {
+  const monthly = ['10.000', '20.000', '50.000', '100.000', '200.000']
+  const yearly = ['120.000', '240.000', '600.000', '1.200.000', '2.400.000']
+  return yearlyPricing.value ? yearly[pricing.value] : monthly[pricing.value]
+})
+
+const planMessagesFrequency = computed(() =>
+  yearlyPricing.value
+    ? useI18n().locale.value === 'pt-BR'
+      ? 'ano'
+      : 'year'
+    : useI18n().locale.value === 'pt-BR'
+      ? 'mês'
+      : 'month',
 )
 const planMonthlyPrice = computed(
   () => ['115', '199', '499', '990', '1.990'][pricing.value],
@@ -601,7 +613,8 @@ onMounted(async () => {
                       <p
                         class="text-body-large text-center mt-0 text-medium-emphasis"
                       >
-                        Até {{ planMessages }} mensagens
+                        Até {{ planMessages }} mensagens /
+                        {{ planMessagesFrequency }}
                       </p>
                       <p v-if="!yearlyPricing" class="text-center">
                         <span class="text-display-small"

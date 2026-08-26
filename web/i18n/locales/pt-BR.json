@@ -643,7 +643,7 @@
       },
       "custom": {
         "title": "Plano {tier}",
-        "desc": "Envie e receba até {limit} mensagens SMS para operações de alta escala."
+        "desc": "Envie e receba até {limit} mensagens SMS por {frequency} para operações de alta escala."
       },
       "customContact": "Sinta-se à vontade para {contactLink} se precisar de um plano maior, ou se quiser instalar a API do httpSMS em um servidor dedicado. Se quiser nos apoiar, considere doar via {sponsorLink} 💖",
       "contactUs": "falar conosco",
