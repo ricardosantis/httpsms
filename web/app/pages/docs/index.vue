@@ -232,7 +232,7 @@ const docSections = [
                 size="small"
                 variant="tonal"
                 color="primary"
-                :href="appStore.appData.downloadUrl"
+                :href="appStore.appData.appDownloadUrl"
                 target="_blank"
               >
                 <VIcon start :icon="mdiDownload" size="small" />

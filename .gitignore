@@ -45,3 +45,6 @@ opencode.json
 graphify-out/
 .gemini/
 .playwright-mcp/
+
+# Private fork docs (infra/rebrand notes — never publish)
+/docs/*.md
