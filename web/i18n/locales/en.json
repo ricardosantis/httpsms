@@ -226,7 +226,8 @@
     "resendSuccess": "The selected messages have been queued for resending",
     "resendError": "Error while resending the selected messages",
     "resendPartial": "{resent} messages resent, {failed} failed",
-    "searchError": "Error while searching messages. Contact us via email"
+    "searchError": "Error while searching messages. Contact us via email",
+    "fetchError": "Error while searching messages. Contact us via email"
   },
   "phoneApiKeys": {
     "title": "Phone API Keys",

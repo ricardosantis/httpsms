@@ -83,7 +83,12 @@ const itemsPerPageOptions = [
   { value: 200, title: '200' },
 ]
 
-const pageText = computed(() => `{0}-{1} ${t('common.of')} {2}`)
+const pageText = computed(() => {
+  if (totalMessages.value === 0) return `0-0 ${t('common.of')} 0`
+  const start = (page.value - 1) * itemsPerPage.value + 1
+  const end = Math.min(page.value * itemsPerPage.value, totalMessages.value)
+  return `${start}-${end} ${t('common.of')} ${totalMessages.value}`
+})
 
 const headers = computed(() => [
   { title: t('searchMessages.createdAt'), key: 'created_at' },
@@ -211,8 +216,7 @@ async function fetchMessages(reset = false) {
     }
   } catch (error: unknown) {
     errorTitle.value = capitalize(
-      toApiError(error).data?.message ??
-        'Error while searching messages. Contact us via email',
+      toApiError(error).data?.message ?? t('searchMessages.fetchError'),
     )
     errorMessages.value = parseErrors(error)
   } finally {

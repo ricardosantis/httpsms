@@ -226,7 +226,8 @@
     "resendSuccess": "As mensagens selecionadas foram colocadas na fila para reenvio",
     "resendError": "Erro ao reenviar as mensagens selecionadas",
     "resendPartial": "{resent} mensagens reenviadas, {failed} falharam",
-    "searchError": "Erro ao buscar mensagens. Entre em contato por e-mail"
+    "searchError": "Erro ao buscar mensagens. Entre em contato por e-mail",
+    "fetchError": "Erro ao buscar mensagens. Entre em contato conosco por e-mail."
   },
   "phoneApiKeys": {
     "title": "Chaves de API do Telefone",
