@@ -29,7 +29,7 @@ async function switchLocale(code: string) {
         class="text-caption text-capitalize px-2"
       >
         <v-icon :icon="mdiTranslate" size="18" class="mr-1" />
-        {{ currentLocale === 'pt' ? 'PT-BR' : 'EN' }}
+        {{ currentLocale === 'pt-BR' ? 'PT-BR' : 'EN' }}
       </v-btn>
     </template>
     <v-list density="compact" bg-color="surface">

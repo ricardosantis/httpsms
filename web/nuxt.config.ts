@@ -16,10 +16,15 @@ export default defineNuxtConfig({
   i18n: {
     langDir: 'locales/',
     locales: [
-      { code: 'pt', language: 'pt-BR', file: 'pt-BR.json', name: 'Português' },
+      {
+        code: 'pt-BR',
+        language: 'pt-BR',
+        file: 'pt-BR.json',
+        name: 'Português',
+      },
       { code: 'en', language: 'en-US', file: 'en.json', name: 'English' },
     ],
-    defaultLocale: 'pt',
+    defaultLocale: 'pt-BR',
     strategy: 'no_prefix',
     lazy: true,
     detectBrowserLanguage: false,
@@ -40,7 +45,7 @@ export default defineNuxtConfig({
     name: process.env.APP_NAME || 'httpSMS',
     description:
       'Turn your Android phone into an SMS gateway. Send and receive text messages worldwide with a simple HTTP API — no SMS provider or short code required.',
-    defaultLocale: 'pt',
+    defaultLocale: 'pt-BR',
   },
 
   // Authenticated app routes that should never appear in search engines or the
