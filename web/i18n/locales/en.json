@@ -615,6 +615,7 @@
     },
     "pricing": {
       "title": "Pricing",
+      "frequency": { "year": "year", "month": "month" },
       "subtitle": "Most of the httpSMS features are completely free but if you want a little extra, you can go pro",
       "monthly": "Monthly",
       "yearly": "Yearly",

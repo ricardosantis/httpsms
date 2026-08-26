@@ -61,12 +61,8 @@ const planMessages = computed(() => {
 
 const planMessagesFrequency = computed(() =>
   yearlyPricing.value
-    ? useI18n().locale.value === 'pt-BR'
-      ? 'ano'
-      : 'year'
-    : useI18n().locale.value === 'pt-BR'
-      ? 'mês'
-      : 'month',
+    ? useI18n().t('landing.pricing.frequency.year')
+    : useI18n().t('landing.pricing.frequency.month'),
 )
 const planMonthlyPrice = computed(
   () => ['115', '199', '499', '990', '1.990'][pricing.value],

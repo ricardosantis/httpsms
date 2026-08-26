@@ -615,6 +615,7 @@
     },
     "pricing": {
       "title": "Planos e Preços",
+      "frequency": { "year": "ano", "month": "mês" },
       "subtitle": "A maioria dos recursos do httpSMS é completamente gratuita, mas se você precisa de maior volume, pode assinar o Pro.",
       "monthly": "Mensal",
       "yearly": "Anual",
