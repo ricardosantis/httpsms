@@ -27,7 +27,6 @@ useHead({
   title: computed(() => `${useI18n().t('billing.title')} - httpSMS`),
 })
 
-const config = useRuntimeConfig()
 const { lgAndUp } = useDisplay()
 const authStore = useAuthStore()
 const billingStore = useBillingStore()
@@ -207,59 +206,9 @@ const totalMessages = computed(() => {
 
 const loadingCheckout = ref(false)
 
-const checkoutURL = computed(() => {
-  const rawUrl = config.public.checkoutUrl as string
-  if (!rawUrl) return ''
-  try {
-    const url = new URL(rawUrl)
-    const user = authStore.authUser
-    if (user) {
-      url.searchParams.append('checkout[custom][user_id]', user.id)
-      if (user.email) {
-        url.searchParams.append('checkout[email]', user.email)
-      }
-      if (user.displayName) {
-        url.searchParams.append('checkout[name]', user.displayName)
-      }
-    }
-    return url.toString()
-  } catch {
-    return ''
-  }
-})
-
-const enterpriseCheckoutURL = computed(() => {
-  const rawUrl = config.public.enterpriseCheckoutUrl as string
-  if (!rawUrl) return ''
-  try {
-    const url = new URL(rawUrl)
-    const user = authStore.authUser
-    if (user) {
-      url.searchParams.append('checkout[custom][user_id]', user.id)
-      if (user.email) {
-        url.searchParams.append('checkout[email]', user.email)
-      }
-      if (user.displayName) {
-        url.searchParams.append('checkout[name]', user.displayName)
-      }
-    }
-    return url.toString()
-  } catch {
-    return ''
-  }
-})
-
-async function handleUpgrade(planType: 'pro' | 'enterprise' = 'pro') {
-  const externalUrl =
-    planType === 'enterprise' ? enterpriseCheckoutURL.value : checkoutURL.value
-  if (externalUrl) {
-    window.location.href = externalUrl
-    return
-  }
-
+async function handleUpgrade(planId: string) {
   loadingCheckout.value = true
   try {
-    const planId = planType === 'enterprise' ? '50k-monthly' : 'pro-monthly'
     const url = await billingStore.createStripeCheckoutSession(planId)
     if (url) {
       window.location.href = url
