@@ -21,11 +21,12 @@ func (config *HermesGeneratorConfig) Generator() hermes.Hermes {
 		Theme: newHermesTheme(),
 		Product: hermes.Product{
 			// Appears in header & footer of e-mails
-			Name: fmt.Sprintf("The %s Team", config.AppName),
+			Name: fmt.Sprintf("Equipe %s", config.AppName),
 			Link: config.AppURL,
 			// Optional product logo
-			Copyright: fmt.Sprintf("© %s %s. All rights reserved.", strconv.Itoa(time.Now().Year()), config.AppName),
-			Logo:      config.AppLogoURL,
+			Copyright:   fmt.Sprintf("© %s %s. Todos os direitos reservados.", strconv.Itoa(time.Now().Year()), config.AppName),
+			Logo:        config.AppLogoURL,
+			TroubleText: "Se você estiver tendo problemas para clicar no botão '{ACTION}', copie e cole a URL abaixo no seu navegador:",
 		},
 	}
 }
