@@ -48,3 +48,6 @@ graphify-out/
 
 # Private fork docs (infra/rebrand notes — never publish)
 /docs/*.md
+
+# Antigravity/Agent Instructions
+AGENTS.md
