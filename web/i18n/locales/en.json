@@ -623,7 +623,10 @@
     },
     "pricing": {
       "title": "Pricing",
-      "frequency": { "year": "year", "month": "month" },
+      "frequency": {
+        "year": "year",
+        "month": "month"
+      },
       "subtitle": "Most of the httpSMS features are completely free but if you want a little extra, you can go pro",
       "monthly": "Monthly",
       "yearly": "Yearly",
@@ -1083,5 +1086,41 @@
       "title": "7. Data Protection Officer (DPO) Contact",
       "p1": "To exercise your privacy rights or submit questions regarding data handling, contact our Data Protection Officer via our support email."
     }
+  },
+  "authStore": {
+    "errorLoadingUserProfile": "Error loading user profile",
+    "errorDeletingAccount": "Error deleting account",
+    "errorRotatingApiKey": "Error rotating API key"
+  },
+  "billingStore": {
+    "failedToLoadBillingUsage": "Failed to load billing usage",
+    "failedToCreateCheckoutSession": "Failed to create checkout session",
+    "failedToCancelSubscription": "Failed to cancel subscription",
+    "failedToGenerateInvoice": "Failed to generate invoice",
+    "failedToCreateWebhook": "Failed to create webhook",
+    "failedToLoadWebhooks": "Failed to load webhooks",
+    "failedToUpdateWebhook": "Failed to update webhook",
+    "failedToDeleteWebhook": "Failed to delete webhook",
+    "failedToLoadSendSchedules": "Failed to load send schedules",
+    "failedToCreateSendSchedule": "Failed to create send schedule",
+    "failedToUpdateSendSchedule": "Failed to update send schedule",
+    "failedToDeleteSendSchedule": "Failed to delete send schedule",
+    "failedToCreatePhoneApiKey": "Failed to create phone API key",
+    "failedToLoadPhoneApiKeys": "Failed to load phone API keys",
+    "failedToDeletePhoneApiKey": "Failed to delete phone API key"
+  },
+  "messagesStore": {
+    "errorWhileSendingMessage": "Error while sending message",
+    "errorDeletingMessage": "Error deleting message",
+    "errorSearchingMessages": "Error searching messages",
+    "errorSendingBulkMessages": "Error sending bulk messages",
+    "errorLoadingBulkMessageOrders": "Error loading bulk message orders",
+    "theMessageHasBeenDeletedSuccessfully": "The message has been deleted successfully"
+  },
+  "phonesStore": {
+    "errorLoadingPhones": "Error loading phones",
+    "errorDeletingPhone": "Error deleting phone",
+    "errorWhileUpdatingPhone": "Error while updating phone",
+    "errorLoadingHeartbeat": "Error loading heartbeat"
   }
 }

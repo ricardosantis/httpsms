@@ -9,6 +9,14 @@ export const usePhonesStore = defineStore('phones', () => {
   const { apiFetch } = useApi()
   const notificationsStore = useNotificationsStore()
 
+  function t(key: string, fallback: string): string {
+    try {
+      return useNuxtApp().$i18n.t(key)
+    } catch {
+      return fallback
+    }
+  }
+
   const activePhone = computed<EntitiesPhone | null>(() => {
     return phones.value.find((x) => x.phone_number === owner.value) ?? null
   })
@@ -41,7 +49,10 @@ export const usePhonesStore = defineStore('phones', () => {
       }
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error loading phones'),
+        message: getApiErrorMessage(
+          error,
+          t('phonesStore.errorLoadingPhones', 'Error loading phones'),
+        ),
         type: 'error',
       })
       throw error
@@ -54,7 +65,10 @@ export const usePhonesStore = defineStore('phones', () => {
       await loadPhones(true)
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error deleting phone'),
+        message: getApiErrorMessage(
+          error,
+          t('phonesStore.errorDeletingPhone', 'Error deleting phone'),
+        ),
         type: 'error',
       })
       throw error
@@ -86,7 +100,13 @@ export const usePhonesStore = defineStore('phones', () => {
       await loadPhones(true)
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error while updating phone'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'phonesStore.errorWhileUpdatingPhone',
+            'Error while updating phone',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -110,7 +130,10 @@ export const usePhonesStore = defineStore('phones', () => {
     } catch (error: unknown) {
       heartbeat.value = null
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error loading heartbeat'),
+        message: getApiErrorMessage(
+          error,
+          t('phonesStore.errorLoadingHeartbeat', 'Error loading heartbeat'),
+        ),
         type: 'error',
       })
       throw error

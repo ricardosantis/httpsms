@@ -23,6 +23,14 @@ export const useBillingStore = defineStore('billing', () => {
   const { apiFetch } = useApi()
   const notificationsStore = useNotificationsStore()
 
+  function t(key: string, fallback: string): string {
+    try {
+      return useNuxtApp().$i18n.t(key)
+    } catch {
+      return fallback
+    }
+  }
+
   async function loadBillingUsage() {
     try {
       const response = await apiFetch<{ data: EntitiesBillingUsage }>(
@@ -31,7 +39,13 @@ export const useBillingStore = defineStore('billing', () => {
       billingUsage.value = response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to load billing usage'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToLoadBillingUsage',
+            'Failed to load billing usage',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -93,7 +107,13 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data.url
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to create checkout session'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToCreateCheckoutSession',
+            'Failed to create checkout session',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -111,7 +131,13 @@ export const useBillingStore = defineStore('billing', () => {
       return response.message
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to cancel subscription'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToCancelSubscription',
+            'Failed to cancel subscription',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -165,7 +191,13 @@ export const useBillingStore = defineStore('billing', () => {
       window.URL.revokeObjectURL(url)
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to generate invoice'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToGenerateInvoice',
+            'Failed to generate invoice',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -187,7 +219,10 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to create webhook'),
+        message: getApiErrorMessage(
+          error,
+          t('billingStore.failedToCreateWebhook', 'Failed to create webhook'),
+        ),
         type: 'error',
       })
       throw error
@@ -205,7 +240,10 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to load webhooks'),
+        message: getApiErrorMessage(
+          error,
+          t('billingStore.failedToLoadWebhooks', 'Failed to load webhooks'),
+        ),
         type: 'error',
       })
       throw error
@@ -226,7 +264,10 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to update webhook'),
+        message: getApiErrorMessage(
+          error,
+          t('billingStore.failedToUpdateWebhook', 'Failed to update webhook'),
+        ),
         type: 'error',
       })
       throw error
@@ -238,7 +279,10 @@ export const useBillingStore = defineStore('billing', () => {
       await apiFetch(`/v1/webhooks/${id}`, { method: 'DELETE' })
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to delete webhook'),
+        message: getApiErrorMessage(
+          error,
+          t('billingStore.failedToDeleteWebhook', 'Failed to delete webhook'),
+        ),
         type: 'error',
       })
       throw error
@@ -339,7 +383,13 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to load send schedules'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToLoadSendSchedules',
+            'Failed to load send schedules',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -360,7 +410,13 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to create send schedule'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToCreateSendSchedule',
+            'Failed to create send schedule',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -381,7 +437,13 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to update send schedule'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToUpdateSendSchedule',
+            'Failed to update send schedule',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -393,7 +455,13 @@ export const useBillingStore = defineStore('billing', () => {
       await apiFetch(`/v1/send-schedules/${id}`, { method: 'DELETE' })
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to delete send schedule'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToDeleteSendSchedule',
+            'Failed to delete send schedule',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -417,7 +485,13 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to create phone API key'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToCreatePhoneApiKey',
+            'Failed to create phone API key',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -435,7 +509,13 @@ export const useBillingStore = defineStore('billing', () => {
       return response.data
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to load phone API keys'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToLoadPhoneApiKeys',
+            'Failed to load phone API keys',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -454,7 +534,13 @@ export const useBillingStore = defineStore('billing', () => {
       })
     } catch (error) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Failed to delete phone API key'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'billingStore.failedToDeletePhoneApiKey',
+            'Failed to delete phone API key',
+          ),
+        ),
         type: 'error',
       })
       throw error

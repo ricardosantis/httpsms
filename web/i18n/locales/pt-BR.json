@@ -623,7 +623,10 @@
     },
     "pricing": {
       "title": "Planos e Preços",
-      "frequency": { "year": "ano", "month": "mês" },
+      "frequency": {
+        "year": "ano",
+        "month": "mês"
+      },
       "subtitle": "A maioria dos recursos do httpSMS é completamente gratuita, mas se você precisa de maior volume, pode assinar o Pro.",
       "monthly": "Mensal",
       "yearly": "Anual",
@@ -1083,5 +1086,41 @@
       "title": "7. Canal de Contato do Encarregado de Dados (DPO)",
       "p1": "Para exercer qualquer um dos seus direitos ou esclarecer dúvidas sobre esta Política de Privacidade, entre em contato com nosso Encarregado de Proteção de Dados através do nosso e-mail de suporte."
     }
+  },
+  "authStore": {
+    "errorLoadingUserProfile": "Erro ao carregar perfil do usuário",
+    "errorDeletingAccount": "Erro ao excluir conta",
+    "errorRotatingApiKey": "Erro ao rotacionar a chave da API"
+  },
+  "billingStore": {
+    "failedToLoadBillingUsage": "Falha ao carregar uso de faturamento",
+    "failedToCreateCheckoutSession": "Falha ao criar sessão de checkout",
+    "failedToCancelSubscription": "Falha ao cancelar assinatura",
+    "failedToGenerateInvoice": "Falha ao gerar fatura",
+    "failedToCreateWebhook": "Falha ao criar webhook",
+    "failedToLoadWebhooks": "Falha ao carregar webhooks",
+    "failedToUpdateWebhook": "Falha ao atualizar webhook",
+    "failedToDeleteWebhook": "Falha ao excluir webhook",
+    "failedToLoadSendSchedules": "Falha ao carregar agendamentos de envio",
+    "failedToCreateSendSchedule": "Falha ao criar agendamento de envio",
+    "failedToUpdateSendSchedule": "Falha ao atualizar agendamento de envio",
+    "failedToDeleteSendSchedule": "Falha ao excluir agendamento de envio",
+    "failedToCreatePhoneApiKey": "Falha ao criar chave de API do telefone",
+    "failedToLoadPhoneApiKeys": "Falha ao carregar chaves de API do telefone",
+    "failedToDeletePhoneApiKey": "Falha ao excluir chave de API do telefone"
+  },
+  "messagesStore": {
+    "errorWhileSendingMessage": "Erro ao enviar mensagem",
+    "errorDeletingMessage": "Erro ao excluir mensagem",
+    "errorSearchingMessages": "Erro ao pesquisar mensagens",
+    "errorSendingBulkMessages": "Erro ao enviar mensagens em massa",
+    "errorLoadingBulkMessageOrders": "Erro ao carregar pedidos de mensagens em massa",
+    "theMessageHasBeenDeletedSuccessfully": "A mensagem foi excluída com sucesso"
+  },
+  "phonesStore": {
+    "errorLoadingPhones": "Erro ao carregar telefones",
+    "errorDeletingPhone": "Erro ao excluir telefone",
+    "errorWhileUpdatingPhone": "Erro ao atualizar telefone",
+    "errorLoadingHeartbeat": "Erro ao carregar status (heartbeat)"
   }
 }

@@ -17,6 +17,14 @@ export const useMessagesStore = defineStore('messages', () => {
   const { apiFetch } = useApi()
   const notificationsStore = useNotificationsStore()
 
+  function t(key: string, fallback: string): string {
+    try {
+      return useNuxtApp().$i18n.t(key)
+    } catch {
+      return fallback
+    }
+  }
+
   async function sendMessage(request: SendMessageRequest) {
     try {
       const response = await apiFetch<{ message: string }>(
@@ -34,7 +42,13 @@ export const useMessagesStore = defineStore('messages', () => {
       await threadsStore.loadThreads()
     } catch (e: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(e, 'Error while sending message'),
+        message: getApiErrorMessage(
+          e,
+          t(
+            'messagesStore.errorWhileSendingMessage',
+            'Error while sending message',
+          ),
+        ),
         type: 'error',
       })
       throw e
@@ -45,12 +59,18 @@ export const useMessagesStore = defineStore('messages', () => {
     try {
       await apiFetch(`/v1/messages/${messageId}`, { method: 'DELETE' })
       notificationsStore.addNotification({
-        message: 'The message has been deleted successfully',
+        message: t(
+          'messagesStore.theMessageHasBeenDeletedSuccessfully',
+          'The message has been deleted successfully',
+        ),
         type: 'success',
       })
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error deleting message'),
+        message: getApiErrorMessage(
+          error,
+          t('messagesStore.errorDeletingMessage', 'Error deleting message'),
+        ),
         type: 'error',
       })
       throw error
@@ -75,7 +95,10 @@ export const useMessagesStore = defineStore('messages', () => {
       return response.data
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error searching messages'),
+        message: getApiErrorMessage(
+          error,
+          t('messagesStore.errorSearchingMessages', 'Error searching messages'),
+        ),
         type: 'error',
       })
       throw error
@@ -99,7 +122,13 @@ export const useMessagesStore = defineStore('messages', () => {
       })
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error sending bulk messages'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'messagesStore.errorSendingBulkMessages',
+            'Error sending bulk messages',
+          ),
+        ),
         type: 'error',
       })
       throw error
@@ -114,7 +143,13 @@ export const useMessagesStore = defineStore('messages', () => {
       return response.data ?? []
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error loading bulk message orders'),
+        message: getApiErrorMessage(
+          error,
+          t(
+            'messagesStore.errorLoadingBulkMessageOrders',
+            'Error loading bulk message orders',
+          ),
+        ),
         type: 'error',
       })
       throw error

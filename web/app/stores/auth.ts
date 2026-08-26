@@ -17,6 +17,14 @@ export const useAuthStore = defineStore('auth', () => {
   const { apiFetch } = useApi()
   const notificationsStore = useNotificationsStore()
 
+  function t(key: string, fallback: string): string {
+    try {
+      return useNuxtApp().$i18n.t(key)
+    } catch {
+      return fallback
+    }
+  }
+
   async function setAuthUserAction(newUser: AuthUser | null | undefined) {
     const userChanged = newUser?.id !== authUser.value?.id
     authUser.value = newUser ?? null
@@ -85,7 +93,10 @@ export const useAuthStore = defineStore('auth', () => {
       }
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error loading user profile'),
+        message: getApiErrorMessage(
+          error,
+          t('authStore.errorLoadingUserProfile', 'Error loading user profile'),
+        ),
         type: 'error',
       })
       throw error
@@ -145,7 +156,10 @@ export const useAuthStore = defineStore('auth', () => {
       return 'Your account has been deleted successfully'
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error deleting account'),
+        message: getApiErrorMessage(
+          error,
+          t('authStore.errorDeletingAccount', 'Error deleting account'),
+        ),
         type: 'error',
       })
       throw error
@@ -165,7 +179,10 @@ export const useAuthStore = defineStore('auth', () => {
       return response.data
     } catch (error: unknown) {
       notificationsStore.addNotification({
-        message: getApiErrorMessage(error, 'Error rotating API key'),
+        message: getApiErrorMessage(
+          error,
+          t('authStore.errorRotatingApiKey', 'Error rotating API key'),
+        ),
         type: 'error',
       })
       throw error
