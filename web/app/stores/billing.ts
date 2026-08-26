@@ -120,6 +120,28 @@ export const useBillingStore = defineStore('billing', () => {
     }
   }
 
+  async function createMercadopagoCheckoutSession(
+    planId: string = 'pro-monthly',
+    priceId?: string,
+  ): Promise<string> {
+    try {
+      const response = await apiFetch<{ data: { url: string } }>(
+        '/v1/mercadopago/checkout-session',
+        {
+          method: 'POST',
+          body: { plan_id: planId, price_id: priceId },
+        },
+      )
+      return response.data.url
+    } catch (error) {
+      notificationsStore.addNotification({
+        message: getApiErrorMessage(error, 'Failed to create checkout session'),
+        type: 'error',
+      })
+      throw error
+    }
+  }
+
   async function cancelSubscription(): Promise<string> {
     try {
       const response = await apiFetch<{ message: string }>(
