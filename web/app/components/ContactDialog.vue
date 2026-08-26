@@ -44,6 +44,8 @@ const props = withDefaults(
   },
 )
 
+const { t } = useI18n()
+
 const emit = defineEmits<{
   saved: []
   'update:modelValue': [value: boolean]
@@ -55,7 +57,9 @@ const form = ref<ContactForm>(emptyForm())
 const formErrors = ref(new ErrorMessages())
 
 const dialogTitle = computed(() =>
-  props.contact ? 'Edit Contact' : 'Add Contact',
+  props.contact
+    ? t('contacts.dialog.editTitle')
+    : t('contacts.dialog.addTitle'),
 )
 
 function phoneNumberRow(value = ''): PhoneNumberRow {
@@ -267,7 +271,9 @@ watch(
         />
 
         <div class="d-flex align-center mt-2 mb-1">
-          <span class="text-subtitle-2">Phone Numbers</span>
+          <span class="text-subtitle-2">{{
+            $t('contacts.dialog.phoneNumbers')
+          }}</span>
           <VSpacer />
           <VBtn
             variant="text"
@@ -314,7 +320,9 @@ watch(
         </div>
 
         <div class="d-flex align-center mt-2 mb-1">
-          <span class="text-subtitle-2">Email Addresses</span>
+          <span class="text-subtitle-2">{{
+            $t('contacts.dialog.emailAddresses')
+          }}</span>
           <VSpacer />
           <VBtn
             variant="text"
@@ -353,7 +361,9 @@ watch(
         </div>
 
         <div class="d-flex align-center mt-2 mb-1">
-          <span class="text-subtitle-2">Properties</span>
+          <span class="text-subtitle-2">{{
+            $t('contacts.dialog.properties')
+          }}</span>
           <VSpacer />
           <VBtn
             variant="text"
@@ -404,7 +414,9 @@ watch(
           Save Contact
         </VBtn>
         <VSpacer />
-        <VBtn color="warning" variant="text" @click="closeDialog">Close</VBtn>
+        <VBtn color="warning" variant="text" @click="closeDialog">{{
+          $t('contacts.dialog.close')
+        }}</VBtn>
       </VCardActions>
     </VCard>
   </VDialog>

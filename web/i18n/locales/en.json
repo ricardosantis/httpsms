@@ -12,7 +12,8 @@
     "archivedThreads": "Archived Threads",
     "activeThreads": "Active Threads",
     "downloadAndroidApp": "Download Android App",
-    "phoneNumbers": "Phone Numbers"
+    "phoneNumbers": "Phone Numbers",
+    "contacts": "Contacts"
   },
   "auth": {
     "loginTitle": "Login to your account",
@@ -1123,5 +1124,52 @@
     "errorDeletingPhone": "Error deleting phone",
     "errorWhileUpdatingPhone": "Error while updating phone",
     "errorLoadingHeartbeat": "Error loading heartbeat"
+  },
+  "contacts": {
+    "title": "Contacts",
+    "headers": {
+      "name": "Name",
+      "phoneNumbers": "Phone Numbers",
+      "emails": "Emails",
+      "created": "Created",
+      "updated": "Updated",
+      "actions": "Actions"
+    },
+    "search": "Search Contacts",
+    "searchPlaceholder": "Search by name, phone or email...",
+    "import": "Import Contacts",
+    "add": "Add Contact",
+    "emptyState": {
+      "noSearchResults": "No contacts match your search",
+      "noSearchResultsHint": "Try a different name, phone number or email.",
+      "title": "No contacts yet",
+      "subtitle": "Add your first contact or import them from a CSV file."
+    },
+    "delete": {
+      "title": "Delete Contact",
+      "confirm": "Are you sure you want to delete",
+      "cannotBeUndone": "? This action cannot be undone.",
+      "action": "Delete Contact",
+      "cancel": "Close"
+    },
+    "importCsv": {
+      "title": "Import Contacts from CSV",
+      "instructions1": "Download the ",
+      "templateLink": "CSV template",
+      "instructions2": ", fill it in and upload it here. Separate multiple emails or phone numbers within a cell using a semicolon (",
+      "instructions3": ").",
+      "label": "CSV file",
+      "upload": "Import",
+      "errorTitle": "We couldn't import your file:"
+    },
+    "dialog": {
+      "addTitle": "Add Contact",
+      "editTitle": "Edit Contact",
+      "phoneNumbers": "Phone Numbers",
+      "emailAddresses": "Email Addresses",
+      "properties": "Properties",
+      "save": "Save",
+      "close": "Close"
+    }
   }
 }

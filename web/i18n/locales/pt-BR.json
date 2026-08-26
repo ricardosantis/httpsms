@@ -12,7 +12,8 @@
     "archivedThreads": "Conversas Arquivadas",
     "activeThreads": "Conversas Ativas",
     "downloadAndroidApp": "Baixar App Android",
-    "phoneNumbers": "Números de Telefone"
+    "phoneNumbers": "Números de Telefone",
+    "contacts": "Contatos"
   },
   "auth": {
     "loginTitle": "Entrar na sua Conta",
@@ -1123,5 +1124,52 @@
     "errorDeletingPhone": "Erro ao excluir telefone",
     "errorWhileUpdatingPhone": "Erro ao atualizar telefone",
     "errorLoadingHeartbeat": "Erro ao carregar status (heartbeat)"
+  },
+  "contacts": {
+    "title": "Contatos",
+    "headers": {
+      "name": "Nome",
+      "phoneNumbers": "Números de Telefone",
+      "emails": "E-mails",
+      "created": "Criado",
+      "updated": "Atualizado",
+      "actions": "Ações"
+    },
+    "search": "Buscar Contatos",
+    "searchPlaceholder": "Busque por nome, telefone ou e-mail...",
+    "import": "Importar Contatos",
+    "add": "Adicionar Contato",
+    "emptyState": {
+      "noSearchResults": "Nenhum contato corresponde à sua busca",
+      "noSearchResultsHint": "Tente um nome, número ou e-mail diferente.",
+      "title": "Nenhum contato ainda",
+      "subtitle": "Adicione seu primeiro contato ou importe através de um arquivo CSV."
+    },
+    "delete": {
+      "title": "Excluir Contato",
+      "confirm": "Tem certeza que deseja excluir",
+      "cannotBeUndone": "? Esta ação não pode ser desfeita.",
+      "action": "Excluir Contato",
+      "cancel": "Fechar"
+    },
+    "importCsv": {
+      "title": "Importar Contatos do CSV",
+      "instructions1": "Baixe o ",
+      "templateLink": "modelo CSV",
+      "instructions2": ", preencha e envie aqui. Separe múltiplos e-mails ou números na mesma célula usando ponto e vírgula (",
+      "instructions3": ").",
+      "label": "Arquivo CSV",
+      "upload": "Importar",
+      "errorTitle": "Não conseguimos importar seu arquivo:"
+    },
+    "dialog": {
+      "addTitle": "Adicionar Contato",
+      "editTitle": "Editar Contato",
+      "phoneNumbers": "Números de Telefone",
+      "emailAddresses": "Endereços de E-mail",
+      "properties": "Propriedades",
+      "save": "Salvar",
+      "close": "Fechar"
+    }
   }
 }
