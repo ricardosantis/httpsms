@@ -73,9 +73,14 @@ Key prod env vars for the Cloud Run service (all on the service, secrets via Sec
 
 Async event processing (Cloud Tasks → `POST /v1/events`) requires a row in `users` whose `id` == `EVENTS_QUEUE_USER_ID` and `api_key` == `EVENTS_QUEUE_USER_API_KEY`. The events handler 403s unless `userIDFromContext(c) == EVENTS_QUEUE_USER_ID`. Upstream has **no auto-seed** — insert manually after first deploy (GORM migrations create the tables). Note the `users` column is `notification_webhook_enabled` (not `webhook_enabled`). **Never commit the system-user id/api key here** — both live in Secret Manager (`EVENTS_QUEUE_USER_ID`, `EVENTS_QUEUE_USER_API_KEY`; key rotated 2026-08-24 after accidental disclosure) and locally in the git-ignored `.env.prod-secrets`. Local psql admin access requires temporarily re-enabling the public IP + authorized network, or a compute VM inside the VPC.
 
+### Environment variables rule (MANDATORY)
+
+- **NEVER put real credentials, tokens, or secrets inside `.env.docker`**. This file is tracked by git and versioned in the repository. Use it only as a template with empty or dummy values.
+- **ALWAYS use the local `.env` file** (which is explicitly git-ignored) for storing actual tokens (like `MERCADOPAGO_ACCESS_TOKEN`, `STRIPE_SECRET_KEY`, etc.) during local development.
+
 ### Local-only fixes in this fork (diff vs upstream)
 
-- **Stripe integration**: Replaced Lemon Squeezy with Stripe for payment processing (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`). Webhook endpoint is `POST /v1/stripe/webhook` supporting Pix and credit cards.
+- **Payment integrations**: Replaced Lemon Squeezy with Stripe, and subsequently implemented **Mercado Pago** (`MERCADOPAGO_ACCESS_TOKEN`, `MERCADOPAGO_WEBHOOK_SECRET`). Both Stripe and Mercado Pago code exist side-by-side in `api/pkg/services/` and `api/pkg/handlers/`. The current active UI (Nuxt) defaults to Mercado Pago for checkout sessions. Webhooks endpoint: `POST /v1/mercadopago/webhook`. (The MP Access token is stored in the local `.env` and `.env.docker` files).
 
 - **Axiom removed**: `api/pkg/di/container.go` — `logDriver()` falls back to console logger when `AXIOM_TOKEN` is empty; `InitializeTraceProvider()` falls back to Google trace when `AXIOM_TOKEN` is empty. Run prod with `ENV=production` and no Axiom vars.
 - **Turnstile optional**: `turnstile_token_validator.go` (`if v.secretKey == "" { return true }`) and `message_handler_validator.go` (only requires `token` when the secret key is configured). `CLOUDFLARE_TURNSTILE_SECRET_KEY`/`SITE_KEY` are absent in prod.

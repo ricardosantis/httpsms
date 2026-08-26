@@ -606,6 +606,7 @@ export const useBillingStore = defineStore('billing', () => {
     loadBillingUsageHistory,
     getSubscriptionUpdateLink,
     createStripeCheckoutSession,
+    createMercadopagoCheckoutSession,
     cancelSubscription,
     indexSubscriptionPayments,
     generateSubscriptionPaymentInvoice,

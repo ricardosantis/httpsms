@@ -217,7 +217,7 @@ const loadingCheckout = ref(false)
 async function handleUpgrade(planId: string) {
   loadingCheckout.value = true
   try {
-    const url = await billingStore.createStripeCheckoutSession(planId)
+    const url = await billingStore.createMercadopagoCheckoutSession(planId)
     if (url) {
       window.location.href = url
       return

@@ -335,15 +335,27 @@ func (service *StripeService) mapPlanToSubscriptionName(plan string) entities.Su
 		return entities.SubscriptionNameUltraMonthly
 	}
 	if strings.Contains(planLower, "20k") {
+		if strings.Contains(planLower, "yearly") {
+			return entities.SubscriptionName20KYearly
+		}
 		return entities.SubscriptionName20KMonthly
 	}
 	if strings.Contains(planLower, "50k") {
+		if strings.Contains(planLower, "yearly") {
+			return entities.SubscriptionName50KYearly
+		}
 		return entities.SubscriptionName50KMonthly
 	}
 	if strings.Contains(planLower, "100k") {
+		if strings.Contains(planLower, "yearly") {
+			return entities.SubscriptionName100KYearly
+		}
 		return entities.SubscriptionName100KMonthly
 	}
 	if strings.Contains(planLower, "200k") {
+		if strings.Contains(planLower, "yearly") {
+			return entities.SubscriptionName200KYearly
+		}
 		return entities.SubscriptionName200KMonthly
 	}
 	return entities.SubscriptionNameFree

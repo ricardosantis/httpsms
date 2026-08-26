@@ -25,13 +25,13 @@ func (subscription SubscriptionName) Limit() uint {
 	case SubscriptionNameUltraMonthly, SubscriptionNameUltraYearly:
 		return 10_000
 	case SubscriptionName20KMonthly, SubscriptionName20KYearly:
-		return 20_000
-	case SubscriptionName50KMonthly:
-		return 50_000
-	case SubscriptionName100KMonthly:
-		return 100_000
-	case SubscriptionName200KMonthly:
-		return 200_000
+		return 20000
+	case SubscriptionName50KMonthly, SubscriptionName50KYearly:
+		return 50000
+	case SubscriptionName100KMonthly, SubscriptionName100KYearly:
+		return 100000
+	case SubscriptionName200KMonthly, SubscriptionName200KYearly:
+		return 200000
 	default:
 		return 200
 	}
@@ -64,8 +64,6 @@ const SubscriptionName100KMonthly = SubscriptionName("100k-monthly")
 // SubscriptionName50KMonthly represents a monthly 50k subscription
 const SubscriptionName50KMonthly = SubscriptionName("50k-monthly")
 
-// SubscriptionName200KMonthly represents a monthly 200k subscription
-const SubscriptionName200KMonthly = SubscriptionName("200k-monthly")
 
 // SubscriptionName20KYearly represents a yearly 20k subscription
 const SubscriptionName20KYearly = SubscriptionName("20k-yearly")
@@ -138,3 +136,17 @@ func (user User) GetBillingAnchorDay() int {
 	}
 	return user.CreatedAt.Day()
 }
+
+
+// SubscriptionName50KYearly represents a yearly 50k subscription
+const SubscriptionName50KYearly = SubscriptionName("50k-yearly")
+
+// SubscriptionName100KYearly represents a yearly 100k subscription
+const SubscriptionName100KYearly = SubscriptionName("100k-yearly")
+
+// SubscriptionName200KYearly represents a yearly 200k subscription
+const SubscriptionName200KYearly = SubscriptionName("200k-yearly")
+
+
+// SubscriptionName200KMonthly represents a monthly 200k subscription
+const SubscriptionName200KMonthly = SubscriptionName("200k-monthly")

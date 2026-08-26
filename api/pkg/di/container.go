@@ -148,6 +148,7 @@ func NewContainer(projectID string, version string) (container *Container) {
 
 	container.RegisterLemonsqueezyRoutes()
 	container.RegisterStripeRoutes()
+	container.RegisterMercadopagoRoutes()
 
 	container.RegisterIntegration3CXRoutes()
 	container.RegisterIntegration3CXListeners()
@@ -1233,9 +1234,18 @@ func (container *Container) LemonsqueezyService() (service *services.Lemonsqueez
 	)
 }
 
+// MercadopagoService creates a new instance of services.MercadopagoService
+func (container *Container) MercadopagoService() (service *services.MercadopagoService) {
+	return services.NewMercadopagoService(
+		container.Logger(),
+		container.Tracer(),
+		container.UserRepository(),
+		container.EventDispatcher(),
+	)
+}
+
 // StripeService creates a new instance of services.StripeService
 func (container *Container) StripeService() (service *services.StripeService) {
-	container.logger.Debug(fmt.Sprintf("creating %T", service))
 	return services.NewStripeService(
 		container.Logger(),
 		container.Tracer(),
@@ -1244,10 +1254,19 @@ func (container *Container) StripeService() (service *services.StripeService) {
 	)
 }
 
+// MercadopagoHandler creates a new instance of handlers.MercadopagoHandler
+func (container *Container) MercadopagoHandler() (handler *handlers.MercadopagoHandler) {
+	return handlers.NewMercadopagoHandler(
+		container.Logger(),
+		container.Tracer(),
+		container.MercadopagoService(),
+		container.MercadopagoHandlerValidator(),
+	)
+}
+
 // LemonsqueezyHandler creates a new instance of handlers.LemonsqueezyHandler
 func (container *Container) LemonsqueezyHandler() (handler *handlers.LemonsqueezyHandler) {
 	container.logger.Debug(fmt.Sprintf("creating %T", handler))
-
 	return handlers.NewLemonsqueezyHandler(
 		container.Logger(),
 		container.Tracer(),
@@ -1258,8 +1277,6 @@ func (container *Container) LemonsqueezyHandler() (handler *handlers.Lemonsqueez
 
 // StripeHandler creates a new instance of handlers.StripeHandler
 func (container *Container) StripeHandler() (handler *handlers.StripeHandler) {
-	container.logger.Debug(fmt.Sprintf("creating %T", handler))
-
 	return handlers.NewStripeHandler(
 		container.Logger(),
 		container.Tracer(),
@@ -1319,9 +1336,16 @@ func (container *Container) LemonsqueezyHandlerValidator() (validator *validator
 	)
 }
 
+// MercadopagoHandlerValidator creates a new instance of validators.MercadopagoHandlerValidator
+func (container *Container) MercadopagoHandlerValidator() (validator *validators.MercadopagoHandlerValidator) {
+	return validators.NewMercadopagoHandlerValidator(
+		container.Logger(),
+		container.Tracer(),
+	)
+}
+
 // StripeHandlerValidator creates a new instance of validators.StripeHandlerValidator
 func (container *Container) StripeHandlerValidator() (validator *validators.StripeHandlerValidator) {
-	container.logger.Debug(fmt.Sprintf("creating %T", validator))
 	return validators.NewStripeHandlerValidator(
 		container.Logger(),
 		container.Tracer(),
@@ -1383,6 +1407,12 @@ func (container *Container) PlunkClient() (client *plunk.Client) {
 func (container *Container) RegisterLemonsqueezyRoutes() {
 	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.LemonsqueezyHandler{}))
 	container.LemonsqueezyHandler().RegisterRoutes(container.App())
+}
+
+// RegisterMercadopagoRoutes registers routes for the /mercadopago prefix
+func (container *Container) RegisterMercadopagoRoutes() {
+	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.MercadopagoHandler{}))
+	container.MercadopagoHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
 }
 
 // RegisterStripeRoutes registers routes for the /stripe prefix
