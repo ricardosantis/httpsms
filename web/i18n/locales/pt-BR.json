@@ -1184,5 +1184,20 @@
     "description1": "Use o httpSMS como um CRM leve adicionando seus contatos aqui. Suas conversas mostrarão nomes de contatos em vez de números de telefone, tornando as mensagens mais fáceis de reconhecer e gerenciar. Adicione contatos individualmente ou preencha nosso ",
     "description2": " e faça o upload para importar sua lista de contatos em massa.",
     "loading": "Carregando contatos..."
+  },
+  "$vuetify": {
+    "dataFooter": {
+      "itemsPerPageText": "Itens por página:",
+      "itemsPerPageAll": "Todos",
+      "nextPage": "Próxima página",
+      "prevPage": "Página anterior",
+      "firstPage": "Primeira página",
+      "lastPage": "Última página",
+      "pageText": "{0}-{1} de {2}"
+    },
+    "dataIterator": {
+      "noResultsText": "Nenhum registro encontrado",
+      "loadingText": "Carregando itens..."
+    }
   }
 }

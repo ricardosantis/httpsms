@@ -596,7 +596,6 @@ onBeforeUnmount(() => {
               :items="messages"
               :items-length="totalMessages"
               :items-per-page-options="itemsPerPageOptions"
-              :items-per-page-text="$t('common.itemsPerPage')"
               :page-text="pageText"
               :loading="loading"
               show-select

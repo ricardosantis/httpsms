@@ -293,7 +293,6 @@ onBeforeUnmount(() => {
             :items-length="contactsStore.total"
             :loading="contactsStore.loading"
             :items-per-page-options="itemsPerPageOptions"
-            :items-per-page-text="$t('common.itemsPerPage')"
             item-value="id"
             hover
             :loading-text="$t('contacts.loading')"
