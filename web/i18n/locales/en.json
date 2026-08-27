@@ -137,7 +137,10 @@
     "charLimit": "Message must be less than 320 characters",
     "messageIdCopied": "Message ID copied to clipboard",
     "downloadingApp": "Downloading the httpSMS Android App",
-    "ago": "ago"
+    "ago": "ago",
+    "charging": "Charging",
+    "online": "Online",
+    "clickToViewHistory": "Click to view history"
   },
   "newMessage": {
     "title": "New Message",

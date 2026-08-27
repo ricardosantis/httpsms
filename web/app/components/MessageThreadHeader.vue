@@ -117,33 +117,42 @@ async function logout() {
         </p>
         <v-tooltip v-if="phonesStore.heartbeat" location="end">
           <template #activator="{ props: tooltipProps }">
-            <v-btn
+            <v-chip
               v-bind="tooltipProps"
               size="small"
-              density="compact"
               :to="{
                 name: 'heartbeats-id',
                 params: { id: phonesStore.owner },
               }"
-              color="success"
-              class="ml-2 mb-0 mt-1"
-              icon
-              variant="text"
+              :color="phonesStore.heartbeat.charging ? 'success' : 'success'"
+              :variant="phonesStore.heartbeat.charging ? 'flat' : 'outlined'"
+              class="ml-2 mb-0 mt-1 cursor-pointer font-weight-bold"
             >
               <v-icon
                 v-if="phonesStore.heartbeat.charging"
-                size="small"
-                class="mt-n1"
+                start
                 :icon="mdiBatteryChargingHigh"
               />
-              <v-icon v-else size="x-small" color="success" :icon="mdiCircle" />
-            </v-btn>
+              <v-icon v-else start :icon="mdiCircle" size="x-small" />
+              {{
+                phonesStore.heartbeat.charging
+                  ? $t('threads.charging')
+                  : $t('threads.online')
+              }}
+            </v-chip>
           </template>
-          <h4 class="font-weight-bold mt-0 mb-0">
-            {{ $t('threads.lastHeartbeat') }}
-          </h4>
-          {{ humanizeTime(phonesStore.heartbeat.timestamp) }}
-          {{ $t('threads.ago') }}
+          <div class="text-center">
+            <h4 class="font-weight-bold mt-0 mb-0">
+              {{ $t('threads.lastHeartbeat') }}
+            </h4>
+            <span class="d-block mb-1">
+              {{ humanizeTime(phonesStore.heartbeat.timestamp) }}
+              {{ $t('threads.ago') }}
+            </span>
+            <span class="text-caption font-italic text-grey-lighten-2">{{
+              $t('threads.clickToViewHistory')
+            }}</span>
+          </div>
         </v-tooltip>
       </div>
     </div>

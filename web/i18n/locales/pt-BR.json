@@ -137,7 +137,10 @@
     "charLimit": "A mensagem deve ter menos de 320 caracteres",
     "messageIdCopied": "ID da mensagem copiado para a área de transferência",
     "downloadingApp": "Baixando o aplicativo Android httpSMS",
-    "ago": "atrás"
+    "ago": "atrás",
+    "charging": "Carregando",
+    "online": "Online",
+    "clickToViewHistory": "Clique para ver o histórico"
   },
   "newMessage": {
     "title": "Nova Mensagem",
