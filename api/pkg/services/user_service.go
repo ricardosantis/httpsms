@@ -514,3 +514,26 @@ func (service *UserService) DeleteAuthUser(ctx context.Context, userID entities.
 	ctxLogger.Info(fmt.Sprintf("deleted [entities.AuthContext] from firebase for user with ID [%s]", userID))
 	return nil
 }
+
+// SendWelcomeEmail sends a welcome email to a newly created entities.User
+func (service *UserService) SendWelcomeEmail(ctx context.Context, payload *events.UserAccountCreatedPayload) error {
+	ctx, span, ctxLogger := service.tracer.StartWithLogger(ctx, service.logger)
+	defer span.End()
+
+	user, err := service.GetByID(ctx, payload.UserID)
+	if err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot load user [%s]", payload.UserID))
+	}
+
+	email, err := service.emailFactory.Welcome(user)
+	if err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot build welcome email for user [%s]", user.ID))
+	}
+
+	if err = service.mailer.Send(ctx, email); err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot send welcome email to [%s]", user.Email))
+	}
+
+	ctxLogger.Info(fmt.Sprintf("sent welcome email to [%s]", user.Email))
+	return nil
+}

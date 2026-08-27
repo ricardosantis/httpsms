@@ -217,3 +217,47 @@ func (factory *hermesUserEmailFactory) PhoneDead(user *entities.User, lastHeartb
 		Text:    text,
 	}, nil
 }
+
+// Welcome sends an email to a new user
+func (factory *hermesUserEmailFactory) Welcome(user *entities.User) (*Email, error) {
+	email := hermes.Email{
+		Body: hermes.Body{
+			Greeting: "Olá",
+			Intros: []string{
+				"Bem-vindo(a) ao httpSMS! Estamos muito felizes em ter você conosco.",
+				"O httpSMS transforma seu celular Android em um poderoso gateway de SMS, permitindo que você envie e receba mensagens pela nossa API.",
+			},
+			Actions: []hermes.Action{
+				{
+					Instructions: "Para começar a usar, baixe o aplicativo no seu Android e faça o login:",
+					Button: hermes.Button{
+						Color: "#22BC66",
+						Text:  "Acessar o Painel",
+						Link:  "https://smsandroid.com.br",
+					},
+				},
+			},
+			Outros: []string{
+				"Se precisar de ajuda com a configuração, sinta-se à vontade para nos responder neste e-mail ou acessar nossa documentação.",
+			},
+		},
+	}
+
+	html, err := factory.generator.GenerateHTML(email)
+	if err != nil {
+		return nil, stacktrace.Propagate(err, "cannot generate HTML for welcome email")
+	}
+
+	text, err := factory.generator.GeneratePlainText(email)
+	if err != nil {
+		return nil, stacktrace.Propagate(err, "cannot generate text for welcome email")
+	}
+
+	return &Email{
+		Subject: "Bem-vindo ao httpSMS 🎉",
+		ToName: "",
+		ToEmail: user.Email,
+		HTML:    html,
+		Text:    text,
+	}, nil
+}

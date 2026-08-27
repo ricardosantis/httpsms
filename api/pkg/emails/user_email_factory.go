@@ -17,6 +17,9 @@ type UserEmailFactory interface {
 	// UsageLimitAlert sends an email when a user is approaching the limit
 	UsageLimitAlert(user *entities.User, usage *entities.BillingUsage) (*Email, error)
 
+	// Welcome sends an email to a new user
+	Welcome(user *entities.User) (*Email, error)
+
 	// APIKeyRotated sends an email when the API key is rotated
 	APIKeyRotated(email string, timestamp time.Time, timezone string) (*Email, error)
 }

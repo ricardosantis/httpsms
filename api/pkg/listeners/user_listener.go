@@ -33,6 +33,7 @@ func NewUserListener(
 	}
 
 	return l, map[string]events.EventListener{
+		events.UserAccountCreated:             l.onUserAccountCreated,
 		events.EventTypePhoneHeartbeatOffline: l.onPhoneHeartbeatDead,
 		events.UserSubscriptionCreated:        l.OnUserSubscriptionCreated,
 		events.UserSubscriptionCancelled:      l.OnUserSubscriptionCancelled,
@@ -163,6 +164,22 @@ func (listener *UserListener) onUserAccountDeleted(ctx context.Context, event cl
 
 	if err := listener.service.DeleteAuthUser(ctx, payload.UserID); err != nil {
 		return listener.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot delete [entities.AuthUser] for user [%s] on [%s] event with ID [%s]", payload.UserID, event.Type(), event.ID()))
+	}
+
+	return nil
+}
+
+func (listener *UserListener) onUserAccountCreated(ctx context.Context, event cloudevents.Event) error {
+	ctx, span := listener.tracer.Start(ctx)
+	defer span.End()
+
+	var payload events.UserAccountCreatedPayload
+	if err := event.DataAs(&payload); err != nil {
+		return listener.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot decode [%s] into [%T]", event.Data(), payload))
+	}
+
+	if err := listener.service.SendWelcomeEmail(ctx, &payload); err != nil {
+		return listener.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot send welcome email for user [%s] on [%s] event with ID [%s]", payload.UserID, event.Type(), event.ID()))
 	}
 
 	return nil
