@@ -44,7 +44,7 @@ const props = withDefaults(
   },
 )
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const emit = defineEmits<{
   saved: []
@@ -63,9 +63,10 @@ const dialogTitle = computed(() =>
 )
 
 function phoneNumberRow(value = ''): PhoneNumberRow {
+  const defaultCountry = locale?.value === 'pt-BR' ? 'BR' : 'US'
   return {
     value,
-    country: parsePhoneNumberFromString(value)?.country ?? 'US',
+    country: parsePhoneNumberFromString(value)?.country ?? defaultCountry,
   }
 }
 
