@@ -38,7 +38,7 @@ Quick Start Guide 👉 [https://docs.httpsms.com](https://docs.httpsms.com)
   - [Sending an SMS Message](#sending-an-sms-message)
 - [Self Host Setup - Docker](#self-host-setup---docker)
   - [1. Setup Firebase](#1-setup-firebase)
-  - [2. Setup SMTP Email service](#2-setup-smtp-email-service)
+  - [2. Setup Unosend Email service](#2-setup-unosend-email-service)
   - [3. Setup Cloudflare Turnstile](#3-setup-cloudflare-turnstile)
   - [4. Download the code](#4-download-the-code)
   - [5. Setup the environment variables](#5-setup-the-environment-variables)
@@ -163,10 +163,10 @@ const firebaseConfig = {
 - Generate your firebase service account credentials by following the [steps here](https://firebase.google.com/docs/admin/setup#initialize_the_sdk_in_non-google_environments) and save the credentials in a file called `firebase-credentials.json` we will use this file to authenticate with the firebase admin SDK.
 - Generate your Android `google-services.json` file using [the instructions here](https://support.google.com/firebase/answer/7015592?hl=en#android&zippy=%2Cin-this-article) we will use it letter to configure the android app.
 
-### 2. Setup SMTP Email service
+### 2. Setup Unosend Email service
 
-The httpSMS application uses [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) to send emails to users e.g. when your Android phone has been offline for a long period of time.
-You can use a service like [mailtrap](https://mailtrap.io/) to create an SMTP server for development purposes.
+The httpSMS application uses [Unosend](https://unosend.co) to send emails to users e.g. when your Android phone has been offline for a long period of time.
+Create an account on Unosend, verify your sending domain, and generate an API key for development purposes.
 
 ### 3. Setup Cloudflare Turnstile
 
@@ -213,14 +213,14 @@ CLOUDFLARE_TURNSTILE_SITE_KEY=
 cp api/.env.docker api/.env
 ```
 
-- Update the environment variables in the `.env` file in the `api` directory with your firebase service account credentials, SMTP server details, and Cloudflare Turnstile secret key.
+- Update the environment variables in the `.env` file in the `api` directory with your firebase service account credentials, Unosend details, and Cloudflare Turnstile secret key.
 
 ```dotenv
-# SMTP email server settings
-SMTP_USERNAME=
-SMTP_PASSWORD=
-SMTP_HOST=
-SMTP_PORT=
+# Unosend email service settings
+UNOSEND_FROM_NAME=
+UNOSEND_FROM_EMAIL=
+UNOSEND_API_KEY=
+UNOSEND_BASE_URL=https://api.unosend.co
 
 # Firebase service account credentials
 FIREBASE_CREDENTIALS=

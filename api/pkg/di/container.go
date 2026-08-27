@@ -1127,15 +1127,14 @@ func (container *Container) UserService() (service *services.UserService) {
 // Mailer creates a new instance of emails.Mailer
 func (container *Container) Mailer() (mailer emails.Mailer) {
 	container.logger.Debug("creating emails.Mailer")
-	return emails.NewSMTPEmailService(
+	return emails.NewUnosendEmailService(
 		container.Tracer(),
-		emails.SMTPConfig{
-			FromName:  os.Getenv("SMTP_FROM_NAME"),
-			FromEmail: os.Getenv("SMTP_FROM_EMAIL"),
-			Username:  os.Getenv("SMTP_USERNAME"),
-			Password:  os.Getenv("SMTP_PASSWORD"),
-			Hostname:  os.Getenv("SMTP_HOST"),
-			Port:      os.Getenv("SMTP_PORT"),
+		container.HTTPClient("unosend"),
+		emails.UnosendConfig{
+			FromName:  os.Getenv("UNOSEND_FROM_NAME"),
+			FromEmail: os.Getenv("UNOSEND_FROM_EMAIL"),
+			APIKey:    os.Getenv("UNOSEND_API_KEY"),
+			BaseURL:   os.Getenv("UNOSEND_BASE_URL"),
 		},
 	)
 }
