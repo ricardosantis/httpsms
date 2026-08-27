@@ -12,7 +12,15 @@ import {
 } from '../utils/filters'
 import { capitalize } from '../utils/capitalize'
 
+import { ptBR, enUS } from 'date-fns/locale'
+
 export function useFilters() {
+  const { locale } = useI18n()
+
+  const getDateFnsLocale = () => {
+    return locale.value === 'pt-BR' ? ptBR : enUS
+  }
+
   return {
     formatPhoneNumber,
     phoneCountry,
@@ -20,9 +28,10 @@ export function useFilters() {
     formatMoney,
     formatDecimal,
     formatBillingPeriod,
-    humanizeTimeShort,
+    humanizeTimeShort: (date: string) =>
+      humanizeTimeShort(date, getDateFnsLocale()),
     formatBillingPeriodDateOrdinal,
-    humanizeTime,
+    humanizeTime: (value: string) => humanizeTime(value, getDateFnsLocale()),
     startsWithLetter,
     capitalize,
   }

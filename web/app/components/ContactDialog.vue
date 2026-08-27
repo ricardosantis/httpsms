@@ -259,11 +259,11 @@ watch(
 
         <VTextField
           v-model="form.name"
-          label="Name"
+          :label="$t('contacts.dialog.nameLabel')"
           variant="outlined"
           density="comfortable"
           persistent-placeholder
-          placeholder="e.g John Doe"
+          :placeholder="$t('contacts.dialog.namePlaceholder')"
           :prepend-inner-icon="mdiAccount"
           :error="formErrors.has('name')"
           :error-messages="formErrors.get('name')"
@@ -282,7 +282,7 @@ watch(
             :prepend-icon="mdiPlus"
             @click="addPhoneNumber"
           >
-            Add
+            {{ $t('contacts.dialog.addButton') }}
           </VBtn>
         </div>
         <div
@@ -294,9 +294,9 @@ watch(
             <v-phone-input
               v-model="phone.value"
               v-model:country="phone.country"
-              :label="`Phone number ${index + 1}`"
-              country-label="Country"
-              placeholder="Phone number e.g 18005550199"
+              :label="`${$t('contacts.dialog.phoneNumberLabel')} ${index + 1}`"
+              :country-label="$t('contacts.dialog.countryLabel')"
+              :placeholder="$t('contacts.dialog.phoneNumberPlaceholder')"
               variant="outlined"
               density="comfortable"
               color="primary"
@@ -331,7 +331,7 @@ watch(
             :prepend-icon="mdiPlus"
             @click="addEmail"
           >
-            Add
+            {{ $t('contacts.dialog.addButton') }}
           </VBtn>
         </div>
         <div
@@ -341,8 +341,8 @@ watch(
         >
           <VTextField
             v-model="form.emails[index]"
-            :label="`Email ${index + 1}`"
-            placeholder="e.g alice@example.com"
+            :label="`${$t('contacts.dialog.emailLabel')} ${index + 1}`"
+            :placeholder="$t('contacts.dialog.emailPlaceholder')"
             variant="outlined"
             autocomplete="email"
             type="email"
@@ -372,7 +372,7 @@ watch(
             :prepend-icon="mdiPlus"
             @click="addProperty"
           >
-            Add
+            {{ $t('contacts.dialog.addButton') }}
           </VBtn>
         </div>
         <div
@@ -382,13 +382,13 @@ watch(
         >
           <VTextField
             v-model="property.key"
-            label="Key"
+            :label="$t('contacts.dialog.propertyKeyLabel')"
             variant="outlined"
             density="comfortable"
           />
           <VTextField
             v-model="property.value"
-            label="Value"
+            :label="$t('contacts.dialog.propertyValueLabel')"
             variant="outlined"
             density="comfortable"
           />
@@ -411,7 +411,7 @@ watch(
           :prepend-icon="mdiContentSaveCheck"
           @click="submitForm"
         >
-          Save Contact
+          {{ $t('contacts.dialog.save') }}
         </VBtn>
         <VSpacer />
         <VBtn color="warning" variant="text" @click="closeDialog">{{

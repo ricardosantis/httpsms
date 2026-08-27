@@ -1168,8 +1168,21 @@
       "phoneNumbers": "Números de Telefone",
       "emailAddresses": "Endereços de E-mail",
       "properties": "Propriedades",
-      "save": "Salvar",
-      "close": "Fechar"
-    }
+      "save": "Salvar Contato",
+      "close": "Fechar",
+      "nameLabel": "Nome",
+      "namePlaceholder": "ex: João Silva",
+      "addButton": "Adicionar",
+      "phoneNumberLabel": "Número de telefone",
+      "phoneNumberPlaceholder": "Número de telefone ex: +5511999999999",
+      "countryLabel": "País",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "ex: alice{'@'}exemplo.com",
+      "propertyKeyLabel": "Chave",
+      "propertyValueLabel": "Valor"
+    },
+    "description1": "Use o httpSMS como um CRM leve adicionando seus contatos aqui. Suas conversas mostrarão nomes de contatos em vez de números de telefone, tornando as mensagens mais fáceis de reconhecer e gerenciar. Adicione contatos individualmente ou preencha nosso ",
+    "description2": " e faça o upload para importar sua lista de contatos em massa.",
+    "loading": "Carregando contatos..."
   }
 }

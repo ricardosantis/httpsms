@@ -245,7 +245,7 @@ onBeforeUnmount(() => {
                 :prepend-icon="mdiFileUpload"
                 @click="openImport"
               >
-                Import CSV
+                {{ $t('contacts.import') }}
               </VBtn>
               <VBtn
                 class="ml-4 mb-4"
@@ -254,28 +254,24 @@ onBeforeUnmount(() => {
                 :prepend-icon="mdiAccountPlus"
                 @click="openAdd"
               >
-                Add Contact
+                {{ $t('contacts.add') }}
               </VBtn>
             </div>
           </div>
           <p class="text-medium-emphasis mb-6">
-            Use httpSMS as a lightweight CRM by adding your contacts here. Your
-            message threads will show contact names instead of phone numbers,
-            making conversations easier to recognize and manage. Add contacts
-            individually, or fill in our
+            {{ $t('contacts.description1') }}
             <a
               class="text-decoration-none hover:text-decoration-underline"
               href="/templates/httpsms-contacts.csv"
               download
               >{{ $t('contacts.importCsv.templateLink') }}</a
-            >
-            and upload it to import your contact list in bulk.
+            >{{ $t('contacts.description2') }}
           </p>
 
           <VTextField
             v-model="searchTerm"
             :prepend-inner-icon="mdiMagnify"
-            label="Search by name, phone number or email"
+            :label="$t('contacts.searchPlaceholder')"
             variant="outlined"
             density="compact"
             autocomplete="search-query"
@@ -297,9 +293,10 @@ onBeforeUnmount(() => {
             :items-length="contactsStore.total"
             :loading="contactsStore.loading"
             :items-per-page-options="itemsPerPageOptions"
+            :items-per-page-text="$t('common.itemsPerPage')"
             item-value="id"
             hover
-            loading-text="Loading contacts…"
+            :loading-text="$t('contacts.loading')"
             @update:options="onUpdateOptions"
           >
             <template #[`item.name`]="{ item }">
@@ -471,7 +468,7 @@ onBeforeUnmount(() => {
       </VCard>
     </VDialog>
 
-    <!-- Import CSV dialog -->
+    <!-- {{ $t('contacts.import') }} dialog -->
     <VDialog v-model="importDialog" max-width="600" opacity="0.9">
       <VCard>
         <VCardTitle class="d-flex align-center">

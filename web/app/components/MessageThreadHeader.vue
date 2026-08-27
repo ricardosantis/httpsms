@@ -142,7 +142,8 @@ async function logout() {
           <h4 class="font-weight-bold mt-0 mb-0">
             {{ $t('threads.lastHeartbeat') }}
           </h4>
-          {{ humanizeTime(phonesStore.heartbeat.timestamp) }} ago
+          {{ humanizeTime(phonesStore.heartbeat.timestamp) }}
+          {{ $t('threads.ago') }}
         </v-tooltip>
       </div>
     </div>

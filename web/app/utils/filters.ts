@@ -1,12 +1,6 @@
-import {
-  intervalToDuration,
-  formatDuration,
-  differenceInSeconds,
-  differenceInMinutes,
-  differenceInDays,
-  differenceInHours,
-} from 'date-fns'
+import { intervalToDuration, formatDuration } from 'date-fns'
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js'
+import type { Locale } from 'date-fns'
 
 export function formatPhoneNumber(value: string): string {
   if (!value || typeof value !== 'string') {
@@ -142,7 +136,7 @@ export function formatBillingPeriodDateOrdinalParts(
   }
 }
 
-export function humanizeTime(value: string): string {
+export function humanizeTime(value: string, locale?: Locale): string {
   if (!value) return ''
   try {
     const start = new Date(value)
@@ -151,7 +145,7 @@ export function humanizeTime(value: string): string {
       start,
       end: new Date(),
     })
-    return formatDuration(durations)
+    return formatDuration(durations, { locale })
   } catch {
     return ''
   }
@@ -161,15 +155,10 @@ export function startsWithLetter(value: string): boolean {
   return /^[a-zA-Z]/.test(value)
 }
 
-export function humanizeTimeShort(date: string) {
-  const now = new Date()
-  const seconds = differenceInSeconds(now, new Date(date))
-  const minutes = differenceInMinutes(now, new Date(date))
-  const hours = differenceInHours(now, new Date(date))
-  const days = differenceInDays(now, new Date(date))
-
-  if (seconds < 60) return 'just now'
-  if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`
-  if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`
-  return `${days} day${days !== 1 ? 's' : ''} ago`
+export function humanizeTimeShort(date: string, locale?: Locale) {
+  try {
+    return formatDistanceToNow(new Date(date), { addSuffix: true, locale })
+  } catch {
+    return ''
+  }
 }

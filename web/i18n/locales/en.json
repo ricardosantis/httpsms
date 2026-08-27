@@ -521,7 +521,7 @@
     "privacyPolicy": "Privacy Policy",
     "contactSupport": "Contact Support",
     "madeWith": "Made With",
-    "inSaoPaulo": "in São Paulo, Brazil"
+    "inSaoPaulo": "in S\u00e3o Paulo, Brazil"
   },
   "featurePhoneApiKeys": {
     "title": "Phone API Keys",
@@ -550,7 +550,7 @@
   "landing": {
     "seo": {
       "title": "Convert your Android phone into an SMS gateway - httpSMS",
-      "description": "Turn your Android phone into an SMS gateway and send or receive text messages with a simple HTTP API. Get started free — no SMS provider or short code needed.",
+      "description": "Turn your Android phone into an SMS gateway and send or receive text messages with a simple HTTP API. Get started free \u2014 no SMS provider or short code needed.",
       "ogTitle": "Convert your Android phone into an SMS gateway",
       "ogDescription": "Send and receive SMS messages worldwide through your own Android phone using a simple HTTP API. No SMS provider, short code, or monthly minimum required."
     },
@@ -560,7 +560,7 @@
       "saveMoney": "Save money",
       "getStarted": "Get Started",
       "liveDemo": "Live Demo",
-      "trustedBy": "⚡ Trusted by {users} users who send/receive more than {messages} messages per month.",
+      "trustedBy": "\u26a1 Trusted by {users} users who send/receive more than {messages} messages per month.",
       "freeToUse": "Free to use",
       "openSource": "100% Open Source"
     },
@@ -598,7 +598,7 @@
         "description": "httpSMS is transparent and fully open source. The source code is available on GitHub. Feel free to fork it, verify it or submit a pull request."
       },
       "encryption": {
-        "title": "Encryption 🔐",
+        "title": "Encryption \ud83d\udd10",
         "description": "Take control of your privacy with our end-to-end encrypted SMS feature. Safeguard your messages from prying eyes, ensuring absolute confidentiality using the military grade",
         "algorithm": "AES-256 encryption",
         "btn": "Setup end-to-end encryption"
@@ -659,7 +659,7 @@
         "title": "{tier} Plan",
         "desc": "Send and receive up to {limit} SMS messages per {frequency} like a power user."
       },
-      "customContact": "Feel free to {contactLink} if you need a bigger plan, or if you want us to install the httpSMS API on your dedicated server. If you would still like to support us, please donate via {sponsorLink} 💖",
+      "customContact": "Feel free to {contactLink} if you need a bigger plan, or if you want us to install the httpSMS API on your dedicated server. If you would still like to support us, please donate via {sponsorLink} \ud83d\udc96",
       "contactUs": "contact us",
       "githubSponsors": "GitHub Sponsors"
     },
@@ -693,7 +693,7 @@
       "readTime": "{time}",
       "seo": {
         "title": "httpSMS Blog - SMS automation guides & tutorials",
-        "description": "Guides and tutorials for sending and receiving SMS with your Android phone — bulk messaging, webhooks, end-to-end encryption, Zapier, Excel, and Python.",
+        "description": "Guides and tutorials for sending and receiving SMS with your Android phone \u2014 bulk messaging, webhooks, end-to-end encryption, Zapier, Excel, and Python.",
         "ogTitle": "httpSMS Blog - SMS automation guides & tutorials",
         "ogDescription": "Learn how to send and receive SMS from your Android phone: bulk messaging, webhooks, encryption, Zapier, Excel, and Python tutorials."
       }
@@ -707,8 +707,8 @@
       "step2PhoneFormatAlert": "Make sure to enter your phone number in the international format e.g +18005550199 when authenticating with the httpSMS Android app.",
       "conclusion": "Conclusion",
       "contactPrompt": "Don't hesitate to contact us if you face any problems while following this guide.",
-      "untilNextTime": "Until the next time ✌️",
-      "downloadAndInstall": "⬇️ Download and install"
+      "untilNextTime": "Until the next time \u270c\ufe0f",
+      "downloadAndInstall": "\u2b07\ufe0f Download and install"
     },
     "articles": {
       "grantPermissions": {
@@ -724,7 +724,7 @@
         "step2Title": "Step 2: Allow Restricted Settings",
         "step2Desc": "On the App Info page, click on the menu button in the top-right corner and select the Allow restricted settings option.",
         "step3Title": "Step 3: Allow SMS Permissions",
-        "step3Desc": "Once you have allowed the restricted settings from step 2 above, navigate to Permissions ➡️ SMS and tap Allow to grant SMS permissions to the android app.",
+        "step3Desc": "Once you have allowed the restricted settings from step 2 above, navigate to Permissions \u27a1\ufe0f SMS and tap Allow to grant SMS permissions to the android app.",
         "conclusionDesc": "Congratulations, you have successfully configured SMS permissions on your Android app."
       },
       "e2eEncryption": {
@@ -783,7 +783,7 @@
         "title": "Send bulk SMS messages from a CSV file with no code",
         "description": "Send SMS messages to multiple recipients in your CSV file without writing a single piece of code using your Android phone as the SMS gateway.",
         "seoTitle": "Send bulk SMS messages from a CSV file with no code - httpSMS",
-        "seoDescription": "Upload a CSV file and send personalized bulk SMS messages in minutes using your Android phone as the SMS gateway — no code required.",
+        "seoDescription": "Upload a CSV file and send personalized bulk SMS messages in minutes using your Android phone as the SMS gateway \u2014 no code required.",
         "intro": "Send personalized SMS messages to your users in bulk using your Android phone. The good news is, you don't have to write a single piece of code, just upload your CSV file and we will take care of the rest.",
         "whatIsCsvTitle": "What is a CSV file?",
         "whatIsCsvDesc": "CSV is an abbreviation for comma-separated values. A CSV file allows data to be saved in a table structured format using a comma to separate the various cells of a table and a new line to separate rows. CSV files can be used with any spreadsheet program.",
@@ -816,7 +816,7 @@
         "title": "Send an SMS when a new row is added to Google Sheets using Zapier",
         "description": "Automate sending personalized SMS messages each time a new row is added to your Google Sheets document using Zapier without writing code.",
         "seoTitle": "Send an SMS message when a new row is added to Google Sheets using Zapier - httpSMS",
-        "seoDescription": "Automatically send a personalized SMS every time a new row is added to Google Sheets using Zapier and httpSMS — no code required.",
+        "seoDescription": "Automatically send a personalized SMS every time a new row is added to Google Sheets using Zapier and httpSMS \u2014 no code required.",
         "intro": "Automate sending personalized SMS messages each time a new row is added to your Google Sheets document using Zapier. You don't need to write any code to make this happen.",
         "prereqSheets": "Basic understanding of Google Sheets.",
         "prereqZapier": "Basic understanding of Zapier.",
@@ -1036,7 +1036,7 @@
     "section6": {
       "title": "6. Governing Law and Jurisdiction",
       "p1": "These Terms are governed by and construed in accordance with the laws of the Federative Republic of Brazil, notably the Brazilian Internet Civil Framework (Law No. 12,965/2014) and General Data Protection Law (LGPD - Law No. 13,709/2018).",
-      "p2": "The courts of the Judicial District of São Paulo/SP, Brazil, shall have exclusive jurisdiction over any disputes."
+      "p2": "The courts of the Judicial District of S\u00e3o Paulo/SP, Brazil, shall have exclusive jurisdiction over any disputes."
     }
   },
   "privacy": {
@@ -1045,7 +1045,7 @@
     "lastUpdated": "Last updated: August 20, 2026",
     "section1": {
       "title": "1. General Information and Data Controller",
-      "p1": "This Privacy Policy governs the processing of personal data by httpSMS (operated within the Mesa Que Vende ecosystem, São Paulo, Brazil).",
+      "p1": "This Privacy Policy governs the processing of personal data by httpSMS (operated within the Mesa Que Vende ecosystem, S\u00e3o Paulo, Brazil).",
       "p2": "We are committed to protecting your privacy and treating your data transparently and securely in strict compliance with the LGPD (Law No. 13,709/2018) and Marco Civil da Internet (Law No. 12,965/2014)."
     },
     "section2": {
@@ -1136,7 +1136,7 @@
       "actions": "Actions"
     },
     "search": "Search Contacts",
-    "searchPlaceholder": "Search by name, phone or email...",
+    "searchPlaceholder": "Search by name, phone number or email",
     "import": "Import Contacts",
     "add": "Add Contact",
     "emptyState": {
@@ -1168,8 +1168,21 @@
       "phoneNumbers": "Phone Numbers",
       "emailAddresses": "Email Addresses",
       "properties": "Properties",
-      "save": "Save",
-      "close": "Close"
-    }
+      "save": "Save Contact",
+      "close": "Close",
+      "nameLabel": "Name",
+      "namePlaceholder": "e.g John Doe",
+      "addButton": "Add",
+      "phoneNumberLabel": "Phone number",
+      "phoneNumberPlaceholder": "Phone number e.g 18005550199",
+      "countryLabel": "Country",
+      "emailLabel": "Email",
+      "emailPlaceholder": "e.g alice{'@'}example.com",
+      "propertyKeyLabel": "Key",
+      "propertyValueLabel": "Value"
+    },
+    "description1": "Use httpSMS as a lightweight CRM by adding your contacts here. Your message threads will show contact names instead of phone numbers, making conversations easier to recognize and manage. Add contacts individually, or fill in our ",
+    "description2": " and upload it to import your contact list in bulk.",
+    "loading": "Loading contacts..."
   }
 }

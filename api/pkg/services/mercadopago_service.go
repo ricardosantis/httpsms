@@ -138,11 +138,6 @@ func (service *MercadopagoService) CreateCheckoutSession(ctx context.Context, pa
 		return res.InitPoint, nil
 	}
 
-	planID := params.PriceID
-	if planID == "" {
-		planID = os.Getenv("MERCADOPAGO_PLAN_" + strings.ToUpper(strings.ReplaceAll(params.PlanID, "-", "_")))
-	}
-
 	// Create the Preapproval request
 	req := preapproval.Request{
 		PayerEmail:        user.Email,
@@ -152,25 +147,21 @@ func (service *MercadopagoService) CreateCheckoutSession(ctx context.Context, pa
 		Status:            "pending",
 	}
 
-	if planID != "" {
-		req.PreapprovalPlanID = planID
-	} else {
-		freq := 1
-		if strings.HasSuffix(params.PlanID, "-yearly") {
-			freq = 12
-		}
+	freq := 1
+	if strings.HasSuffix(params.PlanID, "-yearly") {
+		freq = 12
+	}
 
-		price, ok := priceMap[params.PlanID]
-		if !ok {
-			return "", stacktrace.NewError("unknown plan [%s]", params.PlanID)
-		}
+	price, ok := priceMap[params.PlanID]
+	if !ok {
+		return "", stacktrace.NewError("unknown plan [%s]", params.PlanID)
+	}
 
-		req.AutoRecurring = &preapproval.AutoRecurringRequest{
-			CurrencyID:        "BRL",
-			TransactionAmount: price,
-			Frequency:         freq,
-			FrequencyType:     "months",
-		}
+	req.AutoRecurring = &preapproval.AutoRecurringRequest{
+		CurrencyID:        "BRL",
+		TransactionAmount: price,
+		Frequency:         freq,
+		FrequencyType:     "months",
 	}
 
 	res, err := service.mpClient.Create(ctx, req)
