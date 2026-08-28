@@ -203,7 +203,12 @@ async function onSuccess(user: FirebaseUser, method: LoginMethod) {
     type: 'success',
   })
   await authStore.onAuthStateChanged(user)
-  router.push({ path: props.to })
+  await authStore.loadUser().catch(() => {})
+  if (authStore.user?.is_admin) {
+    router.push('/admin/users')
+  } else {
+    router.push({ path: props.to })
+  }
 }
 
 function handleError(error: unknown, isSocial = false) {

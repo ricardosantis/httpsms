@@ -73,13 +73,13 @@ const headers = [
 ]
 
 onMounted(() => {
-  if (!authStore.authUser?.is_admin) {
+  if (!authStore.user?.is_admin) {
     router.push('/')
   }
 })
 
 const fetchUsers = async (options?: { page: number; itemsPerPage: number }) => {
-  if (!authStore.authUser?.is_admin) return
+  if (!authStore.user?.is_admin) return
 
   loading.value = true
 
