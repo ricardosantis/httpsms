@@ -63,10 +63,5 @@
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^5.9.3",
     "vuetify-nuxt-module": "^0.19.5"
-  },
-  "pnpm": {
-    "overrides": {
-      "nuxt-schema-org": "^6.3.0"
-    }
   }
 }

@@ -20,6 +20,16 @@ const route = useRoute()
 const { lgAndUp, mdAndUp } = useDisplay()
 const authStore = useAuthStore()
 
+const dashboardTarget = computed(() =>
+  authStore.user?.is_admin ? { name: 'admin-users' } : { name: 'threads' },
+)
+
+onMounted(() => {
+  if (authStore.authUser !== null && authStore.user === null) {
+    authStore.loadUser().catch(() => {})
+  }
+})
+
 function goToPricing() {
   if (route.name === 'index') {
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
@@ -121,7 +131,7 @@ function goToPricing() {
                 variant="flat"
                 :class="{ 'mt-5': mdAndUp, 'mt-1': !mdAndUp }"
                 :size="lgAndUp ? 'large' : 'default'"
-                :to="{ name: 'threads' }"
+                :to="dashboardTarget"
               >
                 {{ $t('website.dashboard') }}
               </v-btn>

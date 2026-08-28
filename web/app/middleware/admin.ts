@@ -1,3 +1,5 @@
+import { useAuthStore } from '../stores/auth'
+
 export default defineNuxtRouteMiddleware(async () => {
   const authStore = useAuthStore()
 
@@ -16,13 +18,15 @@ export default defineNuxtRouteMiddleware(async () => {
     })
   }
 
-  if (authStore.authUser !== null) {
-    if (authStore.user === null) {
-      await authStore.loadUser().catch(() => {})
-    }
-    if (authStore.user?.is_admin) {
-      return navigateTo('/admin/users')
-    }
-    return navigateTo('/threads')
+  if (authStore.authUser === null) {
+    return navigateTo({ path: '/login', query: { to: '/admin/users' } })
+  }
+
+  if (authStore.user === null) {
+    await authStore.loadUser().catch(() => {})
+  }
+
+  if (!authStore.user?.is_admin) {
+    return navigateTo('/')
   }
 })

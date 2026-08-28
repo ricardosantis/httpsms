@@ -171,78 +171,87 @@ async function logout() {
           :density="mdAndDown ? 'compact' : 'default'"
           prepend-gap="20"
         >
-          <v-list-item @click.prevent="toggleArchive">
-            <template #prepend>
-              <v-icon
-                v-if="!threadsStore.archivedThreads"
-                :icon="mdiPackageDown"
-              />
-              <v-icon v-else :icon="mdiPackageUp" />
-            </template>
-            <v-list-item-title>
-              {{
-                threadsStore.archivedThreads
-                  ? $t('nav.activeThreads')
-                  : $t('nav.archivedThreads')
-              }}
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item v-if="phonesStore.owner" :to="{ name: 'messages' }">
-            <template #prepend><v-icon :icon="mdiPlus" /></template>
-            <v-list-item-title>{{
-              $t('threads.newMessage')
-            }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item v-if="phonesStore.owner" :to="{ name: 'bulk-messages' }">
-            <template #prepend
-              ><v-icon :icon="mdiCommentTextMultipleOutline"
-            /></template>
-            <v-list-item-title>{{ $t('nav.bulkMessages') }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            v-if="phonesStore.owner"
-            :to="{ name: 'search-messages' }"
-          >
-            <template #prepend><v-icon :icon="mdiMagnify" /></template>
-            <v-list-item-title>{{
-              $t('nav.searchMessages')
-            }}</v-list-item-title>
-          </v-list-item>
+          <template v-if="!authStore.user?.is_admin">
+            <v-list-item @click.prevent="toggleArchive">
+              <template #prepend>
+                <v-icon
+                  v-if="!threadsStore.archivedThreads"
+                  :icon="mdiPackageDown"
+                />
+                <v-icon v-else :icon="mdiPackageUp" />
+              </template>
+              <v-list-item-title>
+                {{
+                  threadsStore.archivedThreads
+                    ? $t('nav.activeThreads')
+                    : $t('nav.archivedThreads')
+                }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item v-if="phonesStore.owner" :to="{ name: 'messages' }">
+              <template #prepend><v-icon :icon="mdiPlus" /></template>
+              <v-list-item-title>{{
+                $t('threads.newMessage')
+              }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              v-if="phonesStore.owner"
+              :to="{ name: 'bulk-messages' }"
+            >
+              <template #prepend
+                ><v-icon :icon="mdiCommentTextMultipleOutline"
+              /></template>
+              <v-list-item-title>{{
+                $t('nav.bulkMessages')
+              }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              v-if="phonesStore.owner"
+              :to="{ name: 'search-messages' }"
+            >
+              <template #prepend><v-icon :icon="mdiMagnify" /></template>
+              <v-list-item-title>{{
+                $t('nav.searchMessages')
+              }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="{ name: 'contacts' }">
+              <template #prepend
+                ><v-icon :icon="mdiAccountMultiple"
+              /></template>
+              <v-list-item-title>{{
+                $t('nav.contacts', 'Contacts')
+              }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="{ name: 'settings' }">
+              <template #prepend><v-icon :icon="mdiAccountCog" /></template>
+              <v-list-item-title>{{ $t('nav.settings') }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="{ name: 'phone-api-keys' }">
+              <template #prepend><v-icon :icon="mdiCellphoneKey" /></template>
+              <v-list-item-title :class="{ 'pr-16': lgAndUp }">{{
+                $t('nav.phoneApiKeys')
+              }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              v-if="phonesStore.owner"
+              :href="appStore.appData.appDownloadUrl"
+            >
+              <template #prepend><v-icon :icon="mdiDownload" /></template>
+              <v-list-item-title>{{
+                $t('nav.downloadAndroidApp')
+              }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="{ name: 'billing' }">
+              <template #prepend><v-icon :icon="mdiFinance" /></template>
+              <v-list-item-title>{{ $t('nav.billing') }}</v-list-item-title>
+            </v-list-item>
+          </template>
           <v-list-item
             v-if="authStore.user?.is_admin"
             :to="{ name: 'admin-users' }"
           >
             <template #prepend><v-icon :icon="mdiShieldAccount" /></template>
             <v-list-item-title>Painel Admin</v-list-item-title>
-          </v-list-item>
-          <v-list-item :to="{ name: 'contacts' }">
-            <template #prepend><v-icon :icon="mdiAccountMultiple" /></template>
-            <v-list-item-title>{{
-              $t('nav.contacts', 'Contacts')
-            }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item :to="{ name: 'settings' }">
-            <template #prepend><v-icon :icon="mdiAccountCog" /></template>
-            <v-list-item-title>{{ $t('nav.settings') }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item :to="{ name: 'phone-api-keys' }">
-            <template #prepend><v-icon :icon="mdiCellphoneKey" /></template>
-            <v-list-item-title :class="{ 'pr-16': lgAndUp }">{{
-              $t('nav.phoneApiKeys')
-            }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            v-if="phonesStore.owner"
-            :href="appStore.appData.appDownloadUrl"
-          >
-            <template #prepend><v-icon :icon="mdiDownload" /></template>
-            <v-list-item-title>{{
-              $t('nav.downloadAndroidApp')
-            }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item :to="{ name: 'billing' }">
-            <template #prepend><v-icon :icon="mdiFinance" /></template>
-            <v-list-item-title>{{ $t('nav.billing') }}</v-list-item-title>
           </v-list-item>
           <v-list-item @click.prevent="logout">
             <template #prepend><v-icon :icon="mdiLogout" /></template>

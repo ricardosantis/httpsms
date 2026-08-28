@@ -47,14 +47,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useAuthStore } from '~/stores/auth'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import type { EntitiesUser } from '~/shared/types/api'
 import { useNuxtApp } from '#app'
 
+definePageMeta({
+  layout: 'admin',
+  middleware: ['auth', 'admin'],
+})
+
 const authStore = useAuthStore()
-const router = useRouter()
 const { $api } = useNuxtApp()
 
 const users = ref<EntitiesUser[]>([])
@@ -71,12 +73,6 @@ const headers = [
   { title: 'Papel', key: 'is_admin', sortable: false },
   { title: 'Data Cadastro', key: 'created_at', sortable: false },
 ]
-
-onMounted(() => {
-  if (!authStore.user?.is_admin) {
-    router.push('/')
-  }
-})
 
 const fetchUsers = async (options?: { page: number; itemsPerPage: number }) => {
   if (!authStore.user?.is_admin) return
