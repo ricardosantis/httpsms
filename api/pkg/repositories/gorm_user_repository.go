@@ -218,7 +218,7 @@ func (repository *gormUserRepository) LoadOrStore(ctx context.Context, authUser 
 	isAdmin := false
 	if adminEmails != "" && authUser.Email != "" {
 		for _, email := range strings.Split(adminEmails, ",") {
-			if strings.TrimSpace(email) == authUser.Email {
+			if strings.EqualFold(strings.TrimSpace(email), strings.TrimSpace(authUser.Email)) {
 				isAdmin = true
 				break
 			}

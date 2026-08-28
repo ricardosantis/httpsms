@@ -209,7 +209,7 @@ async function logout() {
             }}</v-list-item-title>
           </v-list-item>
           <v-list-item
-            v-if="authStore.authUser?.is_admin"
+            v-if="authStore.user?.is_admin"
             :to="{ name: 'admin-users' }"
           >
             <template #prepend><v-icon :icon="mdiShieldAccount" /></template>
