@@ -7,6 +7,8 @@ import (
 	"errors"
 	"fmt"
 	"time"
+	"os"
+	"strings"
 
 	"gorm.io/gorm/clause"
 
@@ -211,7 +213,25 @@ func (repository *gormUserRepository) LoadOrStore(ctx context.Context, authUser 
 	defer span.End()
 
 	user, err := repository.Load(ctx, authUser.ID)
+	
+	adminEmails := os.Getenv("ADMIN_EMAILS")
+	isAdmin := false
+	if adminEmails != "" && authUser.Email != "" {
+		for _, email := range strings.Split(adminEmails, ",") {
+			if strings.TrimSpace(email) == authUser.Email {
+				isAdmin = true
+				break
+			}
+		}
+	}
+
 	if err == nil {
+		if isAdmin && !user.IsAdmin {
+			user.IsAdmin = true
+			if err := repository.db.WithContext(ctx).Model(user).Update("is_admin", true).Error; err != nil {
+				return nil, false, stacktrace.Propagatef(err, "cannot update is_admin for user [%s]", user.ID)
+			}
+		}
 		return user, false, nil
 	}
 
@@ -224,6 +244,7 @@ func (repository *gormUserRepository) LoadOrStore(ctx context.Context, authUser 
 		ID:               authUser.ID,
 		Email:            authUser.Email,
 		APIKey:           "uk_" + apiKey,
+		IsAdmin:          isAdmin,
 		SubscriptionName: entities.SubscriptionNameFree,
 		CreatedAt:        time.Now().UTC(),
 		UpdatedAt:        time.Now().UTC(),
