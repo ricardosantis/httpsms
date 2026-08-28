@@ -1189,6 +1189,7 @@
     "loading": "Loading contacts..."
   },
   "$vuetify": {
+    "noDataText": "No data available",
     "dataFooter": {
       "itemsPerPageText": "Items per page:",
       "itemsPerPageAll": "All",
