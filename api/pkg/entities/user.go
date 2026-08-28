@@ -76,6 +76,7 @@ type User struct {
 	Timezone                         string           `json:"timezone" example:"Europe/Helsinki" gorm:"default:Africa/Accra"`
 	Locale                           string           `json:"locale" example:"pt-BR" gorm:"default:pt-BR"`
 	ActivePhoneID                    *uuid.UUID       `json:"active_phone_id" gorm:"type:uuid;" example:"32343a19-da5e-4b1b-a767-3298a73703cb" validate:"optional"`
+	IsAdmin                          bool             `json:"is_admin" gorm:"default:false" example:"true"`
 	SubscriptionName                 SubscriptionName `json:"subscription_name" example:"free"`
 	SubscriptionID                   *string          `json:"subscription_id" example:"8f9c71b8-b84e-4417-8408-a62274f65a08"`
 	SubscriptionStatus               *string          `json:"subscription_status" example:"on_trial" validate:"optional"`

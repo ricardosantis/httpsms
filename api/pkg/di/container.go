@@ -428,7 +428,6 @@ ALTER TABLE discords ADD CONSTRAINT IF NOT EXISTS uni_discords_server_id CHECK (
 	if err = db.AutoMigrate(&entities.Contact{}); err != nil {
 		container.logger.Fatal(stacktrace.Propagatef(err, "cannot migrate %T", &entities.Contact{}))
 	}
-
 	return container.db
 }
 
@@ -1887,6 +1886,7 @@ func (container *Container) RegisterPhoneRoutes() {
 func (container *Container) RegisterUserRoutes() {
 	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.UserHandler{}))
 	container.UserHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
+	container.AdminHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware(), middlewares.AdminOnly(container.Logger()))
 }
 
 // RegisterMessageSendScheduleRoutes registers routes for the /send-schedules prefix
@@ -2211,4 +2211,14 @@ func consoleLogger(skipFrameCount int) *zerodriver.Logger {
 
 func isLocal() bool {
 	return os.Getenv("ENV") == "local"
+}
+
+// AdminHandler creates a new instance of handlers.AdminHandler
+func (container *Container) AdminHandler() (h *handlers.AdminHandler) {
+	container.logger.Debug(fmt.Sprintf("creating %T", h))
+	return handlers.NewAdminHandler(
+		container.Logger(),
+		container.Tracer(),
+		container.UserService(),
+	)
 }

@@ -15,6 +15,7 @@ import {
   mdiMagnify,
   mdiCommentTextMultipleOutline,
   mdiAccountMultiple,
+  mdiShieldAccount,
   mdiCircle,
 } from '@mdi/js'
 import type { EntitiesPhone } from '~~/shared/types/api'
@@ -206,6 +207,13 @@ async function logout() {
             <v-list-item-title>{{
               $t('nav.searchMessages')
             }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            v-if="authStore.authUser?.is_admin"
+            :to="{ name: 'admin-users' }"
+          >
+            <template #prepend><v-icon :icon="mdiShieldAccount" /></template>
+            <v-list-item-title>Painel Admin</v-list-item-title>
           </v-list-item>
           <v-list-item :to="{ name: 'contacts' }">
             <template #prepend><v-icon :icon="mdiAccountMultiple" /></template>

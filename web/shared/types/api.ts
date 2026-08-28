@@ -20,8 +20,11 @@ export enum EntitiesSubscriptionName {
   SubscriptionName20KMonthly = "20k-monthly",
   SubscriptionName100KMonthly = "100k-monthly",
   SubscriptionName50KMonthly = "50k-monthly",
-  SubscriptionName200KMonthly = "200k-monthly",
   SubscriptionName20KYearly = "20k-yearly",
+  SubscriptionName50KYearly = "50k-yearly",
+  SubscriptionName100KYearly = "100k-yearly",
+  SubscriptionName200KYearly = "200k-yearly",
+  SubscriptionName200KMonthly = "200k-monthly",
 }
 
 export enum EntitiesSIM {
@@ -310,6 +313,10 @@ export interface EntitiesUser {
   /** @example "WB7DRDWrJZRGbYrv2CKGkqbzvqdC" */
   id: string;
   /** @example true */
+  is_admin: boolean;
+  /** @example "pt-BR" */
+  locale: string;
+  /** @example true */
   notification_heartbeat_enabled: boolean;
   /** @example true */
   notification_message_status_enabled: boolean;
@@ -329,8 +336,6 @@ export interface EntitiesUser {
   subscription_status?: string;
   /** @example "Europe/Helsinki" */
   timezone: string;
-  /** @example "pt-BR" */
-  locale?: string;
   /** @example "2022-06-05T14:26:10.303278+03:00" */
   updated_at: string;
 }
@@ -614,6 +619,8 @@ export interface RequestsUserPaymentInvoice {
 export interface RequestsUserUpdate {
   /** @example "32343a19-da5e-4b1b-a767-3298a73703cb" */
   active_phone_id: string;
+  /** @example "pt-BR" */
+  locale: string;
   /** @example "Europe/Helsinki" */
   timezone: string;
 }
@@ -859,6 +866,17 @@ export interface ResponsesUnprocessableEntity {
   /** @example "validation errors while handling request" */
   message: string;
   /** @example "error" */
+  status: string;
+}
+
+export interface ResponsesUserListResponse {
+  data: {
+    items: EntitiesUser[];
+    total_count: number;
+  };
+  /** @example "Request handled successfully" */
+  message: string;
+  /** @example "success" */
   status: string;
 }
 

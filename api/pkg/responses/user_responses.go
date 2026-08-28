@@ -49,3 +49,12 @@ type UserSubscriptionPaymentsResponse struct {
 		} `json:"attributes"`
 	} `json:"data"`
 }
+
+// UserListResponse is the payload containing a list of entities.User
+type UserListResponse struct {
+	response
+	Data struct {
+		Items      []entities.User `json:"items"`
+		TotalCount int64           `json:"total_count"`
+	} `json:"data"`
+}

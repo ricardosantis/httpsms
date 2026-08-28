@@ -3338,6 +3338,68 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/admin/users": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Fetches a paginated list of all users.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Fetch all users (Admin only)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Skip",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search by email",
+                        "name": "query",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.UserListResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Unauthorized"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Unauthorized"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/attachments/{userID}/{messageID}/{attachmentIndex}/{filename}": {
             "get": {
                 "description": "Download an MMS attachment by its path components",
@@ -4358,8 +4420,11 @@ const docTemplate = `{
                 "20k-monthly",
                 "100k-monthly",
                 "50k-monthly",
-                "200k-monthly",
-                "20k-yearly"
+                "20k-yearly",
+                "50k-yearly",
+                "100k-yearly",
+                "200k-yearly",
+                "200k-monthly"
             ],
             "x-enum-varnames": [
                 "SubscriptionNameFree",
@@ -4371,8 +4436,11 @@ const docTemplate = `{
                 "SubscriptionName20KMonthly",
                 "SubscriptionName100KMonthly",
                 "SubscriptionName50KMonthly",
-                "SubscriptionName200KMonthly",
-                "SubscriptionName20KYearly"
+                "SubscriptionName20KYearly",
+                "SubscriptionName50KYearly",
+                "SubscriptionName100KYearly",
+                "SubscriptionName200KYearly",
+                "SubscriptionName200KMonthly"
             ]
         },
         "entities.User": {
@@ -4382,6 +4450,8 @@ const docTemplate = `{
                 "created_at",
                 "email",
                 "id",
+                "is_admin",
+                "locale",
                 "notification_heartbeat_enabled",
                 "notification_message_status_enabled",
                 "notification_newsletter_enabled",
@@ -4411,6 +4481,14 @@ const docTemplate = `{
                 "id": {
                     "type": "string",
                     "example": "WB7DRDWrJZRGbYrv2CKGkqbzvqdC"
+                },
+                "is_admin": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "locale": {
+                    "type": "string",
+                    "example": "pt-BR"
                 },
                 "notification_heartbeat_enabled": {
                     "type": "boolean",
@@ -5089,12 +5167,17 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "active_phone_id",
+                "locale",
                 "timezone"
             ],
             "properties": {
                 "active_phone_id": {
                     "type": "string",
                     "example": "32343a19-da5e-4b1b-a767-3298a73703cb"
+                },
+                "locale": {
+                    "type": "string",
+                    "example": "pt-BR"
                 },
                 "timezone": {
                     "type": "string",
@@ -5784,6 +5867,42 @@ const docTemplate = `{
                 "status": {
                     "type": "string",
                     "example": "error"
+                }
+            }
+        },
+        "responses.UserListResponse": {
+            "type": "object",
+            "required": [
+                "data",
+                "message",
+                "status"
+            ],
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "required": [
+                        "items",
+                        "total_count"
+                    ],
+                    "properties": {
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entities.User"
+                            }
+                        },
+                        "total_count": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Request handled successfully"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
                 }
             }
         },

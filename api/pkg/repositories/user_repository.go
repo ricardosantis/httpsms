@@ -20,6 +20,9 @@ type UserRepository interface {
 	// Load an entities.User by entities.UserID
 	Load(ctx context.Context, userID entities.UserID) (*entities.User, error)
 
+	// IndexAll fetches a paginated list of all users
+	IndexAll(ctx context.Context, skip int, limit int, query string) ([]entities.User, int64, error)
+
 	// RotateAPIKey updates the API Key of a user
 	RotateAPIKey(ctx context.Context, userID entities.UserID) (*entities.User, error)
 

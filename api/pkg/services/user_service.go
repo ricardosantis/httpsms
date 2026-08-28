@@ -537,3 +537,11 @@ func (service *UserService) SendWelcomeEmail(ctx context.Context, payload *event
 	ctxLogger.Info(fmt.Sprintf("sent welcome email to [%s]", user.Email))
 	return nil
 }
+
+// IndexAll fetches all users (for admin panel)
+func (service *UserService) IndexAll(ctx context.Context, skip int, limit int, query string) ([]entities.User, int64, error) {
+	ctx, span := service.tracer.Start(ctx)
+	defer span.End()
+
+	return service.repository.IndexAll(ctx, skip, limit, query)
+}

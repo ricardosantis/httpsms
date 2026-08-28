@@ -530,8 +530,11 @@ definitions:
     - 20k-monthly
     - 100k-monthly
     - 50k-monthly
-    - 200k-monthly
     - 20k-yearly
+    - 50k-yearly
+    - 100k-yearly
+    - 200k-yearly
+    - 200k-monthly
     type: string
     x-enum-varnames:
     - SubscriptionNameFree
@@ -543,8 +546,11 @@ definitions:
     - SubscriptionName20KMonthly
     - SubscriptionName100KMonthly
     - SubscriptionName50KMonthly
-    - SubscriptionName200KMonthly
     - SubscriptionName20KYearly
+    - SubscriptionName50KYearly
+    - SubscriptionName100KYearly
+    - SubscriptionName200KYearly
+    - SubscriptionName200KMonthly
   entities.User:
     properties:
       active_phone_id:
@@ -561,6 +567,12 @@ definitions:
         type: string
       id:
         example: WB7DRDWrJZRGbYrv2CKGkqbzvqdC
+        type: string
+      is_admin:
+        example: true
+        type: boolean
+      locale:
+        example: pt-BR
         type: string
       notification_heartbeat_enabled:
         example: true
@@ -601,6 +613,8 @@ definitions:
     - created_at
     - email
     - id
+    - is_admin
+    - locale
     - notification_heartbeat_enabled
     - notification_message_status_enabled
     - notification_newsletter_enabled
@@ -1090,11 +1104,15 @@ definitions:
       active_phone_id:
         example: 32343a19-da5e-4b1b-a767-3298a73703cb
         type: string
+      locale:
+        example: pt-BR
+        type: string
       timezone:
         example: Europe/Helsinki
         type: string
     required:
     - active_phone_id
+    - locale
     - timezone
     type: object
   requests.WebhookStore:
@@ -1581,6 +1599,31 @@ definitions:
         type: string
       status:
         example: error
+        type: string
+    required:
+    - data
+    - message
+    - status
+    type: object
+  responses.UserListResponse:
+    properties:
+      data:
+        properties:
+          items:
+            items:
+              $ref: '#/definitions/entities.User'
+            type: array
+          total_count:
+            type: integer
+        required:
+        - items
+        - total_count
+        type: object
+      message:
+        example: Request handled successfully
+        type: string
+      status:
+        example: success
         type: string
     required:
     - data
@@ -3929,6 +3972,46 @@ paths:
       summary: Get the last 10 subscription payments.
       tags:
       - Users
+  /v1/admin/users:
+    get:
+      consumes:
+      - application/json
+      description: Fetches a paginated list of all users.
+      parameters:
+      - default: 0
+        description: Skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search by email
+        in: query
+        name: query
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserListResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.Unauthorized'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/responses.Unauthorized'
+      security:
+      - BearerAuth: []
+      summary: Fetch all users (Admin only)
+      tags:
+      - Admin
   /v1/attachments/{userID}/{messageID}/{attachmentIndex}/{filename}:
     get:
       description: Download an MMS attachment by its path components

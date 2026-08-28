@@ -270,3 +270,25 @@ func (repository *gormUserRepository) generateAPIKey(n int) (string, error) {
 	b, err := repository.generateRandomBytes(n)
 	return base64.URLEncoding.EncodeToString(b)[0:n], stacktrace.Propagatef(err, "cannot generate random bytes")
 }
+
+// IndexAll fetches a paginated list of all users
+func (repository *gormUserRepository) IndexAll(ctx context.Context, skip int, limit int, query string) (users []entities.User, totalCount int64, err error) {
+	ctx, span := repository.tracer.Start(ctx)
+	defer span.End()
+
+	db := repository.db.WithContext(ctx).Model(&entities.User{})
+	
+	if query != "" {
+		db = db.Where("email ILIKE ?", "%"+query+"%")
+	}
+
+	if err = db.Count(&totalCount).Error; err != nil {
+		return nil, 0, repository.tracer.WrapErrorSpan(span, stacktrace.Propagate(err, "cannot count users"))
+	}
+
+	if err = db.Order("created_at DESC").Offset(skip).Limit(limit).Find(&users).Error; err != nil {
+		return nil, 0, repository.tracer.WrapErrorSpan(span, stacktrace.Propagate(err, "cannot fetch users"))
+	}
+
+	return users, totalCount, nil
+}
