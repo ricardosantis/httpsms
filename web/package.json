@@ -6,6 +6,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "typecheck": "vue-tsc --noEmit -p .nuxt/tsconfig.json",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "prepare": "cd .. && husky web/.husky",
@@ -62,6 +63,7 @@
     "stylelint-config-recommended-vue": "^1.6.1",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^5.9.3",
+    "vue-tsc": "^3.3.11",
     "vuetify-nuxt-module": "^0.19.5"
   }
 }

@@ -8,6 +8,10 @@ import {
   mdiInformation,
   mdiLockCheck,
   mdiCog,
+  mdiKey,
+  mdiSpeedometer,
+  mdiClockOutline,
+  mdiTrayFull,
 } from '@mdi/js'
 
 const { mdAndUp } = useDisplay()

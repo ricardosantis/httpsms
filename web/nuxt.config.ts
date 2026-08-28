@@ -26,7 +26,6 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'pt-BR',
     strategy: 'no_prefix',
-    lazy: true,
     detectBrowserLanguage: false,
   },
 
@@ -78,9 +77,10 @@ export default defineNuxtConfig({
     ],
   },
 
-  // The app ships as a client-rendered SPA (ssr: false) served statically, so
-  // runtime Satori OG-image generation is not available. Curated static OG
-  // images are set per page instead.
+  // Static SPA (ssr: false, static hosting on Firebase) — no server bundle
+  // exists, so runtime/zeroRuntime OG image generation is not possible.
+  // OG images are set via static assets (app.head og:image → /header.png,
+  // set per-page via useSeoMeta client-side).
   ogImage: {
     enabled: false,
   },

@@ -62,7 +62,7 @@ export const useAuthStore = defineStore('auth', () => {
     let locales: globalThis.Ref<Array<string | { code: string }>> | undefined
     try {
       const i18n = useI18n()
-      setLocale = i18n.setLocale
+      setLocale = i18n.setLocale as (locale: string) => void
       locales = i18n.locales as unknown as globalThis.Ref<
         Array<string | { code: string }>
       >

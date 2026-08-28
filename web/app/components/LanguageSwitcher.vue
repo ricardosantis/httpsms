@@ -8,7 +8,7 @@ const currentLocale = computed(() => locale.value)
 const availableLocales = computed(() => locales.value)
 
 async function switchLocale(code: string) {
-  setLocale(code)
+  setLocale(code as 'pt-BR' | 'en')
   if (authStore.user) {
     try {
       await authStore.updateUser({ locale: code })

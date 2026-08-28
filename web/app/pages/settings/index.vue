@@ -275,7 +275,7 @@ async function updateTimezone(timezone: string) {
 
 async function updateLocale(localeCode: string) {
   try {
-    setLocale(localeCode)
+    setLocale(localeCode as 'pt-BR' | 'en')
     await authStore.updateUser({ locale: localeCode })
     notificationsStore.addNotification({
       message: t('common.savedSuccessfully') || 'Preferences saved',

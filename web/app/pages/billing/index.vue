@@ -7,6 +7,7 @@ import {
   mdiCallReceived,
   mdiCheck,
   mdiDownloadOutline,
+  mdiGift,
   mdiInvoice,
 } from '@mdi/js'
 import type {
@@ -639,7 +640,7 @@ onMounted(async () => {
                         class="mt-4"
                         size="large"
                         :loading="loadingCheckout"
-                        @click="handleUpgrade(currentCustomPlanId)"
+                        @click="handleUpgrade(currentCustomPlanId!)"
                       >
                         Fazer Upgrade
                       </VBtn>

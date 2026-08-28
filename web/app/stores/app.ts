@@ -23,10 +23,10 @@ export const useAppStore = defineStore('app', () => {
     return {
       url,
       apiBaseUrl: publicConfig.apiBaseUrl || 'https://api.smsandroid.com.br',
-      env: publicConfig.appEnv,
-      appDownloadUrl: publicConfig.appDownloadUrl,
+      env: publicConfig.appEnv || '',
+      appDownloadUrl: publicConfig.appDownloadUrl || '',
       documentationUrl: publicConfig.appDocumentationUrl || url,
-      githubUrl: publicConfig.appGithubUrl,
+      githubUrl: publicConfig.appGithubUrl || '',
       name: publicConfig.appName || 'httpSMS',
     }
   })

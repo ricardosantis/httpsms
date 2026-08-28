@@ -40,7 +40,7 @@ export const getErrorMessages = (error: AxiosLikeError): ErrorMessages => {
   }
 
   Object.keys(error.response.data.data).forEach((key: string) => {
-    errors.addMany(key, sanitize(key, error.response!.data!.data![key]))
+    errors.addMany(key, sanitize(key, error.response!.data!.data![key] ?? []))
   })
 
   return errors

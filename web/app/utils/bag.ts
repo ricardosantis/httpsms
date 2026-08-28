@@ -12,7 +12,7 @@ export default class Bag<T> {
   static fromObject<T>(items: Record<string, Array<T>>): Bag<T> {
     const result = new Bag<T>()
     Object.keys(items).forEach((key) => {
-      result.addMany(key, items[key])
+      result.addMany(key, items[key] ?? [])
     })
     return result
   }

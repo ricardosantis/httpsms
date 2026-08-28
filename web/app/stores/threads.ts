@@ -45,8 +45,8 @@ export const useThreadsStore = defineStore('threads', () => {
         // contact so display names do not disappear after the thread updates.
         contact_details:
           updatedThread.contact_details ??
-          (updatedThread.contact === existingThread.contact
-            ? existingThread.contact_details
+          (updatedThread.contact === existingThread?.contact
+            ? existingThread?.contact_details
             : undefined),
       }
     }

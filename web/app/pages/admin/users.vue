@@ -16,7 +16,7 @@
               label="Buscar por e-mail"
               single-line
               hide-details
-              @update:model-value="fetchUsers"
+              @update:model-value="onSearch"
             />
           </v-card-title>
 
@@ -48,8 +48,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { EntitiesUser } from '~/shared/types/api'
-import { useNuxtApp } from '#app'
+import type {
+  EntitiesUser,
+  ResponsesUserListResponse,
+} from '~~/shared/types/api'
 
 definePageMeta({
   layout: 'admin',
@@ -57,7 +59,7 @@ definePageMeta({
 })
 
 const authStore = useAuthStore()
-const { $api } = useNuxtApp()
+const { apiFetch } = useApi()
 
 const users = ref<EntitiesUser[]>([])
 const totalItems = ref(0)
@@ -84,18 +86,23 @@ const fetchUsers = async (options?: { page: number; itemsPerPage: number }) => {
   const skip = (page - 1) * limit
 
   try {
-    const response = await $api.v1.adminUsersList({
-      skip,
-      limit,
-      query: search.value,
-    })
+    const response = await apiFetch<ResponsesUserListResponse>(
+      '/v1/admin/users',
+      {
+        params: { skip, limit, query: search.value },
+      },
+    )
 
-    users.value = response.data.data?.items || []
-    totalItems.value = response.data.data?.total_count || 0
+    users.value = response.data.items || []
+    totalItems.value = response.data.total_count || 0
   } catch (error) {
     console.error('Failed to fetch users', error)
   } finally {
     loading.value = false
   }
+}
+
+const onSearch = () => {
+  fetchUsers()
 }
 </script>
