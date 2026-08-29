@@ -1886,7 +1886,7 @@ func (container *Container) RegisterPhoneRoutes() {
 func (container *Container) RegisterUserRoutes() {
 	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.UserHandler{}))
 	container.UserHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
-	container.AdminHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware(), middlewares.AdminOnly(container.Logger()))
+	container.AdminHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware(), middlewares.AdminOnly(container.Logger(), container.UserRepository()))
 }
 
 // RegisterMessageSendScheduleRoutes registers routes for the /send-schedules prefix
