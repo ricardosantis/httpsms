@@ -29,8 +29,11 @@
             @update:options="fetchUsers"
           >
             <template #[`item.active`]="{ item }">
-              <v-chip :color="item.active ? 'success' : 'error'" size="small">
-                {{ item.active ? 'Ativo' : 'Bloqueado' }}
+              <v-chip
+                :color="item.active !== false ? 'success' : 'error'"
+                size="small"
+              >
+                {{ item.active !== false ? 'Ativo' : 'Bloqueado' }}
               </v-chip>
             </template>
             <template #[`item.created_at`]="{ item }">
@@ -39,7 +42,7 @@
             <template #[`item.actions`]="{ item }">
               <div class="d-flex ga-2">
                 <v-btn
-                  v-if="item.active"
+                  v-if="item.active !== false"
                   variant="tonal"
                   color="warning"
                   size="small"
@@ -141,7 +144,7 @@ const onSearch = () => {
 const toggleBlock = async (item: EntitiesUser) => {
   actionLoading.value = item.id
   try {
-    if (item.active) {
+    if (item.active !== false) {
       await apiFetch(`/v1/admin/users/${item.id}/block`, { method: 'POST' })
       item.active = false
     } else {
