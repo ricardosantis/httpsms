@@ -234,7 +234,7 @@ func (container *Container) PhoneAPIKeyMiddleware() fiber.Handler {
 // AuthenticatedMiddleware creates a new instance of middlewares.Authenticated
 func (container *Container) AuthenticatedMiddleware() fiber.Handler {
 	container.logger.Debug("creating middlewares.Authenticated")
-	return middlewares.Authenticated(container.Tracer())
+	return middlewares.Authenticated(container.Tracer(), container.Logger(), container.UserRepository())
 }
 
 // Logger creates a new instance of telemetry.Logger

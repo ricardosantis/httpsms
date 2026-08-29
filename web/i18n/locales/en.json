@@ -59,6 +59,7 @@
     "networkError": "Unable to connect to the server. Please check your internet connection",
     "unexpectedError": "An unexpected error occurred",
     "accountDisabled": "This account has been disabled",
+    "accountBlocked": "Your account has been blocked. Contact the administrator at {email}",
     "enterPassword": "Please enter your password",
     "enterValidEmail": "Please enter a valid email address",
     "incorrectPassword": "Incorrect password",

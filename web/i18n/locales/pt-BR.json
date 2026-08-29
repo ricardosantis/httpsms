@@ -59,6 +59,7 @@
     "networkError": "Não foi possível conectar ao servidor. Verifique sua conexão com a internet",
     "unexpectedError": "Ocorreu um erro inesperado",
     "accountDisabled": "Esta conta foi desativada",
+    "accountBlocked": "Sua conta foi bloqueada. Entre em contato com o administrador pelo email {email}",
     "enterPassword": "Por favor, digite sua senha",
     "enterValidEmail": "Por favor, digite um e-mail válido",
     "incorrectPassword": "Senha incorreta",

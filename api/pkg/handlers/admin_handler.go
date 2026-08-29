@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/NdoleStudio/httpsms/pkg/entities"
@@ -16,18 +17,24 @@ import (
 // AdminHandler handles HTTP requests for admin operations
 type AdminHandler struct {
 	handler
-	logger      telemetry.Logger
-	tracer      telemetry.Tracer
-	userService *services.UserService
+	logger          telemetry.Logger
+	tracer          telemetry.Tracer
+	userService     *services.UserService
+	eventsQueueUser entities.UserID
 }
 
 // NewAdminHandler creates a new instance of AdminHandler
 func NewAdminHandler(logger telemetry.Logger, tracer telemetry.Tracer, userService *services.UserService) *AdminHandler {
 	return &AdminHandler{
-		logger:      logger.WithService("AdminHandler"),
-		tracer:      tracer,
-		userService: userService,
+		logger:          logger.WithService("AdminHandler"),
+		tracer:          tracer,
+		userService:     userService,
+		eventsQueueUser: entities.UserID(os.Getenv("EVENTS_QUEUE_USER_ID")),
 	}
+}
+
+func (h *AdminHandler) isSystemUser(userID entities.UserID) bool {
+	return h.eventsQueueUser != "" && userID == h.eventsQueueUser
 }
 
 // RegisterRoutes registers the routes for the AdminHandler
@@ -98,6 +105,10 @@ func (h *AdminHandler) BlockUser(c fiber.Ctx) error {
 		return h.responseBadRequest(c, stacktrace.NewError("missing userID parameter"))
 	}
 
+	if h.isSystemUser(userID) {
+		return h.responseBadRequest(c, stacktrace.NewError("cannot block the system user"))
+	}
+
 	if err := h.userService.Block(ctx, userID); err != nil {
 		ctxLogger.Error(h.tracer.WrapErrorSpan(span, err))
 		return h.responseInternalServerError(c)
@@ -128,6 +139,10 @@ func (h *AdminHandler) UnblockUser(c fiber.Ctx) error {
 		return h.responseBadRequest(c, stacktrace.NewError("missing userID parameter"))
 	}
 
+	if h.isSystemUser(userID) {
+		return h.responseBadRequest(c, stacktrace.NewError("cannot modify the system user"))
+	}
+
 	if err := h.userService.Unblock(ctx, userID); err != nil {
 		ctxLogger.Error(h.tracer.WrapErrorSpan(span, err))
 		return h.responseInternalServerError(c)
@@ -156,6 +171,10 @@ func (h *AdminHandler) DeleteUser(c fiber.Ctx) error {
 	userID := entities.UserID(c.Params("userID"))
 	if userID == "" {
 		return h.responseBadRequest(c, stacktrace.NewError("missing userID parameter"))
+	}
+
+	if h.isSystemUser(userID) {
+		return h.responseBadRequest(c, stacktrace.NewError("cannot delete the system user"))
 	}
 
 	if err := h.userService.AdminDelete(ctx, userID); err != nil {

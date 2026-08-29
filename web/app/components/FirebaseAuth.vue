@@ -198,12 +198,16 @@ async function onSuccess(user: FirebaseUser, method: LoginMethod) {
   } catch (error) {
     console.error(error)
   }
+  await authStore.onAuthStateChanged(user)
+  try {
+    await authStore.loadUser()
+  } catch {
+    return
+  }
   notificationsStore.addNotification({
     message: t('auth.loginSuccess'),
     type: 'success',
   })
-  await authStore.onAuthStateChanged(user)
-  await authStore.loadUser().catch(() => {})
   if (authStore.user?.is_admin) {
     router.push('/admin/users')
   } else {

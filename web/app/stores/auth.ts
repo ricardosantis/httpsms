@@ -17,9 +17,13 @@ export const useAuthStore = defineStore('auth', () => {
   const { apiFetch } = useApi()
   const notificationsStore = useNotificationsStore()
 
-  function t(key: string, fallback: string): string {
+  function t(
+    key: string,
+    fallback: string,
+    params?: Record<string, unknown>,
+  ): string {
     try {
-      return useNuxtApp().$i18n.t(key)
+      return useNuxtApp().$i18n.t(key, params || {})
     } catch {
       return fallback
     }
@@ -92,6 +96,19 @@ export const useAuthStore = defineStore('auth', () => {
         }
       }
     } catch (error: unknown) {
+      const apiError = error as { status?: number }
+      if (apiError.status === 403) {
+        resetState()
+        notificationsStore.addNotification({
+          message: t(
+            'auth.accountBlocked',
+            'Your account has been blocked. Contact the administrator.',
+            { email: 'contato@smsandroid.com.br' },
+          ),
+          type: 'error',
+        })
+        throw error
+      }
       notificationsStore.addNotification({
         message: getApiErrorMessage(
           error,
