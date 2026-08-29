@@ -35,6 +35,9 @@ type UserRepository interface {
 	// LoadByEmail loads a user based on the email
 	LoadByEmail(ctx context.Context, email string) (*entities.User, error)
 
+	// UpdateActive sets the active flag on a user
+	UpdateActive(ctx context.Context, userID entities.UserID, active bool) error
+
 	// Delete an entities.User by entities.UserID
 	Delete(ctx context.Context, user *entities.User) error
 }

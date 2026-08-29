@@ -314,6 +314,8 @@ export interface EntitiesUser {
   id: string;
   /** @example true */
   is_admin: boolean;
+  /** @example true */
+  active: boolean;
   /** @example "pt-BR" */
   locale: string;
   /** @example true */

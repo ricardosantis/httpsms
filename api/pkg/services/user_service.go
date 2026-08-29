@@ -538,6 +538,68 @@ func (service *UserService) SendWelcomeEmail(ctx context.Context, payload *event
 	return nil
 }
 
+// Block a user from accessing the platform
+func (service *UserService) Block(ctx context.Context, userID entities.UserID) error {
+	ctx, span, ctxLogger := service.tracer.StartWithLogger(ctx, service.logger)
+	defer span.End()
+
+	if err := service.repository.UpdateActive(ctx, userID, false); err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot block user [%s]", userID))
+	}
+
+	ctxLogger.Info(fmt.Sprintf("blocked user [%s]", userID))
+	return nil
+}
+
+// Unblock restores access for a user
+func (service *UserService) Unblock(ctx context.Context, userID entities.UserID) error {
+	ctx, span, ctxLogger := service.tracer.StartWithLogger(ctx, service.logger)
+	defer span.End()
+
+	if err := service.repository.UpdateActive(ctx, userID, true); err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot unblock user [%s]", userID))
+	}
+
+	ctxLogger.Info(fmt.Sprintf("unblocked user [%s]", userID))
+	return nil
+}
+
+// AdminDelete deletes a user (admin-initiated, bypasses subscription check)
+func (service *UserService) AdminDelete(ctx context.Context, userID entities.UserID) error {
+	ctx, span, ctxLogger := service.tracer.StartWithLogger(ctx, service.logger)
+	defer span.End()
+
+	user, err := service.repository.Load(ctx, userID)
+	if err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot load user with ID [%s]", userID))
+	}
+
+	if user.IsAdmin {
+		return service.tracer.WrapErrorSpan(span, stacktrace.NewErrorf("cannot admin-delete another admin user [%s]", userID))
+	}
+
+	if err = service.repository.Delete(ctx, user); err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "could not delete user with ID [%s]", userID))
+	}
+
+	ctxLogger.Info(fmt.Sprintf("admin deleted user with ID [%s]", userID))
+
+	event, err := service.createEvent(events.UserAccountDeleted, "admin", &events.UserAccountDeletedPayload{
+		UserID:    userID,
+		UserEmail: user.Email,
+		Timestamp: time.Now().UTC(),
+	})
+	if err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot create event [%s] for user [%s]", events.UserAccountDeleted, userID))
+	}
+
+	if err = service.dispatcher.Dispatch(ctx, event); err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot dispatch [%s] event for user [%s]", event.Type(), userID))
+	}
+
+	return nil
+}
+
 // IndexAll fetches all users (for admin panel)
 func (service *UserService) IndexAll(ctx context.Context, skip int, limit int, query string) ([]entities.User, int64, error) {
 	ctx, span := service.tracer.Start(ctx)

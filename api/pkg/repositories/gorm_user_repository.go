@@ -44,6 +44,18 @@ func NewGormUserRepository(
 	}
 }
 
+// UpdateActive sets the active flag on a user
+func (repository *gormUserRepository) UpdateActive(ctx context.Context, userID entities.UserID, active bool) error {
+	ctx, span := repository.tracer.Start(ctx)
+	defer span.End()
+
+	if err := repository.db.WithContext(ctx).Model(&entities.User{}).Where("id = ?", userID).Update("active", active).Error; err != nil {
+		return repository.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot update active flag for user [%s]", userID))
+	}
+
+	return nil
+}
+
 // Delete deletes a user
 func (repository *gormUserRepository) Delete(ctx context.Context, user *entities.User) error {
 	ctx, span := repository.tracer.Start(ctx)
@@ -297,8 +309,8 @@ func (repository *gormUserRepository) IndexAll(ctx context.Context, skip int, li
 	ctx, span := repository.tracer.Start(ctx)
 	defer span.End()
 
-	db := repository.db.WithContext(ctx).Model(&entities.User{})
-	
+db := repository.db.WithContext(ctx).Model(&entities.User{}).Where("is_admin = ?", false)
+
 	if query != "" {
 		db = db.Where("email ILIKE ?", "%"+query+"%")
 	}
