@@ -963,7 +963,7 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "maximum": 20,
+                        "maximum": 100,
                         "minimum": 1,
                         "type": "integer",
                         "description": "number of heartbeats to return",
@@ -3400,6 +3400,171 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/admin/users/{userID}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a user and all associated data.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete a user (Admin only)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.OkString"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.BadRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Unauthorized"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Unauthorized"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/admin/users/{userID}/block": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Blocks a user by setting active=false.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Block a user (Admin only)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.OkString"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.BadRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Unauthorized"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Unauthorized"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/admin/users/{userID}/unblock": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Unblocks a user by setting active=true.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Unblock a user (Admin only)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "userID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.OkString"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.BadRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Unauthorized"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/responses.Unauthorized"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/attachments/{userID}/{messageID}/{attachmentIndex}/{filename}": {
             "get": {
                 "description": "Download an MMS attachment by its path components",
@@ -3943,6 +4108,7 @@ const docTemplate = `{
                 "charging",
                 "id",
                 "owner",
+                "phone_online",
                 "timestamp",
                 "user_id",
                 "version"
@@ -3959,6 +4125,10 @@ const docTemplate = `{
                 "owner": {
                     "type": "string",
                     "example": "+18005550199"
+                },
+                "phone_online": {
+                    "type": "boolean",
+                    "example": true
                 },
                 "timestamp": {
                     "type": "string",
@@ -4446,6 +4616,7 @@ const docTemplate = `{
         "entities.User": {
             "type": "object",
             "required": [
+                "active",
                 "api_key",
                 "created_at",
                 "email",
@@ -4462,6 +4633,10 @@ const docTemplate = `{
                 "updated_at"
             ],
             "properties": {
+                "active": {
+                    "type": "boolean",
+                    "example": true
+                },
                 "active_phone_id": {
                     "type": "string",
                     "example": "32343a19-da5e-4b1b-a767-3298a73703cb"

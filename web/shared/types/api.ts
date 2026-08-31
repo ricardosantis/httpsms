@@ -304,6 +304,8 @@ export interface EntitiesPhoneAPIKey {
 }
 
 export interface EntitiesUser {
+  /** @example true */
+  active: boolean;
   /** @example "32343a19-da5e-4b1b-a767-3298a73703cb" */
   active_phone_id?: string;
   /** @example "x-api-key" */
@@ -316,8 +318,6 @@ export interface EntitiesUser {
   id: string;
   /** @example true */
   is_admin: boolean;
-  /** @example true */
-  active: boolean;
   /** @example "pt-BR" */
   locale: string;
   /** @example true */

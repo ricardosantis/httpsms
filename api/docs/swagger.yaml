@@ -167,6 +167,9 @@ definitions:
       owner:
         example: "+18005550199"
         type: string
+      phone_online:
+        example: true
+        type: boolean
       timestamp:
         example: "2022-06-05T14:26:01.520828+03:00"
         type: string
@@ -180,6 +183,7 @@ definitions:
     - charging
     - id
     - owner
+    - phone_online
     - timestamp
     - user_id
     - version
@@ -553,6 +557,9 @@ definitions:
     - SubscriptionName200KMonthly
   entities.User:
     properties:
+      active:
+        example: true
+        type: boolean
       active_phone_id:
         example: 32343a19-da5e-4b1b-a767-3298a73703cb
         type: string
@@ -609,6 +616,7 @@ definitions:
         example: "2022-06-05T14:26:10.303278+03:00"
         type: string
     required:
+    - active
     - api_key
     - created_at
     - email
@@ -2414,7 +2422,7 @@ paths:
         type: string
       - description: number of heartbeats to return
         in: query
-        maximum: 20
+        maximum: 100
         minimum: 1
         name: limit
         type: integer
@@ -4010,6 +4018,111 @@ paths:
       security:
       - BearerAuth: []
       summary: Fetch all users (Admin only)
+      tags:
+      - Admin
+  /v1/admin/users/{userID}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a user and all associated data.
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.OkString'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.BadRequest'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.Unauthorized'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/responses.Unauthorized'
+      security:
+      - BearerAuth: []
+      summary: Delete a user (Admin only)
+      tags:
+      - Admin
+  /v1/admin/users/{userID}/block:
+    post:
+      consumes:
+      - application/json
+      description: Blocks a user by setting active=false.
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.OkString'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.BadRequest'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.Unauthorized'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/responses.Unauthorized'
+      security:
+      - BearerAuth: []
+      summary: Block a user (Admin only)
+      tags:
+      - Admin
+  /v1/admin/users/{userID}/unblock:
+    post:
+      consumes:
+      - application/json
+      description: Unblocks a user by setting active=true.
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.OkString'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.BadRequest'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.Unauthorized'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/responses.Unauthorized'
+      security:
+      - BearerAuth: []
+      summary: Unblock a user (Admin only)
       tags:
       - Admin
   /v1/attachments/{userID}/{messageID}/{attachmentIndex}/{filename}:
