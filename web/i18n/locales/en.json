@@ -498,7 +498,7 @@
     "chartTitle": "Heartbeat Intervals (>10min)",
     "description1": "To ensure background SMS sending, make sure battery optimization for the Android app is disabled. Learn more at",
     "description2": "Heartbeat monitors the communication status of your device with httpSMS servers.",
-    "tableDescription": "History of pings and heartbeats received from the device."
+    "tableDescription": "History of pings and heartbeats received from the device in the last 24 hours."
   },
   "popover": {
     "skipPage": "Skip directly to dashboard",

@@ -498,7 +498,7 @@
     "chartTitle": "Intervalos de Sinal de Vida (>10min)",
     "description1": "Para garantir o envio de SMS em segundo plano, certifique-se de que a otimização de bateria do aplicativo Android esteja desativada. Saiba mais em",
     "description2": "O heartbeat monitora o status de comunicação do dispositivo com os servidores do httpSMS.",
-    "tableDescription": "Histórico de pings e sinal de vida recebidos do dispositivo."
+    "tableDescription": "Histórico de pings e sinal de vida recebidos do dispositivo das últimas 24 horas."
   },
   "popover": {
     "skipPage": "Ir direto para o painel",
