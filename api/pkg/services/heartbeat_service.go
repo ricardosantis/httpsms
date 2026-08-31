@@ -19,7 +19,8 @@ import (
 
 const (
 	// select id, a.timestamp, a.owner,  a.timestamp - (SELECT timestamp from heartbeats b where  b.timestamp < a.timestamp and a.owner = b.owner and a.user_id = b.user_id order by b.timestamp desc  limit 1) as diff  from heartbeats a;
-	heartbeatCheckInterval = 16 * time.Minute
+	heartbeatCheckInterval   = 16 * time.Minute
+	heartbeatRetentionWindow = 7 * 24 * time.Hour
 )
 
 // HeartbeatService is handles heartbeat requests
@@ -129,6 +130,8 @@ func (service *HeartbeatService) Store(ctx context.Context, params HeartbeatStor
 
 	ctxLogger.Info(fmt.Sprintf("heartbeat saved with id [%s] for user [%s]", heartbeat.ID, heartbeat.UserID))
 
+	service.pruneHeartbeats(ctx, params.UserID, params.Owner)
+
 	monitor, err := service.monitorRepository.Load(ctx, params.UserID, params.Owner)
 	if stacktrace.GetCode(err) == repositories.ErrCodeNotFound {
 		ctxLogger.Info(fmt.Sprintf("heartbeat monitor does not exist for owner [%s] and user [%s]", params.Owner, params.UserID))
@@ -145,6 +148,17 @@ func (service *HeartbeatService) Store(ctx context.Context, params HeartbeatStor
 	}
 
 	return heartbeat, nil
+}
+
+// pruneHeartbeats deletes heartbeat rows older than heartbeatRetentionWindow
+func (service *HeartbeatService) pruneHeartbeats(ctx context.Context, userID entities.UserID, owner string) {
+	ctx, span, ctxLogger := service.tracer.StartWithLogger(ctx, service.logger)
+	defer span.End()
+
+	before := time.Now().UTC().Add(-heartbeatRetentionWindow)
+	if err := service.repository.DeleteBefore(ctx, userID, owner, before); err != nil {
+		ctxLogger.Error(stacktrace.Propagatef(err, "cannot prune heartbeats before [%s] for owner [%s]", before, owner))
+	}
 }
 
 // HeartbeatMonitorStoreParams are parameters for creating a new entities.Heartbeat

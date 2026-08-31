@@ -3,6 +3,7 @@ package repositories
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -111,6 +112,27 @@ func (repository *mongoHeartbeatRepository) Last(ctx context.Context, userID ent
 	}
 
 	return &heartbeat, nil
+}
+
+func (repository *mongoHeartbeatRepository) DeleteBefore(ctx context.Context, userID entities.UserID, owner string, before time.Time) error {
+	ctx, span := repository.tracer.Start(ctx)
+	defer span.End()
+
+	ctx, cancel := context.WithTimeout(ctx, dbOperationDuration)
+	defer cancel()
+
+	filter := bson.D{
+		{Key: "user_id", Value: string(userID)},
+		{Key: "owner", Value: owner},
+		{Key: "timestamp", Value: bson.D{{Key: "$lt", Value: before}}},
+	}
+
+	_, err := repository.collection.DeleteMany(ctx, filter)
+	if err != nil {
+		return repository.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot delete [%T] before [%s] for owner [%s]", &entities.Heartbeat{}, before, owner))
+	}
+
+	return nil
 }
 
 func (repository *mongoHeartbeatRepository) DeleteAllForUser(ctx context.Context, userID entities.UserID) error {

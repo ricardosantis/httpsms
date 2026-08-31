@@ -38,7 +38,7 @@ func (validator *HeartbeatHandlerValidator) ValidateIndex(_ context.Context, req
 				"required",
 				"numeric",
 				"min:1",
-				"max:20",
+				"max:100",
 			},
 			"skip": []string{
 				"required",

@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	"github.com/NdoleStudio/httpsms/pkg/entities"
 )
@@ -16,6 +17,9 @@ type HeartbeatRepository interface {
 
 	// Last entities.Heartbeat returns the last heartbeat
 	Last(ctx context.Context, userID entities.UserID, owner string) (*entities.Heartbeat, error)
+
+	// DeleteBefore deletes all entities.Heartbeat of an owner before a timestamp
+	DeleteBefore(ctx context.Context, userID entities.UserID, owner string, before time.Time) error
 
 	// DeleteAllForUser deletes all entities.Heartbeat for a user
 	DeleteAllForUser(ctx context.Context, userID entities.UserID) error

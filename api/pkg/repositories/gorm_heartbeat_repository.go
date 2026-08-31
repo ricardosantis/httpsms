@@ -3,6 +3,7 @@ package repositories
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -30,6 +31,22 @@ func NewGormHeartbeatRepository(
 		tracer: tracer,
 		db:     db,
 	}
+}
+
+func (repository *gormHeartbeatRepository) DeleteBefore(ctx context.Context, userID entities.UserID, owner string, before time.Time) error {
+	ctx, span := repository.tracer.Start(ctx)
+	defer span.End()
+
+	err := repository.db.WithContext(ctx).
+		Where("user_id = ?", userID).
+		Where("owner = ?", owner).
+		Where("timestamp < ?", before).
+		Delete(&entities.Heartbeat{}).Error
+	if err != nil {
+		return repository.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot delete [%T] before [%s] for owner [%s]", &entities.Heartbeat{}, before, owner))
+	}
+
+	return nil
 }
 
 func (repository *gormHeartbeatRepository) DeleteAllForUser(ctx context.Context, userID entities.UserID) error {
