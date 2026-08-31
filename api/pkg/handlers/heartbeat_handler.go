@@ -59,7 +59,7 @@ func (h *HeartbeatHandler) RegisterPhoneAPIKeyRoutes(router fiber.Router, middle
 // @Param        owner		query  string  	true 	"the owner's phone number" 			default(+18005550199)
 // @Param        skip		query  int  	false	"number of heartbeats to skip"		minimum(0)
 // @Param        query		query  string  	false 	"filter containing query"
-// @Param        limit		query  int  	false	"number of heartbeats to return"	minimum(1)	maximum(20)
+// @Param        limit		query  int  	false	"number of heartbeats to return"	minimum(1)	maximum(100)
 // @Success      200 		{object}	responses.HeartbeatsResponse
 // @Failure      400		{object}	responses.BadRequest
 // @Failure 	 401	    {object}	responses.Unauthorized

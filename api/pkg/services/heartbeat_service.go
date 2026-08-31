@@ -116,12 +116,13 @@ func (service *HeartbeatService) Store(ctx context.Context, params HeartbeatStor
 	ctxLogger := service.tracer.CtxLogger(service.logger, span)
 
 	heartbeat := &entities.Heartbeat{
-		ID:        uuid.New(),
-		Owner:     params.Owner,
-		Charging:  params.Charging,
-		Timestamp: params.Timestamp,
-		Version:   params.Version,
-		UserID:    params.UserID,
+		ID:          uuid.New(),
+		Owner:       params.Owner,
+		Charging:    params.Charging,
+		Timestamp:   params.Timestamp,
+		Version:     params.Version,
+		UserID:      params.UserID,
+		PhoneOnline: true,
 	}
 
 	if err := service.repository.Store(ctx, heartbeat); err != nil {
