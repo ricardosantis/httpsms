@@ -89,6 +89,19 @@ func (h *HeartbeatHandler) Index(c fiber.Ctx) error {
 		return h.responseInternalServerError(c)
 	}
 
+	monitor, err := h.service.MonitorByOwner(ctx, h.userIDFomContext(c), request.Owner)
+	if err != nil {
+		ctxLogger.Error(stacktrace.Propagatef(err, "cannot get heartbeat monitor for owner [%s]", request.Owner))
+		return h.responseInternalServerError(c)
+	}
+
+	for index := range *heartbeats {
+		(*heartbeats)[index].PhoneOnline = true
+		if monitor != nil {
+			(*heartbeats)[index].PhoneOnline = monitor.PhoneOnline
+		}
+	}
+
 	return h.responseOK(c, fmt.Sprintf("fetched %d %s", len(*heartbeats), h.pluralize("heartbeat", len(*heartbeats))), heartbeats)
 }
 

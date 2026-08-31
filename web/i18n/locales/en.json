@@ -141,6 +141,7 @@
     "ago": "ago",
     "charging": "Charging",
     "online": "Online",
+    "offline": "Offline",
     "clickToViewHistory": "Click to view history"
   },
   "newMessage": {

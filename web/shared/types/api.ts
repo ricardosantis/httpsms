@@ -116,6 +116,8 @@ export interface EntitiesHeartbeat {
   id: string;
   /** @example "+18005550199" */
   owner: string;
+  /** @example true */
+  phone_online: boolean;
   /** @example "2022-06-05T14:26:01.520828+03:00" */
   timestamp: string;
   /** @example "WB7DRDWrJZRGbYrv2CKGkqbzvqdC" */

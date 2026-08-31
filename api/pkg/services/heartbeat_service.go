@@ -92,6 +92,21 @@ type HeartbeatStoreParams struct {
 	UserID    entities.UserID
 }
 
+// MonitorByOwner fetches the heartbeat monitor for an owner phone number
+func (service *HeartbeatService) MonitorByOwner(ctx context.Context, userID entities.UserID, owner string) (*entities.HeartbeatMonitor, error) {
+	ctx, span := service.tracer.Start(ctx)
+	defer span.End()
+
+	monitor, err := service.monitorRepository.Load(ctx, userID, owner)
+	if stacktrace.GetCode(err) == repositories.ErrCodeNotFound {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "could not load heartbeat monitor for owner [%s]", owner))
+	}
+	return monitor, nil
+}
+
 // Store a new entities.Heartbeat
 func (service *HeartbeatService) Store(ctx context.Context, params HeartbeatStoreParams) (*entities.Heartbeat, error) {
 	ctx, span := service.tracer.Start(ctx)

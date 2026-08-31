@@ -141,6 +141,7 @@
     "ago": "atrás",
     "charging": "Carregando",
     "online": "Online",
+    "offline": "Offline",
     "clickToViewHistory": "Clique para ver o histórico"
   },
   "newMessage": {

@@ -17,8 +17,17 @@ export const usePhonesStore = defineStore('phones', () => {
     }
   }
 
+  const heartbeatStaleThresholdMs = 2 * 60 * 60 * 1000 // 2 hours
+
   const activePhone = computed<EntitiesPhone | null>(() => {
     return phones.value.find((x) => x.phone_number === owner.value) ?? null
+  })
+
+  const phoneOnline = computed<boolean>(() => {
+    if (!heartbeat.value) return false
+    if (heartbeat.value.phone_online === false) return false
+    const elapsed = Date.now() - new Date(heartbeat.value.timestamp).getTime()
+    return elapsed < heartbeatStaleThresholdMs
   })
 
   function setOwner(value: string) {
@@ -151,6 +160,7 @@ export const usePhonesStore = defineStore('phones', () => {
     owner,
     heartbeat,
     activePhone,
+    phoneOnline,
     setOwner,
     loadPhones,
     deletePhone,

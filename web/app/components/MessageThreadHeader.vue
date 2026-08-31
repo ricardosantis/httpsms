@@ -17,6 +17,7 @@ import {
   mdiAccountMultiple,
   mdiShieldAccount,
   mdiCircle,
+  mdiCellphoneOff,
 } from '@mdi/js'
 import type { EntitiesPhone } from '~~/shared/types/api'
 
@@ -125,20 +126,39 @@ async function logout() {
                 name: 'heartbeats-id',
                 params: { id: phonesStore.owner },
               }"
-              :color="phonesStore.heartbeat.charging ? 'success' : 'success'"
-              :variant="phonesStore.heartbeat.charging ? 'flat' : 'outlined'"
+              :color="
+                !phonesStore.phoneOnline
+                  ? 'error'
+                  : phonesStore.heartbeat.charging
+                    ? 'success'
+                    : 'success'
+              "
+              :variant="
+                !phonesStore.phoneOnline
+                  ? 'flat'
+                  : phonesStore.heartbeat.charging
+                    ? 'flat'
+                    : 'outlined'
+              "
               class="ml-2 mb-0 mt-1 cursor-pointer font-weight-bold"
             >
               <v-icon
-                v-if="phonesStore.heartbeat.charging"
+                v-if="!phonesStore.phoneOnline"
+                start
+                :icon="mdiCellphoneOff"
+              />
+              <v-icon
+                v-else-if="phonesStore.heartbeat.charging"
                 start
                 :icon="mdiBatteryChargingHigh"
               />
               <v-icon v-else start :icon="mdiCircle" size="x-small" />
               {{
-                phonesStore.heartbeat.charging
-                  ? $t('threads.charging')
-                  : $t('threads.online')
+                !phonesStore.phoneOnline
+                  ? $t('threads.offline')
+                  : phonesStore.heartbeat.charging
+                    ? $t('threads.charging')
+                    : $t('threads.online')
               }}
             </v-chip>
           </template>
@@ -149,6 +169,12 @@ async function logout() {
             <span class="d-block mb-1">
               {{ humanizeTime(phonesStore.heartbeat.timestamp) }}
               {{ $t('threads.ago') }}
+            </span>
+            <span
+              v-if="!phonesStore.phoneOnline"
+              class="d-block mb-1 text-error font-weight-bold"
+            >
+              {{ $t('threads.offline') }}
             </span>
             <span class="text-caption font-italic text-grey-lighten-2">{{
               $t('threads.clickToViewHistory')
