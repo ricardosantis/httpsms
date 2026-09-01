@@ -34,7 +34,7 @@ definePageMeta({
 const { t } = useI18n()
 const config = useRuntimeConfig()
 const appStore = useAppStore()
-const { lgAndUp, mdAndUp, mdAndDown, md, smAndDown } = useDisplay()
+const { lgAndUp, mdAndUp, mdAndDown } = useDisplay()
 
 useSeoMeta({
   title: computed(() => t('landing.seo.title')),
@@ -78,22 +78,10 @@ const planYearlyMonthlyPrice = computed(
 <template>
   <div>
     <VContainer>
-      <VRow :class="{ 'py-4': lgAndUp }">
-        <VCol
-          cols="12"
-          md="6"
-          class="pt-8 pb-16"
-          :class="{
-            'text-center': mdAndDown,
-          }"
-        >
+      <VRow class="hero-row">
+        <VCol cols="12" md="6" class="pt-8 pb-16 text-center text-md-left">
           <h1
-            class="text-display-large font-weight-bold pb-1 gradient-header"
-            :class="{
-              'mt-16 font-size-45': lgAndUp,
-              'mt-10': md,
-              'mt-n8': smAndDown,
-            }"
+            class="text-display-large font-weight-bold pb-1 gradient-header hero-title"
           >
             {{ $t('landing.hero.title') }}
           </h1>
@@ -103,9 +91,9 @@ const planYearlyMonthlyPrice = computed(
             }}</span>
             {{ $t('landing.hero.subtitle') }}
           </h2>
-          <div :class="{ 'text-center': mdAndDown }">
+          <div class="text-center text-md-left">
             <VBtn color="primary" size="large" class="mt-4 mb-4" to="/login">
-              <VIcon v-if="lgAndUp" start :icon="mdiSend" />
+              <VIcon class="d-none d-lg-inline-flex" start :icon="mdiSend" />
               {{ $t('landing.hero.getStarted') }}
             </VBtn>
             <VBtn
@@ -115,7 +103,12 @@ const planYearlyMonthlyPrice = computed(
               href="https://sandbox.httpsms.com"
               target="_blank"
             >
-              <VIcon v-if="lgAndUp" start :icon="mdiCreation" color="#ffe500" />
+              <VIcon
+                class="d-none d-lg-inline-flex"
+                start
+                :icon="mdiCreation"
+                color="#ffe500"
+              />
               {{ $t('landing.hero.liveDemo') }}
             </VBtn>
           </div>
@@ -127,19 +120,18 @@ const planYearlyMonthlyPrice = computed(
               })
             }}
           </p>
-          <div class="mt-4" :class="{ 'text-center': mdAndDown }">
+          <div class="mt-4 text-center text-md-left">
             <VIcon color="success" :icon="mdiCheckCircle" />
             {{ $t('landing.hero.freeToUse') }}
             <VIcon class="ml-4" color="success" :icon="mdiCheckCircle" />
             {{ $t('landing.hero.openSource') }}
           </div>
           <VDivider
-            v-if="mdAndDown"
-            class="mt-6 mr-16 bg-success"
+            class="mt-6 mr-16 bg-success d-md-none"
             :class="{ 'ml-16': mdAndDown }"
           />
         </VCol>
-        <VCol v-if="mdAndUp" cols="12" md="6" class="d-flex align-center">
+        <VCol cols="12" md="6" class="d-none d-md-flex align-center">
           <div
             class="mx-auto"
             style="max-width: 98%; width: 100%; aspect-ratio: 16/9"
@@ -1191,5 +1183,25 @@ Console.WriteLine(await response.Content.ReadAsStringAsync());</code></pre>
 
 .gradient-underline {
   color: white;
+}
+
+.hero-title {
+  margin-top: -32px;
+
+  @media (min-width: 960px) and (max-width: 1279.98px) {
+    margin-top: 40px;
+  }
+
+  @media (min-width: 1280px) {
+    margin-top: 64px;
+    font-size: 4.5rem;
+  }
+}
+
+.hero-row {
+  @media (min-width: 1280px) {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
 }
 </style>

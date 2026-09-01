@@ -5,6 +5,9 @@ export const STORAGE_KEY = 'httpsms_redirect_to_threads'
 
 function readFlag(): boolean {
   try {
+    if (typeof localStorage === 'undefined') {
+      return false
+    }
     return localStorage.getItem(STORAGE_KEY) === 'true'
   } catch (error) {
     console.error(error)

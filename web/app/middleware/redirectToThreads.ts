@@ -1,6 +1,10 @@
 import { STORAGE_KEY } from '~/stores/redirectPreference'
 
 export default defineNuxtRouteMiddleware(async () => {
+  if (import.meta.server) {
+    return
+  }
+
   const authStore = useAuthStore()
 
   await new Promise<void>((resolve) => {

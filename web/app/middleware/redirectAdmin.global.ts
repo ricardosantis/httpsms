@@ -1,4 +1,8 @@
 export default defineNuxtRouteMiddleware(async (to) => {
+  if (import.meta.server) {
+    return
+  }
+
   if (to.name === 'admin-users' || to.name === 'login') {
     return
   }

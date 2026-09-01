@@ -1,6 +1,10 @@
 import { useAuthStore } from '../stores/auth'
 
 export default defineNuxtRouteMiddleware(async (to: { path: string }) => {
+  if (import.meta.server) {
+    return navigateTo({ path: '/login', query: { to: to.path } })
+  }
+
   const authStore = useAuthStore()
 
   if (!authStore.authStateChanged) {

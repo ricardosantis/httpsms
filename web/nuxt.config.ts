@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
 
-  ssr: false,
+  ssr: true,
 
   modules: [
     '@nuxt/eslint',
@@ -161,21 +161,43 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: [],
+      routes: [
+        '/',
+        '/login',
+        '/blog',
+        '/blog/end-to-end-encryption-to-sms-messages',
+        '/blog/forward-incoming-sms-from-phone-to-webhook',
+        '/blog/grant-send-and-read-sms-permissions-on-android',
+        '/blog/how-to-send-sms-messages-from-excel',
+        '/blog/send-bulk-sms-from-csv-file-with-no-code',
+        '/blog/send-sms-from-android-phone-with-python',
+        '/blog/send-sms-when-new-row-is-added-to-google-sheets-using-zapier',
+        '/docs',
+        '/features/control-sms-send-rate',
+        '/features/outgoing-message-queue',
+        '/features/phone-api-keys',
+        '/features/scheduling-sms-messages',
+        '/privacy-policy',
+        '/terms-and-conditions',
+        '/webhooks/events',
+        '/webhooks/introduction',
+      ],
       failOnError: false,
     },
   },
 
   routeRules: {
-    '/messages': { robots: false },
-    '/threads': { robots: false },
-    '/threads/**': { robots: false },
-    '/settings': { robots: false },
-    '/billing': { robots: false },
-    '/bulk-messages': { robots: false },
-    '/heartbeats/**': { robots: false },
-    '/phone-api-keys': { robots: false },
-    '/search-messages': { robots: false },
+    '/messages': { robots: false, ssr: false },
+    '/threads': { robots: false, ssr: false },
+    '/threads/**': { robots: false, ssr: false },
+    '/settings': { robots: false, ssr: false },
+    '/billing': { robots: false, ssr: false },
+    '/bulk-messages': { robots: false, ssr: false },
+    '/heartbeats/**': { robots: false, ssr: false },
+    '/phone-api-keys': { robots: false, ssr: false },
+    '/search-messages': { robots: false, ssr: false },
+    '/contacts': { ssr: false },
+    '/admin/**': { ssr: false },
   },
 
   app: {

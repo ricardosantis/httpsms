@@ -36,12 +36,14 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   // Override hljs background to use Vuetify surface variant
-  const style = document.createElement('style')
-  style.textContent = `
+  if (import.meta.client) {
+    const style = document.createElement('style')
+    style.textContent = `
     pre code.hljs {
       background: transparent;
       padding: 0;
     }
   `
-  document.head.appendChild(style)
+    document.head.appendChild(style)
+  }
 })
