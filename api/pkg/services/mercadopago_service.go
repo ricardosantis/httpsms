@@ -99,8 +99,8 @@ func (service *MercadopagoService) CreateCheckoutSession(ctx context.Context, pa
 	// In Mercado Pago, we link the subscription to a Plan ID created in the dashboard.
 	// If the frontend passes PriceID, we use it as the PreapprovalPlanID.
 	
-	// For plans that exceed MP subscription limits (> 4000 BRL), we use Checkout Pro Preference (one-off payment).
-	isHighTierYearly := params.PlanID == "50k-yearly" || params.PlanID == "100k-yearly" || params.PlanID == "200k-yearly"
+	// For one-off plans or plans that exceed MP subscription limits (> 4000 BRL), we use Checkout Pro Preference (one-off payment).
+	isOneOffPayment := params.PlanID == "pro-lifetime" || params.PlanID == "50k-yearly" || params.PlanID == "100k-yearly" || params.PlanID == "200k-yearly"
 	
 	priceMap := map[string]float64{
 		"pro-monthly": 59,
@@ -118,7 +118,7 @@ func (service *MercadopagoService) CreateCheckoutSession(ctx context.Context, pa
 		"pro-lifetime": 4990,
 	}
 
-	if isHighTierYearly {
+	if isOneOffPayment {
 		req := preference.Request{
 			Items: []preference.ItemRequest{
 				{
@@ -230,7 +230,7 @@ func (service *MercadopagoService) HandleSubscriptionUpdated(ctx context.Context
 			SubscriptionID:        sub.ID,
 			SubscriptionName:      service.mapPlanToSubscriptionName(planID),
 			SubscriptionRenewsAt:  renewsAt,
-			SubscriptionStatus:    status,
+			SubscriptionStatus:    "active",
 		}
 
 		// Also check if this is the first time the subscription is active, maybe trigger Created event.
@@ -363,7 +363,13 @@ func (service *MercadopagoService) HandlePaymentUpdated(ctx context.Context, sou
 		return stacktrace.Propagatef(err, "cannot load user [%s]", userIDStr)
 	}
 
-	renewsAt := time.Now().UTC().AddDate(1, 0, 0) // 1 year from now
+	renewsAt := time.Now().UTC().AddDate(0, 1, 0) // default 1 month
+	planLower := strings.ToLower(planID)
+	if strings.Contains(planLower, "lifetime") {
+		renewsAt = time.Now().UTC().AddDate(100, 0, 0) // 100 years for lifetime
+	} else if strings.Contains(planLower, "yearly") {
+		renewsAt = time.Now().UTC().AddDate(1, 0, 0) // 1 year
+	}
 
 	payload := &events.UserSubscriptionUpdatedPayload{
 		UserID:                user.ID,
@@ -371,7 +377,7 @@ func (service *MercadopagoService) HandlePaymentUpdated(ctx context.Context, sou
 		SubscriptionID:        strconv.FormatInt(paymentID, 10),
 		SubscriptionName:      service.mapPlanToSubscriptionName(planID),
 		SubscriptionRenewsAt:  renewsAt,
-		SubscriptionStatus:    "authorized",
+		SubscriptionStatus:    "active",
 	}
 
 	event, err := service.createEvent(events.UserSubscriptionUpdated, source, payload)

@@ -328,10 +328,14 @@ func (service *UserService) StartSubscription(ctx context.Context, params *event
 		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "could not get [%T] with with ID [%s]", user, params.UserID))
 	}
 
+	status := params.SubscriptionStatus
+	if status == "authorized" {
+		status = "active"
+	}
 	user.SubscriptionID = &params.SubscriptionID
 	user.SubscriptionName = params.SubscriptionName
 	user.SubscriptionRenewsAt = &params.SubscriptionRenewsAt
-	user.SubscriptionStatus = &params.SubscriptionStatus
+	user.SubscriptionStatus = &status
 	user.SubscriptionEndsAt = nil
 
 	if err = service.repository.Update(ctx, user); err != nil {
@@ -426,17 +430,18 @@ func (service *UserService) UpdateSubscription(ctx context.Context, params *even
 		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "could not get [%T] with with ID [%s]", user, params.UserID))
 	}
 
-	if params.SubscriptionStatus != "active" {
+	if params.SubscriptionStatus != "active" && params.SubscriptionStatus != "authorized" {
 		msg := fmt.Sprintf("subscription status is [%s] for [%T] with with ID [%s]", params.SubscriptionStatus, user, params.UserID)
 		ctxLogger.Info(msg)
 		return nil
 	}
 
+	activeStatus := "active"
 	user.SubscriptionID = &params.SubscriptionID
 	user.SubscriptionName = params.SubscriptionName
 	user.SubscriptionEndsAt = params.SubscriptionEndsAt
 	user.SubscriptionRenewsAt = &params.SubscriptionRenewsAt
-	user.SubscriptionStatus = &params.SubscriptionStatus
+	user.SubscriptionStatus = &activeStatus
 
 	if err = service.repository.Update(ctx, user); err != nil {
 		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "could not update [%T] with with ID [%s] after subscription update", user, params.UserID))

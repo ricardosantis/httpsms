@@ -115,7 +115,7 @@ func (service *BillingService) sendLimitExceededEmail(ctx context.Context, user 
 	}
 
 	if err = service.mailer.Send(ctx, email); err != nil {
-		ctxLogger.Error(stacktrace.Propagatef(err, "canot send usage limit exceeded notification to user [%s]", user.ID))
+		ctxLogger.Error(stacktrace.Propagatef(err, "cannot send usage limit exceeded notification to user [%s]", user.ID))
 		return
 	}
 
@@ -213,7 +213,7 @@ func (service *BillingService) sendUsageAlert(ctx context.Context, userID entiti
 	}
 
 	if err = service.mailer.Send(ctx, email); err != nil {
-		ctxLogger.Error(stacktrace.Propagatef(err, "canot send usage alert notification to user [%s]", user.ID))
+		ctxLogger.Error(stacktrace.Propagatef(err, "cannot send usage alert notification to user [%s]", user.ID))
 	}
 
 	ctxLogger.Info(fmt.Sprintf("usage alert email sent to user [%s]", user.ID))
