@@ -65,6 +65,12 @@ func (h *AdminHandler) IndexUsers(c fiber.Ctx) error {
 
 	skip, _ := strconv.Atoi(c.Query("skip", "0"))
 	limit, _ := strconv.Atoi(c.Query("limit", "20"))
+	if limit <= 0 || limit > 100 {
+		limit = 20
+	}
+	if skip < 0 {
+		skip = 0
+	}
 	query := c.Query("query", "")
 
 	users, totalCount, err := h.userService.IndexAll(ctx, skip, limit, query)
@@ -105,13 +111,17 @@ func (h *AdminHandler) BlockUser(c fiber.Ctx) error {
 		return h.responseBadRequest(c, stacktrace.NewError("missing userID parameter"))
 	}
 
+	if userID == h.userIDFomContext(c) {
+		return h.responseBadRequest(c, stacktrace.NewError("cannot block your own account"))
+	}
+
 	if h.isSystemUser(userID) {
 		return h.responseBadRequest(c, stacktrace.NewError("cannot block the system user"))
 	}
 
 	if err := h.userService.Block(ctx, userID); err != nil {
 		ctxLogger.Error(h.tracer.WrapErrorSpan(span, err))
-		return h.responseInternalServerError(c)
+		return h.responseBadRequest(c, err)
 	}
 
 	return c.Status(http.StatusOK).JSON(responses.OkString{Status: "success", Message: "User blocked successfully"})
@@ -173,13 +183,17 @@ func (h *AdminHandler) DeleteUser(c fiber.Ctx) error {
 		return h.responseBadRequest(c, stacktrace.NewError("missing userID parameter"))
 	}
 
+	if userID == h.userIDFomContext(c) {
+		return h.responseBadRequest(c, stacktrace.NewError("cannot delete your own account"))
+	}
+
 	if h.isSystemUser(userID) {
 		return h.responseBadRequest(c, stacktrace.NewError("cannot delete the system user"))
 	}
 
 	if err := h.userService.AdminDelete(ctx, userID); err != nil {
 		ctxLogger.Error(h.tracer.WrapErrorSpan(span, err))
-		return h.responseInternalServerError(c)
+		return h.responseBadRequest(c, err)
 	}
 
 	return c.Status(http.StatusOK).JSON(responses.OkString{Status: "success", Message: "User deleted successfully"})

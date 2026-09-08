@@ -1190,6 +1190,32 @@
     "description2": " and upload it to import your contact list in bulk.",
     "loading": "Loading contacts..."
   },
+  "admin": {
+    "title": "Admin Panel",
+    "users": "Users",
+    "logout": "Logout",
+    "viewSite": "View Site",
+    "usersPageTitle": "Admin Panel - Users",
+    "searchPlaceholder": "Search by email",
+    "headers": {
+      "email": "Email",
+      "subscription": "Subscription",
+      "status": "Status",
+      "subStatus": "Sub. Status",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    },
+    "statusActive": "Active",
+    "statusBlocked": "Blocked",
+    "block": "Block",
+    "unblock": "Restore",
+    "delete": "Remove",
+    "confirmDelete": "Are you sure you want to remove {email}? This action is irreversible.",
+    "blockSuccess": "User blocked successfully.",
+    "unblockSuccess": "User restored successfully.",
+    "deleteSuccess": "User removed successfully.",
+    "errorGeneric": "An error occurred while processing the request."
+  },
   "$vuetify": {
     "noDataText": "No data available",
     "dataFooter": {

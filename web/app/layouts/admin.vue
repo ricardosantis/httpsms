@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getAuth, signOut } from 'firebase/auth'
-import { mdiAccountGroup, mdiLogout } from '@mdi/js'
+import { mdiAccountGroup, mdiLogout, mdiWeb } from '@mdi/js'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -37,10 +37,20 @@ async function logout() {
                 :size="38"
               />
               <h3 class="text-headline-large mb-0 ml-1 mt-6 text-white">
-                Painel Admin
+                {{ t('admin.title') }}
               </h3>
             </NuxtLink>
             <v-spacer />
+            <v-btn
+              to="/"
+              color="grey-lighten-1"
+              variant="text"
+              size="large"
+              class="mr-2"
+            >
+              <v-icon start :icon="mdiWeb" />
+              {{ t('admin.viewSite') }}
+            </v-btn>
             <v-btn
               :to="{ name: 'admin-users' }"
               color="primary"
@@ -48,11 +58,11 @@ async function logout() {
               size="large"
             >
               <v-icon start :icon="mdiAccountGroup" />
-              Usuários
+              {{ t('admin.users') }}
             </v-btn>
             <v-btn color="primary" variant="text" size="large" @click="logout">
               <v-icon start :icon="mdiLogout" />
-              Sair
+              {{ t('admin.logout') }}
             </v-btn>
           </v-col>
         </v-row>

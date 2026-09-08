@@ -309,7 +309,10 @@ func (repository *gormUserRepository) IndexAll(ctx context.Context, skip int, li
 	ctx, span := repository.tracer.Start(ctx)
 	defer span.End()
 
-db := repository.db.WithContext(ctx).Model(&entities.User{}).Where("is_admin = ?", false)
+	db := repository.db.WithContext(ctx).Model(&entities.User{}).Where("is_admin = ?", false)
+	if sysUserID := os.Getenv("EVENTS_QUEUE_USER_ID"); sysUserID != "" {
+		db = db.Where("id != ?", sysUserID)
+	}
 
 	if query != "" {
 		db = db.Where("email ILIKE ?", "%"+query+"%")

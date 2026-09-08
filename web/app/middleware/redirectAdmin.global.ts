@@ -3,7 +3,29 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return
   }
 
-  if (to.name === 'admin-users' || to.name === 'login') {
+  // Allow admin routes and login
+  if (to.path.startsWith('/admin') || to.name === 'login') {
+    return
+  }
+
+  // Only redirect from customer dashboard app routes
+  const customerAppPrefixes = [
+    '/threads',
+    '/messages',
+    '/contacts',
+    '/settings',
+    '/billing',
+    '/bulk-messages',
+    '/heartbeats',
+    '/phone-api-keys',
+    '/search-messages',
+  ]
+
+  const isCustomerRoute = customerAppPrefixes.some((prefix) =>
+    to.path.startsWith(prefix),
+  )
+
+  if (!isCustomerRoute) {
     return
   }
 

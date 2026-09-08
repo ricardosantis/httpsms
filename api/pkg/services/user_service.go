@@ -491,6 +491,15 @@ func (service *UserService) Block(ctx context.Context, userID entities.UserID) e
 	ctx, span, ctxLogger := service.tracer.StartWithLogger(ctx, service.logger)
 	defer span.End()
 
+	user, err := service.repository.Load(ctx, userID)
+	if err != nil {
+		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot load user with ID [%s]", userID))
+	}
+
+	if user.IsAdmin {
+		return service.tracer.WrapErrorSpan(span, stacktrace.NewErrorf("cannot block an admin user [%s]", userID))
+	}
+
 	if err := service.repository.UpdateActive(ctx, userID, false); err != nil {
 		return service.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot block user [%s]", userID))
 	}

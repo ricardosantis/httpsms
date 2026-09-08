@@ -1190,6 +1190,32 @@
     "description2": " e faça o upload para importar sua lista de contatos em massa.",
     "loading": "Carregando contatos..."
   },
+  "admin": {
+    "title": "Painel Admin",
+    "users": "Usuários",
+    "logout": "Sair",
+    "viewSite": "Ver Site",
+    "usersPageTitle": "Painel Admin - Usuários",
+    "searchPlaceholder": "Buscar por e-mail",
+    "headers": {
+      "email": "Email",
+      "subscription": "Assinatura",
+      "status": "Status",
+      "subStatus": "Assin. Status",
+      "createdAt": "Data Cadastro",
+      "actions": "Ações"
+    },
+    "statusActive": "Ativo",
+    "statusBlocked": "Bloqueado",
+    "block": "Bloquear",
+    "unblock": "Restaurar",
+    "delete": "Remover",
+    "confirmDelete": "Tem certeza que deseja remover {email}? Esta ação é irreversível.",
+    "blockSuccess": "Usuário bloqueado com sucesso.",
+    "unblockSuccess": "Usuário restaurado com sucesso.",
+    "deleteSuccess": "Usuário removido com sucesso.",
+    "errorGeneric": "Ocorreu um erro ao processar a ação."
+  },
   "$vuetify": {
     "noDataText": "Nenhum dado disponível",
     "dataFooter": {

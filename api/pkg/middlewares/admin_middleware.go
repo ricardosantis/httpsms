@@ -15,18 +15,27 @@ func AdminOnly(logger telemetry.Logger, userRepo repositories.UserRepository) fi
 		authCtx, ok := c.Locals(ContextKeyAuthUserID).(entities.AuthContext)
 		if !ok || authCtx.IsNoop() {
 			logger.Error(fmt.Errorf("AdminOnly middleware called without valid auth context"))
-			return c.SendStatus(fiber.StatusUnauthorized)
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"status":  "error",
+				"message": "You are not authorized to carry out this request.",
+			})
 		}
 
 		user, err := userRepo.Load(c.Context(), authCtx.ID)
 		if err != nil {
 			logger.Error(fmt.Errorf("AdminOnly failed to load user [%s]: %w", authCtx.ID, err))
-			return c.SendStatus(fiber.StatusInternalServerError)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"status":  "error",
+				"message": "Internal server error.",
+			})
 		}
 
 		if !user.IsAdmin {
 			logger.Error(fmt.Errorf("Access denied for non-admin user [%s]", authCtx.ID))
-			return c.SendStatus(fiber.StatusForbidden)
+			return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+				"status":  "error",
+				"message": "Access denied. Administrator privileges required.",
+			})
 		}
 
 		// store the loaded user in context for downstream handlers
