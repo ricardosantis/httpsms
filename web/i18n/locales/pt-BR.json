@@ -1029,7 +1029,7 @@
     },
     "section4": {
       "title": "4. Planos, Cobrança e Cancelamento",
-      "p1": "Os planos pagos do httpSMS são cobrados em Reais (BRL) de forma recorrente (mensal ou anual) através do nosso processador de pagamentos seguro Stripe.",
+      "p1": "Os planos pagos do httpSMS são cobrados em Reais (BRL) de forma recorrente (mensal ou anual) através do nosso processador de pagamentos seguro Mercado Pago.",
       "p2": "Você pode cancelar sua assinatura a qualquer momento através da página de Faturamento. O cancelamento interrompe cobranças futuras e seu plano permanecerá ativo até o final do período já pago.",
       "p3": "Em consonância com o Código de Defesa do Consumidor (Lei nº 8.078/1990), garantimos o direito de arrependimento no prazo de 7 (sete) dias após a primeira contratação do plano."
     },
@@ -1059,7 +1059,7 @@
       "item1": "Dados Cadastrais: Nome, endereço de e-mail e informações de autenticação (Firebase Auth).",
       "item2": "Metadados de Mensagens: Número do telefone remetente, número do telefone destinatário, data/hora e status de entrega (SENT, DELIVERED, FAILED, RECEIVED).",
       "item3": "Conteúdo das Mensagens: Armazenado de forma temporária para viabilizar o encaminhamento e exibição no painel. Caso utilize a criptografia ponta a ponta (AES-256), o conteúdo é armazenado exclusivamente de forma cifrada, sem possibilidade de acesso por nossa equipe.",
-      "item4": "Dados de Faturamento: Informações de pagamento processadas diretamente pelo Stripe em ambiente compatível com PCI-DSS. Nós não armazenamos dados de cartão de crédito nos nossos servidores.",
+      "item4": "Dados de Faturamento: Informações de pagamento processadas diretamente pelo Mercado Pago em ambiente compatível com PCI-DSS. Nós não armazenamos dados de cartão de crédito nos nossos servidores.",
       "item5": "Logs de Acesso e Conexão: Endereço IP, data e hora de acesso, versão do aplicativo e logs técnicos, mantidos em cumprimento ao Art. 15 do Marco Civil da Internet."
     },
     "section3": {
@@ -1077,7 +1077,7 @@
       "title": "5. Compartilhamento de Dados com Terceiros",
       "p1": "Não vendemos nem comercializamos seus dados pessoais. Compartilhamos dados estritamente com provedores de infraestrutura indispensáveis para a operação do serviço:",
       "item1": "Google Cloud Platform / Firebase: Armazenamento e autenticação de usuários.",
-      "item2": "Stripe: Processamento seguro de pagamentos e assinaturas.",
+      "item2": "Mercado Pago: Processamento seguro de pagamentos e assinaturas.",
       "item3": "Neon PostgreSQL & Upstash Redis: Armazenamento de banco de dados e filas de eventos com conexões criptografadas TLS."
     },
     "section6": {

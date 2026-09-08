@@ -72,47 +72,16 @@ export const useBillingStore = defineStore('billing', () => {
 
   async function getSubscriptionUpdateLink(): Promise<string> {
     try {
-      const response = await apiFetch<{ data: { url: string } }>(
-        '/v1/stripe/customer-portal',
-        { method: 'POST' },
+      const response = await apiFetch<{ data: string }>(
+        '/v1/users/subscription-update-url',
+        { method: 'GET' },
       )
-      return response.data.url
+      return response.data || 'https://www.mercadopago.com.br/subscriptions'
     } catch (error) {
       notificationsStore.addNotification({
         message: getApiErrorMessage(
           error,
           'Failed to get subscription management link',
-        ),
-        type: 'error',
-      })
-      throw error
-    }
-  }
-
-  async function createStripeCheckoutSession(
-    planId: string = 'pro-monthly',
-    priceId?: string,
-  ): Promise<string> {
-    try {
-      const response = await apiFetch<{ data: { url: string } }>(
-        '/v1/stripe/checkout-session',
-        {
-          method: 'POST',
-          body: {
-            plan_id: planId,
-            ...(priceId ? { price_id: priceId } : {}),
-          },
-        },
-      )
-      return response.data.url
-    } catch (error) {
-      notificationsStore.addNotification({
-        message: getApiErrorMessage(
-          error,
-          t(
-            'billingStore.failedToCreateCheckoutSession',
-            'Failed to create checkout session',
-          ),
         ),
         type: 'error',
       })
@@ -627,7 +596,6 @@ export const useBillingStore = defineStore('billing', () => {
     loadBillingUsage,
     loadBillingUsageHistory,
     getSubscriptionUpdateLink,
-    createStripeCheckoutSession,
     createMercadopagoCheckoutSession,
     cancelSubscription,
     indexSubscriptionPayments,

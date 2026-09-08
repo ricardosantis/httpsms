@@ -29,7 +29,6 @@ import (
 	mexporter "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric"
 	cloudtrace "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace"
 	"github.com/NdoleStudio/httpsms/pkg/cache"
-	"github.com/NdoleStudio/lemonsqueezy-go"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/redis/go-redis/extra/redisotel/v9"
 	"github.com/redis/go-redis/v9"
@@ -151,8 +150,6 @@ func NewContainer(projectID string, version string) (container *Container) {
 	container.RegisterWebhookRoutes()
 	container.RegisterWebhookListeners()
 
-	container.RegisterLemonsqueezyRoutes()
-	container.RegisterStripeRoutes()
 	container.RegisterMercadopagoRoutes()
 
 	container.RegisterIntegration3CXRoutes()
@@ -1116,10 +1113,9 @@ func (container *Container) UserService() (service *services.UserService) {
 		container.UserRepository(),
 		container.Mailer(),
 		container.UserEmailFactory(),
-		container.LemonsqueezyClient(),
 		container.EventDispatcher(),
 		container.FirebaseAuthClient(),
-		container.HTTPClient("lemonsqueezy"),
+		container.MercadopagoService(),
 	)
 }
 
@@ -1285,30 +1281,9 @@ func (container *Container) RegisterMessageSendScheduleListeners() {
 	}
 }
 
-// LemonsqueezyService creates a new instance of services.LemonsqueezyService
-func (container *Container) LemonsqueezyService() (service *services.LemonsqueezyService) {
-	container.logger.Debug(fmt.Sprintf("creating %T", service))
-	return services.NewLemonsqueezyService(
-		container.Logger(),
-		container.Tracer(),
-		container.UserRepository(),
-		container.EventDispatcher(),
-	)
-}
-
 // MercadopagoService creates a new instance of services.MercadopagoService
 func (container *Container) MercadopagoService() (service *services.MercadopagoService) {
 	return services.NewMercadopagoService(
-		container.Logger(),
-		container.Tracer(),
-		container.UserRepository(),
-		container.EventDispatcher(),
-	)
-}
-
-// StripeService creates a new instance of services.StripeService
-func (container *Container) StripeService() (service *services.StripeService) {
-	return services.NewStripeService(
 		container.Logger(),
 		container.Tracer(),
 		container.UserRepository(),
@@ -1323,27 +1298,6 @@ func (container *Container) MercadopagoHandler() (handler *handlers.MercadopagoH
 		container.Tracer(),
 		container.MercadopagoService(),
 		container.MercadopagoHandlerValidator(),
-	)
-}
-
-// LemonsqueezyHandler creates a new instance of handlers.LemonsqueezyHandler
-func (container *Container) LemonsqueezyHandler() (handler *handlers.LemonsqueezyHandler) {
-	container.logger.Debug(fmt.Sprintf("creating %T", handler))
-	return handlers.NewLemonsqueezyHandler(
-		container.Logger(),
-		container.Tracer(),
-		container.LemonsqueezyService(),
-		container.LemonsqueezyHandlerValidator(),
-	)
-}
-
-// StripeHandler creates a new instance of handlers.StripeHandler
-func (container *Container) StripeHandler() (handler *handlers.StripeHandler) {
-	return handlers.NewStripeHandler(
-		container.Logger(),
-		container.Tracer(),
-		container.StripeService(),
-		container.StripeHandlerValidator(),
 	)
 }
 
@@ -1388,27 +1342,9 @@ func (container *Container) DiscordHandler() (handler *handlers.DiscordHandler) 
 	)
 }
 
-// LemonsqueezyHandlerValidator creates a new instance of validators.LemonsqueezyHandlerValidator
-func (container *Container) LemonsqueezyHandlerValidator() (validator *validators.LemonsqueezyHandlerValidator) {
-	container.logger.Debug(fmt.Sprintf("creating %T", validator))
-	return validators.NewLemonsqueezyHandlerValidator(
-		container.Logger(),
-		container.Tracer(),
-		container.LemonsqueezyClient(),
-	)
-}
-
 // MercadopagoHandlerValidator creates a new instance of validators.MercadopagoHandlerValidator
 func (container *Container) MercadopagoHandlerValidator() (validator *validators.MercadopagoHandlerValidator) {
 	return validators.NewMercadopagoHandlerValidator(
-		container.Logger(),
-		container.Tracer(),
-	)
-}
-
-// StripeHandlerValidator creates a new instance of validators.StripeHandlerValidator
-func (container *Container) StripeHandlerValidator() (validator *validators.StripeHandlerValidator) {
-	return validators.NewStripeHandlerValidator(
 		container.Logger(),
 		container.Tracer(),
 	)
@@ -1420,16 +1356,6 @@ func (container *Container) PhoneAPIKeyHandlerValidator() (validator *validators
 	return validators.NewPhoneAPIKeyHandlerValidator(
 		container.Logger(),
 		container.Tracer(),
-	)
-}
-
-// LemonsqueezyClient creates a new instance of lemonsqueezy.Client
-func (container *Container) LemonsqueezyClient() (client *lemonsqueezy.Client) {
-	container.logger.Debug(fmt.Sprintf("creating %T", client))
-	return lemonsqueezy.New(
-		lemonsqueezy.WithHTTPClient(container.HTTPClient("lemonsqueezy")),
-		lemonsqueezy.WithAPIKey(os.Getenv("LEMONSQUEEZY_API_KEY")),
-		lemonsqueezy.WithSigningSecret(os.Getenv("LEMONSQUEEZY_SIGNING_SECRET")),
 	)
 }
 
@@ -1465,22 +1391,10 @@ func (container *Container) PlunkClient() (client *plunk.Client) {
 	)
 }
 
-// RegisterLemonsqueezyRoutes registers routes for the /lemonsqueezy prefix
-func (container *Container) RegisterLemonsqueezyRoutes() {
-	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.LemonsqueezyHandler{}))
-	container.LemonsqueezyHandler().RegisterRoutes(container.App())
-}
-
 // RegisterMercadopagoRoutes registers routes for the /mercadopago prefix
 func (container *Container) RegisterMercadopagoRoutes() {
 	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.MercadopagoHandler{}))
 	container.MercadopagoHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
-}
-
-// RegisterStripeRoutes registers routes for the /stripe prefix
-func (container *Container) RegisterStripeRoutes() {
-	container.logger.Debug(fmt.Sprintf("registering %T routes", &handlers.StripeHandler{}))
-	container.StripeHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
 }
 
 // RegisterIntegration3CXRoutes registers routes for the /integration/3cx prefix
@@ -1491,7 +1405,7 @@ func (container *Container) RegisterIntegration3CXRoutes() {
 
 // RegisterPhoneAPIKeyRoutes registers routes for the /phone-api-key prefix
 func (container *Container) RegisterPhoneAPIKeyRoutes() {
-	container.logger.Debug(fmt.Sprintf("registering [%T] routes", &handlers.Integration3CXHandler{}))
+	container.logger.Debug(fmt.Sprintf("registering [%T] routes", &handlers.PhoneAPIKeyHandler{}))
 	container.PhoneAPIKeyHandler().RegisterRoutes(container.App(), container.AuthenticatedMiddleware())
 }
 

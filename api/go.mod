@@ -10,7 +10,6 @@ require (
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric v0.59.0
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/trace v1.35.0
 	github.com/NdoleStudio/go-otelroundtripper v0.0.15
-	github.com/NdoleStudio/lemonsqueezy-go v1.3.2
 	github.com/NdoleStudio/plunk-go v0.0.2
 	github.com/NdoleStudio/stacktrace v1.1.0
 	github.com/avast/retry-go/v5 v5.0.0
@@ -32,7 +31,6 @@ require (
 	github.com/hirosassa/zerodriver v0.1.4
 	github.com/jaswdr/faker/v2 v2.9.1
 	github.com/joho/godotenv v1.5.1
-	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
 	github.com/jszwec/csvutil v1.10.0
 	github.com/lib/pq v1.12.3
 	github.com/mercadopago/sdk-go v1.14.0
@@ -44,7 +42,6 @@ require (
 	github.com/redis/go-redis/v9 v9.21.0
 	github.com/rs/zerolog v1.35.1
 	github.com/stretchr/testify v1.11.1
-	github.com/stripe/stripe-go/v78 v78.12.0
 	github.com/swaggo/swag v1.16.6
 	github.com/thedevsaddam/govalidator v1.9.10
 	github.com/uptrace/uptrace-go v1.43.0

@@ -63,6 +63,15 @@ func NewMercadopagoService(
 	}
 }
 
+// CreateCheckoutSessionParams contains parameters needed to initiate a checkout session
+type CreateCheckoutSessionParams struct {
+	UserID     entities.UserID
+	PlanID     string
+	PriceID    string
+	SuccessURL string
+	CancelURL  string
+}
+
 // CreateCheckoutSession creates a new Mercado Pago Preapproval (Subscription) for a user
 func (service *MercadopagoService) CreateCheckoutSession(ctx context.Context, params CreateCheckoutSessionParams) (string, error) {
 	ctx, span, _ := service.tracer.StartWithLogger(ctx, service.logger)
@@ -344,7 +353,7 @@ func (service *MercadopagoService) HandlePaymentUpdated(ctx context.Context, sou
 			}
 			userIDStr = string(user.ID)
 		} else {
-			ctxLogger.Warn(stacktrace.NewError("cannot resolve user from payment [%d]", paymentID))
+			ctxLogger.Warn(stacktrace.NewErrorf("cannot resolve user from payment [%d]", paymentID))
 			return nil
 		}
 	}
@@ -376,3 +385,24 @@ func (service *MercadopagoService) HandlePaymentUpdated(ctx context.Context, sou
 
 	return nil
 }
+
+// CancelSubscription cancels a preapproval subscription in Mercado Pago
+func (service *MercadopagoService) CancelSubscription(ctx context.Context, preapprovalID string) error {
+	ctx, span, ctxLogger := service.tracer.StartWithLogger(ctx, service.logger)
+	defer span.End()
+
+	if service.mpClient == nil {
+		return stacktrace.NewError("mercadopago client is not initialized")
+	}
+
+	_, err := service.mpClient.Update(ctx, preapprovalID, preapproval.UpdateRequest{
+		Status: "cancelled",
+	})
+	if err != nil {
+		return stacktrace.Propagatef(err, "cannot cancel mercadopago subscription [%s]", preapprovalID)
+	}
+
+	ctxLogger.Info(fmt.Sprintf("mercadopago subscription [%s] successfully cancelled", preapprovalID))
+	return nil
+}
+

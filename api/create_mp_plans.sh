@@ -1,5 +1,16 @@
 #!/bin/bash
-export MP_ACCESS_TOKEN="APP_USR-4061045564599195-052515-3adfc1f31cdcee9c9ca94e123aae88cb-278707737"
+if [ -z "$MP_ACCESS_TOKEN" ]; then
+  if [ -f .env ]; then
+    export MP_ACCESS_TOKEN=$(grep -E '^MERCADOPAGO_ACCESS_TOKEN=' .env | cut -d '=' -f2- | tr -d '"' | tr -d "'")
+  elif [ -f ../.env ]; then
+    export MP_ACCESS_TOKEN=$(grep -E '^MERCADOPAGO_ACCESS_TOKEN=' ../.env | cut -d '=' -f2- | tr -d '"' | tr -d "'")
+  fi
+fi
+
+if [ -z "$MP_ACCESS_TOKEN" ]; then
+  echo "Error: MP_ACCESS_TOKEN or MERCADOPAGO_ACCESS_TOKEN must be set" >&2
+  exit 1
+fi
 URL="https://smsandroid.com.br/billing"
 
 declare -A PLANS=(

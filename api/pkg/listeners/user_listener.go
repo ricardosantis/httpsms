@@ -147,7 +147,7 @@ func (listener *UserListener) OnUserSubscriptionUpdated(ctx context.Context, eve
 	}
 
 	if err := listener.service.UpdateSubscription(ctx, &payload); err != nil {
-		return listener.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot expire subscription for user with ID [%s] for event with ID [%s]", payload.UserID, event.ID()))
+		return listener.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot update subscription for user with ID [%s] for event with ID [%s]", payload.UserID, event.ID()))
 	}
 
 	return nil

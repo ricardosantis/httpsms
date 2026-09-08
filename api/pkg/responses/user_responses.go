@@ -12,7 +12,7 @@ type UserResponse struct {
 	Data entities.User `json:"data"`
 }
 
-// UserSubscriptionPaymentsResponse is the payload containing lemonsqueezy.SubscriptionInvoicesAPIResponse
+// UserSubscriptionPaymentsResponse is the payload containing subscription invoices
 type UserSubscriptionPaymentsResponse struct {
 	response
 	Data []struct {

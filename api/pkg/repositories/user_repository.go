@@ -29,7 +29,7 @@ type UserRepository interface {
 	// LoadOrStore an entities.User by entities.AuthContext
 	LoadOrStore(ctx context.Context, user entities.AuthContext) (*entities.User, bool, error)
 
-	// LoadBySubscriptionID loads a user based on the lemonsqueezy subscriptionID
+	// LoadBySubscriptionID loads a user based on the subscriptionID
 	LoadBySubscriptionID(ctx context.Context, subscriptionID string) (*entities.User, error)
 
 	// LoadByEmail loads a user based on the email

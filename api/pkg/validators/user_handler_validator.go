@@ -9,7 +9,6 @@ import (
 	"github.com/NdoleStudio/httpsms/pkg/requests"
 	"github.com/NdoleStudio/httpsms/pkg/services"
 	"github.com/NdoleStudio/httpsms/pkg/telemetry"
-	"github.com/NdoleStudio/stacktrace"
 	"github.com/thedevsaddam/govalidator"
 )
 
@@ -50,7 +49,7 @@ func (validator *UserHandlerValidator) ValidateUpdate(_ context.Context, request
 
 // ValidatePaymentInvoice validates the requests.UserPaymentInvoice request
 func (validator *UserHandlerValidator) ValidatePaymentInvoice(ctx context.Context, userID entities.UserID, request requests.UserPaymentInvoice) url.Values {
-	ctx, span, ctxLogger := validator.tracer.StartWithLogger(ctx, validator.logger)
+	ctx, span, _ := validator.tracer.StartWithLogger(ctx, validator.logger)
 	defer span.End()
 
 	rules := govalidator.MapData{
@@ -110,19 +109,6 @@ func (validator *UserHandlerValidator) ValidatePaymentInvoice(ctx context.Contex
 		return validationErrors
 	}
 
-	payments, err := validator.service.GetSubscriptionPayments(ctx, userID)
-	if err != nil {
-		ctxLogger.Error(validator.tracer.WrapErrorSpan(span, stacktrace.Propagatef(err, "cannot get subscription payments for user with ID [%s]", userID)))
-		validationErrors.Add("subscriptionInvoiceID", "failed to validate subscription payment invoice ID")
-		return validationErrors
-	}
-
-	for _, payment := range payments {
-		if payment.ID == request.SubscriptionInvoiceID {
-			return validationErrors
-		}
-	}
-
-	validationErrors.Add("subscriptionInvoiceID", "failed to validate the subscription payment invoice ID")
+	validationErrors.Add("subscriptionInvoiceID", "receipt generation is not supported for Mercado Pago")
 	return validationErrors
 }

@@ -1029,7 +1029,7 @@
     },
     "section4": {
       "title": "4. Plans, Billing, and Cancellation",
-      "p1": "Paid subscriptions are billed in Brazilian Reais (BRL) on a recurring basis (monthly or yearly) through our secure payment processor Stripe.",
+      "p1": "Paid subscriptions are billed in Brazilian Reais (BRL) on a recurring basis (monthly or yearly) through our secure payment processor Mercado Pago.",
       "p2": "You can cancel your subscription at any time from your Billing dashboard. Cancellation prevents future charges and your access remains active until the end of the paid period.",
       "p3": "In accordance with Brazilian Consumer Protection Law, a 7-day right of withdrawal applies to initial plan purchases."
     },
@@ -1059,7 +1059,7 @@
       "item1": "Account Data: Full name, email address, and authentication credentials (Firebase Auth).",
       "item2": "Message Metadata: Sender phone number, recipient phone number, timestamps, and delivery status.",
       "item3": "Message Content: Temporarily processed to forward and display messages. When end-to-end encryption (AES-256) is enabled, content is stored strictly ciphertext, inaccessible to httpSMS staff.",
-      "item4": "Billing Information: Payment transactions are processed directly by Stripe in a PCI-DSS certified environment. We do not store credit card numbers on our servers.",
+      "item4": "Billing Information: Payment transactions are processed directly by Mercado Pago in a PCI-DSS certified environment. We do not store credit card numbers on our servers.",
       "item5": "Connection and Access Logs: IP address, access timestamps, and app diagnostic logs retained in compliance with Brazilian law."
     },
     "section3": {
@@ -1077,7 +1077,7 @@
       "title": "5. Third-Party Service Providers",
       "p1": "We do not sell or rent personal information. Data is shared strictly with essential infrastructure providers:",
       "item1": "Google Cloud Platform / Firebase: Cloud hosting and authentication.",
-      "item2": "Stripe: Secure payment and subscription processing.",
+      "item2": "Mercado Pago: Secure payment and subscription processing.",
       "item3": "Neon PostgreSQL & Upstash Redis: Encrypted database and message queue infrastructure."
     },
     "section6": {
